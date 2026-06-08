@@ -1,0 +1,11 @@
+/* App.css — minimal global overrides for PULSE dark theme */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure all page backgrounds are dark */
+main {
+  background-color: #010106;
+}

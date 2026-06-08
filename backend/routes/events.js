@@ -1,0 +1,179 @@
+const express = require('express');
+const router = express.Router();
+const db = require('../config/db');
+const { authenticateToken, isAdmin } = require('../middleware/auth');
+
+// Get all events (Public, with filters & search)
+router.get('/', async (req, res) => {
+  const { search, category, maxPrice, upcomingOnly } = req.query;
+  
+  let queryText = `
+    SELECT e.*, 
+           COUNT(r.id)::int as registered_count,
+           (e.capacity - COUNT(r.id)::int) as available_seats
+    FROM events e 
+    LEFT JOIN registrations r ON e.id = r.event_id AND r.payment_status = 'completed'
+  `;
+  
+  const queryParams = [];
+  const clauses = [];
+
+  if (search) {
+    queryParams.push(`%${search.trim()}%`);
+    clauses.push(`(e.title ILIKE $${queryParams.length} OR e.description ILIKE $${queryParams.length} OR e.venue ILIKE $${queryParams.length})`);
+  }
+
+  if (category) {
+    queryParams.push(category);
+    clauses.push(`e.category = $${queryParams.length}`);
+  }
+
+  if (maxPrice) {
+    queryParams.push(parseFloat(maxPrice));
+    clauses.push(`e.price <= $${queryParams.length}`);
+  }
+
+  if (upcomingOnly === 'true') {
+    clauses.push(`e.date >= NOW()`);
+  }
+
+  if (clauses.length > 0) {
+    queryText += ' WHERE ' + clauses.join(' AND ');
+  }
+
+  queryText += ' GROUP BY e.id ORDER BY e.date ASC';
+
+  try {
+    const result = await db.query(queryText, queryParams);
+    return res.json(result.rows);
+  } catch (error) {
+    console.error('Fetch events error:', error);
+    return res.status(500).json({ message: 'Failed to fetch events' });
+  }
+});
+
+// Get single event details (Public)
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const queryText = `
+      SELECT e.*, 
+             COUNT(r.id)::int as registered_count,
+             (e.capacity - COUNT(r.id)::int) as available_seats
+      FROM events e 
+      LEFT JOIN registrations r ON e.id = r.event_id AND r.payment_status = 'completed'
+      WHERE e.id = $1
+      GROUP BY e.id
+    `;
+    const result = await db.query(queryText, [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    return res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Fetch event details error:', error);
+    return res.status(500).json({ message: 'Failed to fetch event details' });
+  }
+});
+
+// Create Event (Admin only)
+router.post('/', authenticateToken, isAdmin, async (req, res) => {
+  const { title, description, date, venue, category, price, capacity, image, registration_deadline } = req.body;
+
+  if (!title || !description || !date || !venue || !category || capacity === undefined || !registration_deadline) {
+    return res.status(400).json({ message: 'Please provide all required fields.' });
+  }
+
+  try {
+    const result = await db.query(
+      `INSERT INTO events (title, description, date, venue, category, price, capacity, image, registration_deadline)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      [
+        title.trim(),
+        description.trim(),
+        date,
+        venue.trim(),
+        category.trim(),
+        price || 0.00,
+        capacity,
+        image || 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
+        registration_deadline
+      ]
+    );
+
+    return res.status(201).json({
+      message: 'Event created successfully',
+      event: result.rows[0]
+    });
+  } catch (error) {
+    console.error('Create event error:', error);
+    return res.status(500).json({ message: 'Failed to create event.' });
+  }
+});
+
+// Update Event (Admin only)
+router.put('/:id', authenticateToken, isAdmin, async (req, res) => {
+  const { id } = req.params;
+  const { title, description, date, venue, category, price, capacity, image, registration_deadline } = req.body;
+
+  if (!title || !description || !date || !venue || !category || capacity === undefined || !registration_deadline) {
+    return res.status(400).json({ message: 'Please provide all required fields.' });
+  }
+
+  try {
+    const checkExists = await db.query('SELECT * FROM events WHERE id = $1', [id]);
+    if (checkExists.rows.length === 0) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    const result = await db.query(
+      `UPDATE events 
+       SET title = $1, description = $2, date = $3, venue = $4, category = $5, 
+           price = $6, capacity = $7, image = $8, registration_deadline = $9 
+       WHERE id = $10 RETURNING *`,
+      [
+        title.trim(),
+        description.trim(),
+        date,
+        venue.trim(),
+        category.trim(),
+        price || 0.00,
+        capacity,
+        image,
+        registration_deadline,
+        id
+      ]
+    );
+
+    return res.json({
+      message: 'Event updated successfully',
+      event: result.rows[0]
+    });
+  } catch (error) {
+    console.error('Update event error:', error);
+    return res.status(500).json({ message: 'Failed to update event.' });
+  }
+});
+
+// Delete Event (Admin only)
+router.delete('/:id', authenticateToken, isAdmin, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const checkExists = await db.query('SELECT * FROM events WHERE id = $1', [id]);
+    if (checkExists.rows.length === 0) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    await db.query('DELETE FROM events WHERE id = $1', [id]);
+    return res.json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    console.error('Delete event error:', error);
+    return res.status(500).json({ message: 'Failed to delete event. It might have associated registrations.' });
+  }
+});
+
+module.exports = router;

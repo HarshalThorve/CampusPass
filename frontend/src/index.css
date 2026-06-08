@@ -1,0 +1,315 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════
+   PULSE// Dark Design System — CampusPass
+   ═══════════════════════════════════════════════════════ */
+
+@layer base {
+  body {
+    @apply antialiased font-sans bg-surface-950 text-dark-100;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(140, 255, 20, 0.2);
+    color: #e4ffc4;
+  }
+}
+
+/* ─── Component Layer ─────────────────────────────────── */
+@layer components {
+
+  /* ── Buttons ─────────────────────────────────────────── */
+  .btn-primary {
+    @apply px-5 py-2.5 bg-lime-400 hover:bg-lime-300 text-surface-950 rounded-full font-mono font-bold text-sm tracking-wide uppercase
+           shadow-neon hover:shadow-neon-strong transition-all duration-300 active:scale-[0.97]
+           focus:outline-none focus:ring-2 focus:ring-lime-400/50 focus:ring-offset-2 focus:ring-offset-surface-950;
+  }
+
+  .btn-primary-enhanced {
+    @apply btn-primary;
+  }
+
+  .btn-secondary {
+    @apply px-5 py-2.5 bg-transparent border border-dark-400/30 hover:border-lime-400/50 text-dark-200 hover:text-lime-300
+           rounded-full font-mono font-medium text-sm tracking-wide uppercase
+           transition-all duration-300 active:scale-[0.97] focus:outline-none;
+  }
+
+  .btn-accent {
+    @apply px-5 py-2.5 bg-gradient-to-r from-glow-500 to-glow-600 hover:from-glow-400 hover:to-glow-500 text-white rounded-full
+           font-mono font-bold text-sm tracking-wide uppercase
+           shadow-glow-magenta transition-all duration-300 active:scale-[0.97] focus:outline-none;
+  }
+
+  .btn-danger {
+    @apply px-5 py-2.5 bg-rose-600 hover:bg-rose-500 text-white rounded-full font-mono font-bold text-sm uppercase
+           transition-all duration-300 active:scale-[0.97] focus:outline-none;
+  }
+
+  /* ── Form Fields ─────────────────────────────────────── */
+  .input-field {
+    @apply w-full px-4 py-3 bg-surface-400/50 border border-dark-500/30 rounded-xl
+           focus:outline-none focus:ring-2 focus:ring-lime-400/40 focus:border-lime-400/50
+           transition-all duration-300 text-dark-100 placeholder-dark-400;
+  }
+
+  .input-field-enhanced {
+    @apply input-field hover:border-lime-400/30 shadow-sm hover:shadow-md focus:shadow-neon;
+  }
+
+  .label-field {
+    @apply block text-xs font-mono font-semibold text-dark-300 mb-1.5 uppercase tracking-wider;
+  }
+
+  /* ── Panels & Cards ──────────────────────────────────── */
+  .glass-panel {
+    @apply bg-surface-300/60 backdrop-blur-md border border-dark-500/20 shadow-xl;
+  }
+
+  .glass-panel-premium {
+    @apply bg-surface-300/50 backdrop-blur-lg border border-dark-500/15 shadow-xl;
+  }
+
+  .glass-panel-enhanced {
+    @apply bg-surface-200/60 backdrop-blur-lg border border-dark-500/20 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-surface-300/40 backdrop-blur-sm border border-dark-500/15 shadow-md transition-all duration-300 hover:shadow-lg;
+  }
+
+  .glass-card-enhanced {
+    @apply bg-surface-200/30 backdrop-blur border border-dark-500/15 shadow-lg transition-all duration-300
+           hover:shadow-xl hover:-translate-y-[2px];
+  }
+
+  /* ── Badges ──────────────────────────────────────────── */
+  .badge-tech {
+    @apply px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full
+           bg-blue-500/10 text-blue-400 border border-blue-500/20;
+  }
+
+  .badge-cultural {
+    @apply px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full
+           bg-purple-500/10 text-purple-400 border border-purple-500/20;
+  }
+
+  .badge-sports {
+    @apply px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full
+           bg-emerald-500/10 text-emerald-400 border border-emerald-500/20;
+  }
+
+  .badge-academic {
+    @apply px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full
+           bg-amber-500/10 text-amber-400 border border-amber-500/20;
+  }
+}
+
+/* ─── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #06060f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #33334a;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52526e;
+}
+
+/* ─── Utilities ───────────────────────────────────────── */
+@layer utilities {
+  /* Delay Utilities */
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-2000 { animation-delay: 2000ms; }
+  .animation-delay-3000 { animation-delay: 3000ms; }
+  .animation-delay-4000 { animation-delay: 4000ms; }
+  .animation-delay-5000 { animation-delay: 5000ms; }
+
+  /* Animation Classes */
+  .animate-float-slow { animation: float 6s ease-in-out infinite; }
+  .animate-pulse-slow { animation: pulseSubtle 4s ease-in-out infinite; }
+  .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+  .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .animate-slide-up-delay { animation-delay: 200ms; }
+
+  /* Hover Enhancements */
+  .hover-lift {
+    @apply transition-transform duration-300;
+  }
+  .hover-lift:hover {
+    @apply -translate-y-[2px];
+  }
+
+  .hover-depth {
+    @apply transition-all duration-300;
+  }
+  .hover-depth:hover {
+    @apply -translate-y-1 shadow-xl;
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+  .hover-glow:hover {
+    filter: drop-shadow(0 0 8px rgba(140, 255, 20, 0.4));
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200;
+  }
+  .hover-scale:hover {
+    @apply scale-[1.02];
+  }
+
+  .press {
+    @apply active:scale-[0.97];
+  }
+
+  /* Neon text */
+  .text-neon {
+    color: #8cff14;
+    text-shadow: 0 0 20px rgba(140, 255, 20, 0.3);
+  }
+}
+
+/* ─── Keyframes ───────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─── Skeleton Loading ────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #1e1e36 25%, #33334a 50%, #1e1e36 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: inherit;
+}
+
+.skeleton-text {
+  @apply skeleton h-4 max-w-[80%] mb-2 rounded;
+}
+
+.skeleton-title {
+  @apply skeleton h-6 max-w-[60%] mb-2 rounded;
+}
+
+/* ─── Magenta Ambient Glow ────────────────────────────── */
+.bg-glow-magenta {
+  background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(168, 34, 178, 0.12), transparent);
+}
+
+.bg-glow-top {
+  background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(140, 255, 20, 0.06), transparent);
+}
+
+/* ─── Floating label ──────────────────────────────────── */
+.floating-label {
+  @apply pointer-events-none absolute left-3 top-0 bg-surface-400 px-1 text-[10px] text-dark-400
+         transition-all duration-200 transform -translate-y-1/2 scale-[0.8];
+}
+
+/* ─── Print Stylesheet ────────────────────────────────── */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Hide all interactive headers, footers, side navigation, buttons */
+  header, footer, nav, button, .print\:hidden, [role="navigation"] {
+    display: none !important;
+  }
+  
+  /* Reset container page margins and constraints for PDF printer */
+  @page {
+    margin: 1.2cm;
+    size: portrait;
+  }
+  
+  /* Ensure the ticket pass wrapper takes full clean space and is visible */
+  #ticket-pass {
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    background: white !important;
+    color: #000 !important;
+    transform: none !important;
+    animation: none !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    border-radius: 20px !important;
+    page-break-inside: avoid;
+  }
+
+  /* Force high contrast dark text for print readability */
+  #ticket-pass * {
+    color: #000000 !important;
+  }
+
+  /* Highlight specific branding lines and primary codes cleanly in grayscale or dark green */
+  #ticket-pass .text-primary-500,
+  #ticket-pass .text-primary-600,
+  #ticket-pass code {
+    color: #111827 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Keep the background of QR code container white for crisp scan contrast */
+  #ticket-pass .bg-white,
+  #ticket-pass img {
+    background: white !important;
+    border-color: #ccc !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

@@ -2,9 +2,6 @@
 
 CampusPass is a production-ready, full-stack college event registration and ticketing platform. It automates user authentication, event scheduling, seat inventory checking, secure paid checkout (Razorpay), QR ticket entry generation, camera-based check-in gate verification, and analytics projections.
 
-> [!NOTE]
-> For a detailed, comprehensive walkthrough of how all parts of this project (frontend pages, backend API routes, database tables, and integrations) are connected and how the data flows, check out the [project_connections_and_architecture.txt](file:///c:/Users/kunal/OneDrive/Desktop/Internship/EventManagement/project_connections_and_architecture.txt) file in the root directory.
-
 ## 🚀 Key Features
 
 *   **Secure Authentication**: JWT-based login and signup with password hashing.

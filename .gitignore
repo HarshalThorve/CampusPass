@@ -43,3 +43,6 @@ lerna-debug.log*
 # Database & SQLite files
 *.db
 *.sqlite
+
+# Architecture & Connections documentation
+project_connections_and_architecture.txt

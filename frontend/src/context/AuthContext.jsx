@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { authService } from '../services/api';
+import { supabase } from '../services/supabase';
 
 const AuthContext = createContext(null);
 
@@ -7,8 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(() => {
-    // PULSE design is always dark
-    return 'dark';
+    return localStorage.getItem('theme') || 'dark';
   });
 
   // Check if user is logged in on mount
@@ -30,6 +30,37 @@ export const AuthProvider = ({ children }) => {
 
     initAuth();
   }, []);
+
+  // Sync Supabase Google Session with Backend
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        const currentToken = localStorage.getItem('token');
+        const email = session.user.email;
+
+        // Sync with backend if no token exists, or if email of logged-in user changed
+        if (!currentToken || !user || user.email !== email) {
+          const provider = session.user.app_metadata?.provider;
+          const isGoogle = provider === 'google' || session.user.identities?.some(id => id.provider === 'google');
+
+          if (isGoogle) {
+            try {
+              const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Google User';
+              const backendData = await authService.googleLogin(name, email);
+              localStorage.setItem('token', backendData.token);
+              setUser(backendData.user);
+            } catch (err) {
+              console.error('Failed to sync Google user with backend:', err);
+            }
+          }
+        }
+      }
+    });
+
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, [user]);
 
   // Update DOM when theme changes
   useEffect(() => {
@@ -65,9 +96,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     localStorage.removeItem('token');
     setUser(null);
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error('Supabase sign out error:', err);
+    }
   };
 
   const toggleTheme = () => {
@@ -87,6 +123,7 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

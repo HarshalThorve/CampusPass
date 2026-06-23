@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
-import { Calendar, MapPin, Users, IndianRupee } from 'lucide-react';
-import EventModal from './EventModal';
+import { Link } from 'react-router-dom';
+import { Calendar, MapPin, IndianRupee } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const MotionLink = motion(Link);
+
+const CATEGORY_STYLES = {
+  technical: { bg: 'rgba(233,196,106,0.2)', border: 'rgba(233,196,106,0.4)', color: '#E9C46A', label: 'Tech' },
+  cultural:  { bg: 'rgba(244,162,97,0.2)', border: 'rgba(244,162,97,0.4)', color: '#F4A261', label: 'Cultural' },
+  sports:    { bg: 'rgba(138,201,38,0.2)', border: 'rgba(138,201,38,0.4)', color: '#8AC926', label: 'Sports' },
+  academic:  { bg: 'rgba(132,165,157,0.2)', border: 'rgba(132,165,157,0.4)', color: '#84A59D', label: 'Academic' },
+};
+
+const CATEGORY_IMAGES = {
+  technical: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
+  cultural: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
+  sports: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80',
+  academic: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80'
+};
 
 const EventCard = ({ event, className = '' }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const {
-    id,
-    title,
-    description,
-    date,
-    venue,
-    category,
-    price,
-    capacity,
-    image,
-    registered_count,
-    available_seats,
-    registration_deadline
+    id, title, description, date, venue, category, price,
+    capacity, image, registered_count, available_seats, registration_deadline
   } = event;
 
   const eventDate = new Date(date);
@@ -29,126 +33,137 @@ const EventCard = ({ event, className = '' }) => {
   const isPast = now > eventDate;
 
   const formattedDate = eventDate.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
+    month: 'short', day: 'numeric', year: 'numeric'
   });
 
-  const renderCategoryBadge = () => {
-    switch (category.toLowerCase()) {
-      case 'technical':
-        return <span className="badge-tech">Tech</span>;
-      case 'cultural':
-        return <span className="badge-cultural">Cultural</span>;
-      case 'sports':
-        return <span className="badge-sports">Sports</span>;
-      case 'academic':
-        return <span className="badge-academic">Academic</span>;
-      default:
-        return <span className="px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full bg-dark-500/20 text-dark-300 border border-dark-500/20">{category}</span>;
-    }
+  const catKey = (category || '').toLowerCase();
+  const catStyle = CATEGORY_STYLES[catKey] || {
+    bg: 'rgba(255,184,108,0.2)', border: 'rgba(255,184,108,0.4)', color: '#FFB86C', label: category
   };
 
-  const fillPercentage = capacity > 0 ? Math.min(100, Math.round(((registered_count || 0) / capacity) * 100)) : 0;
+  const fillPercentage = capacity > 0
+    ? Math.min(100, Math.round(((registered_count || 0) / capacity) * 100))
+    : 0;
+
+  let statusText = '● OPEN';
+  let statusColor = 'text-[#8AC926]';
+  if (isPast) {
+    statusText = '● ENDED';
+    statusColor = 'text-[#E76F51]';
+  } else if (isSoldOut) {
+    statusText = '● SOLD OUT';
+    statusColor = 'text-[#E76F51]';
+  } else if (isDeadlinePassed) {
+    statusText = '● CLOSED';
+    statusColor = 'text-[#FFB703]';
+  }
+
+  const isFree = parseFloat(price) === 0;
 
   return (
-    <>
-      <div
-        onClick={() => setIsModalOpen(true)}
-        className={`group relative flex flex-col rounded-2xl overflow-hidden border border-dark-500/15 bg-surface-300/40 backdrop-blur-sm cursor-pointer transition-all duration-400 hover:-translate-y-1 hover:border-lime-400/20 hover:shadow-neon ${className}`}
-      >
-        {/* Banner Image */}
-        <div className="relative h-48 w-full overflow-hidden bg-surface-400/50">
-          <img
-            src={image || 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80'}
-            alt={title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-90"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-950 via-surface-950/30 to-transparent"></div>
+    <MotionLink
+      to={`/event/${id}`}
+      className={`group flex flex-col custom-card overflow-hidden no-underline w-full ${className}`}
+      whileHover={{ 
+        y: -6, 
+        scale: 1.015,
+        transition: { duration: 0.2 }
+      }}
+    >
+      {/* Image Area (200px) */}
+      <div className="relative h-[200px] w-full overflow-hidden rounded-xl border border-white/[0.08] select-none">
+        <img
+          src={image || CATEGORY_IMAGES[catKey] || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80'}
+          alt={title}
+          className="h-full w-full object-cover opacity-85 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105"
+          loading="lazy"
+        />
+        {/* Soft Vignette Overlay to blend edges & pop badges */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{ 
+            background: 'linear-gradient(to bottom, rgba(26, 22, 18, 0.45) 0%, transparent 40%, transparent 60%, rgba(26, 22, 18, 0.85) 100%)' 
+          }}
+        />
 
-          {/* Price Tag */}
-          <div className="absolute top-4 right-4 bg-surface-950/80 backdrop-blur-sm border border-dark-500/20 px-3 py-1 rounded-full text-sm font-mono font-bold flex items-center">
-            {parseFloat(price) === 0 ? (
-              <span className="text-lime-400">FREE</span>
-            ) : (
-              <span className="flex items-center text-lime-400">
-                <IndianRupee className="w-3 h-3 mr-0.5" />
-                {Math.round(price)}
-              </span>
-            )}
-          </div>
+        {/* Category Badge (bottom-left) */}
+        <span
+          className="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider backdrop-blur-md z-10"
+          style={{ backgroundColor: catStyle.bg, color: catStyle.color, border: `1px solid ${catStyle.border}` }}
+        >
+          {catStyle.label}
+        </span>
 
-          {/* Category Badge */}
-          <div className="absolute bottom-4 left-4">
-            {renderCategoryBadge()}
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-5 flex-1 flex flex-col">
-          <h3 className="text-base font-bold text-dark-100 group-hover:text-lime-400 transition-colors line-clamp-1 mb-2">
-            {title}
-          </h3>
-
-          <p className="text-xs text-dark-400 line-clamp-2 mb-4 leading-relaxed">
-            {description}
-          </p>
-
-          {/* Info */}
-          <div className="space-y-2 mb-4 text-xs text-dark-300">
-            <div className="flex items-center">
-              <Calendar className="w-3.5 h-3.5 mr-2.5 text-lime-400/60" />
-              <span>{formattedDate}</span>
-            </div>
-            <div className="flex items-center">
-              <MapPin className="w-3.5 h-3.5 mr-2.5 text-lime-400/60" />
-              <span className="line-clamp-1">{venue}</span>
-            </div>
-          </div>
-
-          {/* Capacity Bar */}
-          <div className="mb-4">
-            <div className="flex justify-between text-[10px] font-mono text-dark-500 mb-1.5 tracking-wider">
-              <span>{registered_count}/{capacity} FILLED</span>
-              <span>{available_seats} LEFT</span>
-            </div>
-            <div className="w-full bg-surface-400/50 rounded-full h-1 overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all duration-500 ${
-                  fillPercentage >= 90 ? 'bg-rose-500' : fillPercentage >= 75 ? 'bg-amber-500' : 'bg-lime-400'
-                }`}
-                style={{ width: `${fillPercentage}%` }}
-              ></div>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="mt-auto flex items-center justify-between pt-3 border-t border-dark-500/10">
-            <div>
-              {isPast ? (
-                <span className="text-[10px] font-mono text-dark-500 uppercase tracking-wider">Ended</span>
-              ) : isSoldOut ? (
-                <span className="text-[10px] font-mono text-rose-400 uppercase tracking-wider">Sold Out</span>
-              ) : isDeadlinePassed ? (
-                <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider">Reg Closed</span>
-              ) : (
-                <span className="text-[10px] font-mono text-lime-400 uppercase tracking-wider">● Open</span>
-              )}
-            </div>
-            <span className="text-xs font-mono text-dark-400 group-hover:text-lime-400 transition-colors tracking-wider uppercase">
-              Quick View →
+        {/* Price Badge (top-right) */}
+        <div
+          className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold font-sans flex items-center select-none text-[#1A1612] z-10"
+          style={{
+            background: isFree
+              ? 'linear-gradient(135deg, #8AC926, #E9C46A)'
+              : 'linear-gradient(135deg, #FFB86C, #E9C46A)',
+            boxShadow: '0 4px 12px rgba(255, 184, 108, 0.4)'
+          }}
+        >
+          {isFree ? (
+            <span>FREE</span>
+          ) : (
+            <span className="flex items-center">
+              <IndianRupee className="w-3 h-3 mr-0.5" />
+              {Math.round(price)}
             </span>
-          </div>
+          )}
         </div>
       </div>
 
-      <EventModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        event={event}
-      />
-    </>
+      {/* Card Body */}
+      <div className="p-5 flex-1 flex flex-col">
+        {/* Title */}
+        <h3 className="text-[#FAF7F2] font-sans font-bold text-[17px] mb-1.5 leading-tight group-hover:text-[#FFB86C] transition-colors duration-200">
+          {title}
+        </h3>
+
+        {/* Description (2-line clamp) */}
+        <p className="text-[13px] line-clamp-2 leading-[1.5] text-[rgba(250,247,242,0.5)] mb-4">
+          {description}
+        </p>
+
+        {/* Info Rows */}
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center text-[13px] text-[rgba(250,247,242,0.6)]">
+            <Calendar className="w-3.5 h-3.5 mr-2 text-[#FFB86C]" />
+            <span>{formattedDate}</span>
+          </div>
+          <div className="flex items-center text-[13px] text-[rgba(250,247,242,0.6)]">
+            <MapPin className="w-3.5 h-3.5 mr-2 text-[#FFB86C]" />
+            <span className="truncate">{venue}</span>
+          </div>
+        </div>
+
+        {/* Spacer */}
+        <div className="flex-1" />
+
+        {/* Progress Section */}
+        <div className="mt-auto">
+          <div className="flex justify-between items-center text-[12px] text-[rgba(250,247,242,0.4)] mb-1.5 uppercase font-semibold tracking-wider">
+            <span>{registered_count}/{capacity} FILLED</span>
+            <span>{available_seats} LEFT</span>
+          </div>
+          <div className="progress-track">
+            <div className="progress-fill" style={{ width: `${fillPercentage}%` }} />
+          </div>
+        </div>
+
+        {/* Bottom Row */}
+        <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between">
+          <span className={`text-[12px] font-semibold tracking-wider uppercase ${statusColor}`}>
+            {statusText}
+          </span>
+          <span className="text-[12px] text-[rgba(250,247,242,0.4)] group-hover:text-[#FFB86C] transition-colors duration-200 uppercase font-semibold">
+            View Details →
+          </span>
+        </div>
+      </div>
+    </MotionLink>
   );
 };
 

@@ -81,16 +81,35 @@ router.get('/:id', async (req, res) => {
 
 // Create Event (Admin only)
 router.post('/', authenticateToken, isAdmin, async (req, res) => {
-  const { title, description, date, venue, category, price, capacity, image, registration_deadline } = req.body;
+  const { 
+    title, description, date, venue, category, price, capacity, image, 
+    registration_deadline, issues_certificate,
+    certificate_institution, certificate_signatory_name, 
+    certificate_signatory_title, certificate_footer_text,
+    certificate_theme, certificate_background_url
+  } = req.body;
 
   if (!title || !description || !date || !venue || !category || capacity === undefined || !registration_deadline) {
     return res.status(400).json({ message: 'Please provide all required fields.' });
   }
 
+  const CERTIFICATE_ELIGIBLE = ['technical', 'academic', 'sports'];
+  const issuesCertValue = issues_certificate !== undefined
+    ? issues_certificate
+    : CERTIFICATE_ELIGIBLE.includes((category || '').toLowerCase());
+
   try {
+    const CATEGORY_IMAGES = {
+      technical: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+      sports: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+      cultural: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
+      academic: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80'
+    };
+    const finalImage = image || CATEGORY_IMAGES[category.trim().toLowerCase()] || CATEGORY_IMAGES.technical;
+
     const result = await db.query(
-      `INSERT INTO events (title, description, date, venue, category, price, capacity, image, registration_deadline)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      `INSERT INTO events (title, description, date, venue, category, price, capacity, image, registration_deadline, issues_certificate, certificate_institution, certificate_signatory_name, certificate_signatory_title, certificate_footer_text, certificate_theme, certificate_background_url)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *`,
       [
         title.trim(),
         description.trim(),
@@ -99,8 +118,15 @@ router.post('/', authenticateToken, isAdmin, async (req, res) => {
         category.trim(),
         price || 0.00,
         capacity,
-        image || 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
-        registration_deadline
+        finalImage,
+        registration_deadline,
+        issuesCertValue,
+        certificate_institution ? certificate_institution.trim() : 'CampusPass Institute',
+        certificate_signatory_name ? certificate_signatory_name.trim() : 'Admin User',
+        certificate_signatory_title ? certificate_signatory_title.trim() : 'Event Coordinator',
+        certificate_footer_text ? certificate_footer_text.trim() : 'This certificate is digitally verified by CampusPass.',
+        certificate_theme ? certificate_theme.trim() : 'cream',
+        certificate_background_url ? certificate_background_url.trim() : null
       ]
     );
 
@@ -117,11 +143,22 @@ router.post('/', authenticateToken, isAdmin, async (req, res) => {
 // Update Event (Admin only)
 router.put('/:id', authenticateToken, isAdmin, async (req, res) => {
   const { id } = req.params;
-  const { title, description, date, venue, category, price, capacity, image, registration_deadline } = req.body;
+  const { 
+    title, description, date, venue, category, price, capacity, image, 
+    registration_deadline, issues_certificate,
+    certificate_institution, certificate_signatory_name, 
+    certificate_signatory_title, certificate_footer_text,
+    certificate_theme, certificate_background_url
+  } = req.body;
 
   if (!title || !description || !date || !venue || !category || capacity === undefined || !registration_deadline) {
     return res.status(400).json({ message: 'Please provide all required fields.' });
   }
+
+  const CERTIFICATE_ELIGIBLE = ['technical', 'academic', 'sports'];
+  const issuesCertValue = issues_certificate !== undefined
+    ? issues_certificate
+    : CERTIFICATE_ELIGIBLE.includes((category || '').toLowerCase());
 
   try {
     const checkExists = await db.query('SELECT * FROM events WHERE id = $1', [id]);
@@ -129,11 +166,22 @@ router.put('/:id', authenticateToken, isAdmin, async (req, res) => {
       return res.status(404).json({ message: 'Event not found' });
     }
 
+    const CATEGORY_IMAGES = {
+      technical: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+      sports: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+      cultural: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
+      academic: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80'
+    };
+    const finalImage = image || CATEGORY_IMAGES[category.trim().toLowerCase()] || CATEGORY_IMAGES.technical;
+
     const result = await db.query(
       `UPDATE events 
        SET title = $1, description = $2, date = $3, venue = $4, category = $5, 
-           price = $6, capacity = $7, image = $8, registration_deadline = $9 
-       WHERE id = $10 RETURNING *`,
+           price = $6, capacity = $7, image = $8, registration_deadline = $9,
+           issues_certificate = $10, certificate_institution = $11, 
+           certificate_signatory_name = $12, certificate_signatory_title = $13, 
+           certificate_footer_text = $14, certificate_theme = $15, certificate_background_url = $16
+       WHERE id = $17 RETURNING *`,
       [
         title.trim(),
         description.trim(),
@@ -142,8 +190,15 @@ router.put('/:id', authenticateToken, isAdmin, async (req, res) => {
         category.trim(),
         price || 0.00,
         capacity,
-        image,
+        finalImage,
         registration_deadline,
+        issuesCertValue,
+        certificate_institution ? certificate_institution.trim() : 'CampusPass Institute',
+        certificate_signatory_name ? certificate_signatory_name.trim() : 'Admin User',
+        certificate_signatory_title ? certificate_signatory_title.trim() : 'Event Coordinator',
+        certificate_footer_text ? certificate_footer_text.trim() : 'This certificate is digitally verified by CampusPass.',
+        certificate_theme ? certificate_theme.trim() : 'cream',
+        certificate_background_url ? certificate_background_url.trim() : null,
         id
       ]
     );

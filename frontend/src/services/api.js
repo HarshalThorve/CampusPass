@@ -33,6 +33,10 @@ export const authService = {
     const response = await api.post('/auth/register', { name, email, password });
     return response.data;
   },
+  googleLogin: async (name, email) => {
+    const response = await api.post('/auth/google-login', { name, email });
+    return response.data;
+  },
   getCurrentUser: async () => {
     const response = await api.get('/auth/me');
     return response.data;
@@ -115,6 +119,26 @@ export const attendanceService = {
 export const analyticsService = {
   getDashboard: async () => {
     const response = await api.get('/analytics/dashboard');
+    return response.data;
+  }
+};
+
+// Certificates endpoints
+export const certificateService = {
+  check: async (registrationId) => {
+    const response = await api.get(`/certificates/check/${registrationId}`);
+    return response.data;
+  },
+  issue: async (registrationId) => {
+    const response = await api.post(`/certificates/issue/${registrationId}`);
+    return response.data;
+  },
+  getSettings: async () => {
+    const response = await api.get('/certificates/settings');
+    return response.data;
+  },
+  updateSettings: async (settingsData) => {
+    const response = await api.put('/certificates/settings', settingsData);
     return response.data;
   }
 };

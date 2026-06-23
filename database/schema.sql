@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS payments CASCADE;
 DROP TABLE IF EXISTS registrations CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS certificates CASCADE;
+DROP TABLE IF EXISTS certificate_settings CASCADE;
 
 -- Users Table
 CREATE TABLE users (
@@ -30,6 +32,13 @@ CREATE TABLE events (
     capacity INTEGER NOT NULL,
     image VARCHAR(1000), -- Banner image URL
     registration_deadline TIMESTAMP NOT NULL,
+    issues_certificate BOOLEAN DEFAULT true,
+    certificate_institution VARCHAR(200) DEFAULT 'CampusPass Institute',
+    certificate_signatory_name VARCHAR(200) DEFAULT 'Admin User',
+    certificate_signatory_title VARCHAR(200) DEFAULT 'Event Coordinator',
+    certificate_footer_text VARCHAR(500) DEFAULT 'This certificate is digitally verified by CampusPass.',
+    certificate_theme VARCHAR(50) DEFAULT 'cream',
+    certificate_background_url VARCHAR(1000),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -82,3 +91,33 @@ CREATE INDEX idx_payments_user_id ON payments(user_id);
 CREATE INDEX idx_payments_event_id ON payments(event_id);
 CREATE INDEX idx_tickets_number ON tickets(ticket_number);
 CREATE INDEX idx_attendance_checkin_time ON attendance(checkin_time);
+
+-- Certificates Table
+CREATE TABLE certificates (
+    id            SERIAL PRIMARY KEY,
+    registration_id INTEGER UNIQUE REFERENCES registrations(id) ON DELETE CASCADE,
+    user_id       INTEGER REFERENCES users(id),
+    event_id      INTEGER REFERENCES events(id),
+    certificate_id VARCHAR(50) UNIQUE NOT NULL,
+    issued_at     TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_certificates_user ON certificates(user_id);
+CREATE INDEX idx_certificates_event ON certificates(event_id);
+
+-- Certificate Settings Table
+CREATE TABLE certificate_settings (
+    id                SERIAL PRIMARY KEY,
+    institution_name  VARCHAR(200) DEFAULT 'CampusPass Institute',
+    organizer_name    VARCHAR(200) DEFAULT 'Admin User',
+    organizer_title   VARCHAR(200) DEFAULT 'Event Coordinator',
+    footer_text       VARCHAR(500) DEFAULT 'This certificate is digitally verified by CampusPass.',
+    updated_at        TIMESTAMP DEFAULT NOW()
+);
+
+-- Insert default settings row
+INSERT INTO certificate_settings 
+    (institution_name, organizer_name, organizer_title, footer_text)
+VALUES 
+    ('CampusPass Institute', 'Admin User', 'Event Coordinator', 'This certificate is digitally verified by CampusPass.')
+ON CONFLICT DO NOTHING;

@@ -45,14 +45,14 @@ router.get('/dashboard', authenticateToken, isAdmin, async (req, res) => {
     // Add Popularity Prediction to Event stats
     const eventsWithPredictions = rawEvents.map(event => {
       const fillRate = event.capacity > 0 ? (event.registrations / event.capacity) : 0;
-      let popularity = 'Low';
+      let popularity = 'Low Priority';
       let speedText = 'Slow registration speed';
       
-      if (fillRate >= 0.8) {
-        popularity = 'High';
+      if (fillRate >= 0.6) {
+        popularity = 'High Priority — Selling Fast';
         speedText = 'Likely to sell out soon';
-      } else if (fillRate >= 0.4) {
-        popularity = 'Medium';
+      } else if (fillRate >= 0.3) {
+        popularity = 'Medium Priority';
         speedText = 'Steady ticket sales';
       }
 
@@ -109,57 +109,105 @@ router.get('/dashboard', authenticateToken, isAdmin, async (req, res) => {
       GROUP BY weekday, hour
       ORDER BY weekday, hour
     `);
-    const heatmapData = heatmapQuery.rows;
+    const heatmapDataRaw = heatmapQuery.rows;
+
+    // Map to frontend bins to calculate heatmapMax
+    const bins = [
+      [8, 9, 10],
+      [11, 12, 13],
+      [14, 15, 16],
+      [17, 18, 19],
+      [20, 21, 22]
+    ];
+    let heatmapMax = 0;
+    for (let day = 0; day < 7; day++) {
+      for (const hourRange of bins) {
+        const cellCount = heatmapDataRaw
+          .filter(h => h.weekday === day && hourRange.includes(h.hour))
+          .reduce((sum, item) => sum + item.count, 0);
+        if (cellCount > heatmapMax) {
+          heatmapMax = cellCount;
+        }
+      }
+    }
+    if (heatmapMax === 0) heatmapMax = 1;
+
+    const heatmapData = {
+      heatmap: heatmapDataRaw,
+      heatmapMax: heatmapMax,
+      maxValue: heatmapMax
+    };
 
     // 7. Revenue Forecasting (Simple Linear Regression)
+    // Guard clause: if fewer than 3 months, return forecastInsufficient
+    if (monthlyRevenue.length < 3) {
+      return res.json({
+        kpis,
+        events: eventsWithPredictions,
+        categoryDistribution,
+        monthlyRevenue,
+        registrationTrends,
+        heatmapData,
+        revenueForecast: [],
+        forecastInsufficient: true
+      });
+    }
+
     // We project the next 3 time periods (months) based on existing monthly data
     const forecast = [];
-    if (monthlyRevenue.length > 1) {
-      // Calculate regression parameters: y = mx + c
-      const n = monthlyRevenue.length;
-      let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
-      
-      monthlyRevenue.forEach((data, index) => {
-        const x = index + 1; // 1-indexed months
-        const y = data.revenue;
-        sumX += x;
-        sumY += y;
-        sumXY += x * y;
-        sumXX += x * x;
+    
+    // Add all historical data to the merged forecast array first
+    monthlyRevenue.forEach(row => {
+      forecast.push({
+        month: row.month,
+        revenue: row.revenue,
+        type: 'historical'
       });
+    });
 
-      const denominator = (n * sumXX - sumX * sumX);
-      const m = denominator !== 0 ? (n * sumXY - sumX * sumY) / denominator : 0;
-      const c = (sumY - m * sumX) / n;
+    // Add the last historical point as the start of the forecast line to connect them continuously
+    if (monthlyRevenue.length > 0) {
+      const lastHistorical = monthlyRevenue[monthlyRevenue.length - 1];
+      forecast.push({
+        month: lastHistorical.month,
+        revenue: lastHistorical.revenue,
+        type: 'forecast'
+      });
+    }
 
-      // Project next 3 months
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      const lastMonthDate = new Date(revenueQuery.rows[revenueQuery.rows.length - 1].raw_date);
+    // Calculate regression parameters: y = mx + c
+    const n = monthlyRevenue.length;
+    let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+    
+    monthlyRevenue.forEach((data, index) => {
+      const x = index + 1; // 1-indexed months
+      const y = data.revenue;
+      sumX += x;
+      sumY += y;
+      sumXY += x * y;
+      sumXX += x * x;
+    });
+
+    const denominator = (n * sumXX - sumX * sumX);
+    const m = denominator !== 0 ? (n * sumXY - sumX * sumY) / denominator : 0;
+    const c = (sumY - m * sumX) / n;
+
+    // Project next 3 months
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const lastMonthDate = new Date(revenueQuery.rows[revenueQuery.rows.length - 1].raw_date);
+    
+    for (let i = 1; i <= 3; i++) {
+      const forecastX = n + i;
+      const forecastedValue = Math.max(0, m * forecastX + c); // Ensure non-negative forecast
       
-      for (let i = 1; i <= 3; i++) {
-        const forecastX = n + i;
-        const forecastedValue = Math.max(0, m * forecastX + c); // Ensure non-negative forecast
-        
-        const nextMonth = new Date(lastMonthDate);
-        nextMonth.setMonth(lastMonthDate.getMonth() + i);
-        const monthLabel = `${months[nextMonth.getMonth()]} ${nextMonth.getFullYear()}`;
-        
-        forecast.push({
-          month: monthLabel,
-          projectedRevenue: Math.round(forecastedValue * 100) / 100,
-          isForecast: true
-        });
-      }
-    } else {
-      // Stub forecast if not enough historical data points
-      const months = ['Next Month', 'In 2 Months', 'In 3 Months'];
-      const currentAvg = kpis.total_revenue;
-      months.forEach((m, idx) => {
-        forecast.push({
-          month: m,
-          projectedRevenue: Math.round(currentAvg * (1 + (idx + 1) * 0.1)), // 10%, 20%, 30% growth assumption
-          isForecast: true
-        });
+      const nextMonth = new Date(lastMonthDate);
+      nextMonth.setMonth(lastMonthDate.getMonth() + i);
+      const monthLabel = `${months[nextMonth.getMonth()]} ${nextMonth.getFullYear()}`;
+      
+      forecast.push({
+        month: monthLabel,
+        revenue: Math.round(forecastedValue * 100) / 100,
+        type: 'forecast'
       });
     }
 

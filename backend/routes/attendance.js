@@ -22,7 +22,7 @@ router.post('/scan', authenticateToken, isAdmin, async (req, res) => {
       JOIN registrations r ON t.registration_id = r.id
       JOIN events e ON r.event_id = e.id
       JOIN users u ON r.user_id = u.id
-      WHERE t.ticket_number = $1
+      WHERE UPPER(t.ticket_number) = UPPER($1)
     `;
     const result = await db.query(queryText, [ticketNumber.trim()]);
 

@@ -291,6 +291,7 @@ router.get('/history', authenticateToken, async (req, res) => {
     const queryText = `
       SELECT r.id as registration_id, r.payment_status, r.attendance_status, r.created_at as registered_at,
              e.id as event_id, e.title, e.description, e.date as event_date, e.venue, e.category, e.price, e.image,
+             e.issues_certificate,
              t.id as ticket_id, t.ticket_number, t.qr_code,
              a.checkin_time
       FROM registrations r

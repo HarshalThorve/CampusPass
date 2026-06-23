@@ -125,4 +125,62 @@ router.get('/me', authenticateToken, async (req, res) => {
   }
 });
 
+// Google Login / Registration Synchronizer
+router.post('/google-login', async (req, res) => {
+  const { name, email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+
+  try {
+    // 1. Look up user by email (case-insensitive)
+    const userResult = await db.query('SELECT * FROM users WHERE email = $1', [email.toLowerCase().trim()]);
+    let user;
+
+    if (userResult.rows.length === 0) {
+      // 2. User doesn't exist, register them as a student
+      // Generate a random password hash since they use Google login
+      const salt = await bcrypt.genSalt(10);
+      const dummyPassword = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const passwordHash = await bcrypt.hash(dummyPassword, salt);
+
+      const insertResult = await db.query(
+        'INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, name, email, role',
+        [name ? name.trim() : 'Google User', email.toLowerCase().trim(), passwordHash, 'student']
+      );
+      user = insertResult.rows[0];
+
+      // Trigger Welcome Email asynchronously
+      NotificationService.sendWelcomeEmail(user).catch(err => 
+        console.error('Welcome email failed to send:', err)
+      );
+    } else {
+      user = userResult.rows[0];
+    }
+
+    // 3. Generate Express JWT
+    const token = jwt.sign(
+      { id: user.id, name: user.name, email: user.email, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    return res.json({
+      message: 'Google login successful',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    console.error('Google login error:', error);
+    return res.status(500).json({ message: 'Server error. Failed to authenticate via Google.' });
+  }
+});
+
 module.exports = router;
+

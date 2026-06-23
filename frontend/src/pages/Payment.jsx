@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { registrationService } from '../services/api';
 import confetti from 'canvas-confetti';
@@ -8,8 +8,8 @@ import {
 } from 'lucide-react';
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Realistic Demo Razorpay Modal — shown when no real key is configured
-───────────────────────────────────────────────────────────────────────────── */
+   Realistic Demo Razorpay Modal — Desert Cyberpunk Theme Sandbox
+   ───────────────────────────────────────────────────────────────────────────── */
 const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
   const [activeTab, setActiveTab] = useState('upi');
   const [upiId, setUpiId] = useState('');
@@ -30,15 +30,16 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
     { id: 'pnb', name: 'Punjab National Bank', logo: '🏦' },
   ];
 
+  // Emojis and colors customized to match the Desert Cyberpunk color scheme
+  // Orange-Sand, Sand-Sage, Amber Glow, and Muted Sage. No blue, indigo, or purple.
   const wallets = [
-    { id: 'gpay', name: 'Google Pay', emoji: '🟢', color: 'from-green-500 to-teal-500' },
-    { id: 'phonepe', name: 'PhonePe', emoji: '🟣', color: 'from-purple-600 to-indigo-600' },
-    { id: 'paytm', name: 'Paytm', emoji: '🔵', color: 'from-blue-500 to-cyan-500' },
-    { id: 'amazonpay', name: 'Amazon Pay', emoji: '🟠', color: 'from-orange-500 to-amber-500' },
+    { id: 'gpay', name: 'Google Pay', emoji: '🟢', color: 'from-[#8AC926]/90 to-[#8AC926]' },
+    { id: 'phonepe', name: 'PhonePe', emoji: '🟠', color: 'from-[#FFB86C] to-[#E9C46A]' },
+    { id: 'paytm', name: 'Paytm', emoji: '🟡', color: 'from-[#E9C46A] to-[#FFB703]' },
+    { id: 'amazonpay', name: 'Amazon Pay', emoji: '🔸', color: 'from-[#FFB703] to-[#FFB86C]' },
   ];
 
   const handlePay = () => {
-    // Basic UPI validation
     if (activeTab === 'upi') {
       const upiRegex = /^[\w.\-_]{2,}@[a-zA-Z]{2,}$/;
       if (!upiId || !upiRegex.test(upiId)) {
@@ -48,7 +49,6 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
       setUpiError('');
     }
     setProcessing(true);
-    // Simulate 1.5s processing delay before success
     setTimeout(() => onSuccess(), 1500);
   };
 
@@ -60,42 +60,42 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1612]/80 backdrop-blur-md p-4" onClick={onClose}>
       <div
-        className="w-full max-w-md bg-white dark:bg-dark-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-dark-700 overflow-hidden"
+        className="w-full max-w-md bg-[#1A1612] border border-white/12 rounded-2xl shadow-2xl overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
-        {/* Modal Header */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4 flex justify-between items-center">
+        {/* Modal Header (Orange Sand Gradient) */}
+        <div className="bg-gradient-to-r from-[#FFB86C] to-[#E9C46A] p-5 flex justify-between items-center gap-3">
           <div>
-            <div className="text-white font-bold text-sm">CampusPass Ticketing</div>
-            <div className="text-white/70 text-[11px] mt-0.5">{eventTitle}</div>
+            <div className="text-[#1A1612] font-extrabold text-sm tracking-wider uppercase">CampusPass checkout</div>
+            <div className="text-[#1A1612]/80 text-[11px] font-medium mt-0.5">{eventTitle}</div>
           </div>
           <div className="text-right">
-            <div className="text-white/70 text-[10px]">Amount to Pay</div>
-            <div className="text-white font-extrabold text-lg">₹{amount}</div>
+            <div className="text-[#1A1612]/70 text-[10px] font-bold uppercase tracking-wider">Amount to Pay</div>
+            <div className="text-[#1A1612] font-black text-xl">₹{amount}</div>
           </div>
-          <button onClick={onClose} className="ml-4 text-white/60 hover:text-white transition-colors">
+          <button onClick={onClose} className="ml-2 p-1 rounded-lg hover:bg-[#1A1612]/10 text-[#1A1612]/70 hover:text-[#1A1612] transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Demo Mode Badge */}
-        <div className="bg-amber-50 dark:bg-amber-950/30 border-b border-amber-100 dark:border-amber-900/30 px-4 py-2 flex items-center space-x-2">
-          <span className="text-amber-500 text-[10px] font-bold">🔒 DEMO SANDBOX</span>
-          <span className="text-amber-600 dark:text-amber-400 text-[10px]">No real transaction will occur. All payment methods are simulated.</span>
+        {/* Sandbox Indicator (Warning gold background with low opacity) */}
+        <div className="bg-[#FFB703]/10 border-b border-[#FFB703]/20 px-5 py-2.5 flex items-center space-x-2">
+          <span className="text-[#FFB703] text-[10px] font-mono font-bold tracking-wider">🔒 DEMO SANDBOX</span>
+          <span className="text-[#FAF7F2]/60 text-[10px] font-mono">No real transaction will occur.</span>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-100 dark:border-dark-800 bg-slate-50 dark:bg-dark-850">
+        <div className="flex border-b border-white/5 bg-white/5">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex flex-col items-center py-3 text-[10px] font-bold gap-1 transition-all border-b-2 ${
+              className={`flex-1 flex flex-col items-center py-3 text-[10px] font-mono font-bold gap-1 transition-all border-b-2 ${
                 activeTab === tab.id
-                  ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 bg-white dark:bg-dark-900'
-                  : 'border-transparent text-slate-400 dark:text-dark-500 hover:text-slate-600'
+                  ? 'border-[#FFB86C] text-[#FFB86C] bg-white/5'
+                  : 'border-transparent text-[#FAF7F2]/50 hover:text-[#FAF7F2]'
               }`}
             >
               {tab.icon}
@@ -110,30 +110,34 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
           {activeTab === 'upi' && (
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-600 dark:text-dark-300 block mb-1.5">Enter UPI ID</label>
+                <label className="block text-[11px] font-bold text-[#FAF7F2]/70 uppercase tracking-wider mb-1.5">Enter UPI ID</label>
                 <input
                   type="text"
                   placeholder="yourname@upi"
                   value={upiId}
                   onChange={e => { setUpiId(e.target.value); setUpiError(''); }}
-                  className="w-full border border-slate-200 dark:border-dark-700 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-dark-800 text-slate-800 dark:text-dark-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full input-field text-sm"
                 />
-                {upiError && <p className="text-rose-500 text-[10px] mt-1 font-semibold">{upiError}</p>}
+                {upiError && <p className="text-[#E76F51] text-[10px] mt-1.5 font-semibold font-mono">{upiError}</p>}
               </div>
-              <p className="text-[10px] text-slate-400 text-center">Or pay via UPI apps</p>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="relative flex py-1 items-center">
+                <div className="flex-grow border-t border-white/5"></div>
+                <span className="flex-shrink mx-3 text-[10px] text-[#FAF7F2]/40 font-mono uppercase tracking-wider">Or pay via UPI apps</span>
+                <div className="flex-grow border-t border-white/5"></div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {wallets.map(w => (
                   <button
                     key={w.id}
                     onClick={() => { setUpiId(`demo@${w.id}`); setUpiError(''); }}
-                    className={`flex flex-col items-center p-2 rounded-xl border-2 transition-all ${
+                    className={`flex flex-col items-center p-2.5 rounded-xl border-2 transition-all ${
                       upiId === `demo@${w.id}`
-                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/30'
-                        : 'border-slate-200 dark:border-dark-700 hover:border-indigo-300'
+                        ? 'border-[#FFB86C] bg-[#FFB86C]/10'
+                        : 'border-white/10 hover:border-[#FFB86C]/30 bg-white/5'
                     }`}
                   >
                     <span className="text-xl">{w.emoji}</span>
-                    <span className="text-[9px] font-semibold text-slate-600 dark:text-dark-400 mt-1 leading-tight text-center">{w.name}</span>
+                    <span className="text-[9px] font-mono font-semibold text-[#FAF7F2]/60 mt-1 leading-tight text-center">{w.name}</span>
                   </button>
                 ))}
               </div>
@@ -144,47 +148,47 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
           {activeTab === 'card' && (
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-semibold text-slate-600 dark:text-dark-300 block mb-1">Card Number</label>
+                <label className="block text-[11px] font-bold text-[#FAF7F2]/70 uppercase tracking-wider mb-1">Card Number</label>
                 <input
                   type="text"
                   placeholder="4111 1111 1111 1111"
                   maxLength={19}
                   value={cardNum}
                   onChange={e => setCardNum(e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim())}
-                  className="w-full border border-slate-200 dark:border-dark-700 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-dark-800 text-slate-800 dark:text-dark-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
+                  className="w-full input-field text-sm font-mono"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-600 dark:text-dark-300 block mb-1">Cardholder Name</label>
+                <label className="block text-[11px] font-bold text-[#FAF7F2]/70 uppercase tracking-wider mb-1">Cardholder Name</label>
                 <input
                   type="text"
                   placeholder="Name on card"
                   value={cardName}
                   onChange={e => setCardName(e.target.value)}
-                  className="w-full border border-slate-200 dark:border-dark-700 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-dark-800 text-slate-800 dark:text-dark-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full input-field text-sm"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-slate-600 dark:text-dark-300 block mb-1">Expiry (MM/YY)</label>
+                  <label className="block text-[11px] font-bold text-[#FAF7F2]/70 uppercase tracking-wider mb-1">Expiry (MM/YY)</label>
                   <input
                     type="text"
                     placeholder="12/27"
                     maxLength={5}
                     value={cardExpiry}
                     onChange={e => setCardExpiry(e.target.value)}
-                    className="w-full border border-slate-200 dark:border-dark-700 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-dark-800 text-slate-800 dark:text-dark-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
+                    className="w-full input-field text-sm font-mono"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-slate-600 dark:text-dark-300 block mb-1">CVV</label>
+                  <label className="block text-[11px] font-bold text-[#FAF7F2]/70 uppercase tracking-wider mb-1">CVV</label>
                   <input
                     type="password"
                     placeholder="•••"
                     maxLength={4}
                     value={cardCvv}
                     onChange={e => setCardCvv(e.target.value)}
-                    className="w-full border border-slate-200 dark:border-dark-700 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-dark-800 text-slate-800 dark:text-dark-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
+                    className="w-full input-field text-sm font-mono"
                   />
                 </div>
               </div>
@@ -193,21 +197,21 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
 
           {/* Net Banking Tab */}
           {activeTab === 'netbanking' && (
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-600 dark:text-dark-300 block mb-2">Select Your Bank</label>
+            <div className="space-y-2.5">
+              <label className="block text-[11px] font-bold text-[#FAF7F2]/70 uppercase tracking-wider mb-1">Select Your Bank</label>
               <div className="grid grid-cols-2 gap-2">
                 {banks.map(bank => (
                   <button
                     key={bank.id}
                     onClick={() => setNetBankSelected(bank.id)}
-                    className={`flex items-center space-x-2 p-3 rounded-xl border-2 text-left transition-all ${
+                    className={`flex items-center space-x-2.5 p-3 rounded-xl border-2 text-left transition-all ${
                       netBankSelected === bank.id
-                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/30'
-                        : 'border-slate-200 dark:border-dark-700 hover:border-indigo-300'
+                        ? 'border-[#FFB86C] bg-[#FFB86C]/10'
+                        : 'border-white/10 hover:border-[#FFB86C]/30 bg-white/5'
                     }`}
                   >
                     <span className="text-lg">{bank.logo}</span>
-                    <span className="text-[10px] font-semibold text-slate-600 dark:text-dark-300 leading-tight">{bank.name}</span>
+                    <span className="text-[10px] font-mono font-semibold text-[#FAF7F2]/70 leading-tight">{bank.name}</span>
                   </button>
                 ))}
               </div>
@@ -216,20 +220,20 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
 
           {/* Wallets Tab */}
           {activeTab === 'wallet' && (
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-600 dark:text-dark-300 block mb-2">Choose Wallet</label>
+            <div className="space-y-2.5">
+              <label className="block text-[11px] font-bold text-[#FAF7F2]/70 uppercase tracking-wider mb-1">Choose Wallet</label>
               <div className="space-y-2">
                 {wallets.map(w => (
                   <button
                     key={w.id}
                     onClick={() => handlePay()}
-                    className={`w-full flex items-center justify-between p-3.5 rounded-xl bg-gradient-to-r ${w.color} text-white font-bold text-sm hover:opacity-90 transition-opacity shadow-md`}
+                    className={`w-full flex items-center justify-between p-3.5 rounded-xl bg-gradient-to-r ${w.color} text-[#1A1612] font-black text-sm hover:brightness-110 transition-all shadow-md`}
                   >
                     <div className="flex items-center space-x-3">
                       <span className="text-xl">{w.emoji}</span>
                       <span>{w.name}</span>
                     </div>
-                    <ChevronRight className="w-4 h-4 opacity-70" />
+                    <ChevronRight className="w-4 h-4 opacity-80" />
                   </button>
                 ))}
               </div>
@@ -237,18 +241,18 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
           )}
         </div>
 
-        {/* Pay Button Footer */}
+        {/* Modal Footer */}
         <div className="px-5 pb-5 space-y-3">
           {activeTab !== 'wallet' && (
             <button
               onClick={handlePay}
               disabled={processing}
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-lg shadow-indigo-500/25 disabled:opacity-60"
+              className="w-full btn-primary py-3 flex items-center justify-center space-x-2 shadow-[0_4px_20px_rgba(255,184,108,0.3)] disabled:opacity-50"
             >
               {processing ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Processing...</span>
+                  <div className="w-4 h-4 border-2 border-[#1A1612] border-t-transparent rounded-full animate-spin" />
+                  <span>Processing Payment...</span>
                 </>
               ) : (
                 <>
@@ -258,8 +262,8 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
               )}
             </button>
           )}
-          <div className="flex items-center justify-center space-x-1 text-[9px] text-slate-400">
-            <ShieldCheck className="w-3 h-3 text-emerald-500" />
+          <div className="flex items-center justify-center space-x-1.5 text-[10px] text-[#FAF7F2]/40 font-mono">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#8AC926]" />
             <span>Secured by Razorpay · SSL Encrypted</span>
           </div>
         </div>
@@ -269,8 +273,8 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
 };
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Main Payment Page
-───────────────────────────────────────────────────────────────────────────── */
+   Main Payment Page Component
+   ───────────────────────────────────────────────────────────────────────────── */
 const Payment = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -284,7 +288,7 @@ const Payment = () => {
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [razorpayScriptLoaded, setRazorpayScriptLoaded] = useState(false);
 
-  // Simulation mode = no real key configured
+  // Simulation mode active when no valid Razorpay key is configured
   const isSimulationMode = !keyId || keyId === 'rzp_test_placeholder_key';
 
   useEffect(() => {
@@ -303,7 +307,7 @@ const Payment = () => {
     }
   }, [registrationId, navigate, isSimulationMode]);
 
-  // Real Razorpay checkout (when live/test key is set)
+  // Real Razorpay integration
   const handleRazorpayPayment = () => {
     if (!razorpayScriptLoaded) return;
     setLoading(true);
@@ -331,7 +335,7 @@ const Payment = () => {
         }
       },
       prefill: { name: '', email: '' },
-      theme: { color: '#6366f1' },
+      theme: { color: '#FFB86C' },
       modal: { ondismiss: () => setLoading(false) },
     };
 
@@ -339,13 +343,13 @@ const Payment = () => {
     rzp.open();
   };
 
-  // Called after demo modal succeeds
+  // Safe Simulation Mode Checkout
   const handleDemoPaymentSuccess = async () => {
     setShowDemoModal(false);
     setLoading(true);
     setError('');
     try {
-      const randomId = Math.random().toString(36).substr(2, 9);
+      const randomId = Math.random().toString(36).substring(2, 11);
       const result = await registrationService.verifyPayment({
         registrationId,
         orderId: orderId || `order_sim_${registrationId}`,
@@ -367,9 +371,9 @@ const Payment = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-dark-950 transition-colors duration-200 bg-grid-mesh relative">
-
-      {/* Demo Modal Overlay */}
+    <div className="flex-1 flex flex-col justify-center items-center py-12 px-4 md:px-20 bg-transparent relative z-10">
+      
+      {/* Demo Checkout Modal overlay */}
       {showDemoModal && (
         <DemoCheckoutModal
           amount={eventPrice}
@@ -379,89 +383,93 @@ const Payment = () => {
         />
       )}
 
-      <div className="w-full max-w-md space-y-8 relative z-10">
-
-        {/* Header */}
+      <div className="w-full max-w-md space-y-8 relative">
+        {/* Header Title */}
         <div className="text-center">
-          <span className="text-4xl inline-block bg-white dark:bg-dark-900 p-3 rounded-2xl shadow-md border border-slate-200 dark:border-dark-800">💳</span>
-          <h2 className="mt-6 text-3xl font-extrabold text-slate-800 dark:text-dark-100 font-display">
+          <span className="text-4xl inline-block bg-white/5 p-3 rounded-2xl border border-white/10 shadow-lg">💳</span>
+          <h2 className="mt-6 text-3xl font-extrabold text-[#FAF7F2] tracking-tight">
             Secure Checkout
           </h2>
-          <p className="mt-2 text-sm text-slate-500 dark:text-dark-400">
+          <p className="mt-2 text-sm text-[#FAF7F2]/60 font-mono">
             Confirm your booking details and complete payment
           </p>
         </div>
 
-        {/* Payment Summary Panel */}
-        <div className="glass-panel p-8 rounded-2xl border border-slate-200 dark:border-dark-800 shadow-xl space-y-6">
-
+        {/* Main Payment card Panel */}
+        <div className="custom-card relative space-y-6">
+          
           {error && (
-            <div className="flex items-center space-x-2 bg-rose-50 border border-rose-100 dark:bg-rose-950/20 dark:border-rose-900/40 p-3 rounded-lg text-rose-500 text-xs font-semibold">
+            <div className="flex items-center space-x-2 bg-[#E76F51]/10 border border-[#E76F51]/20 p-3.5 rounded-xl text-[#E76F51] text-xs font-mono">
               <ShieldAlert className="w-4 h-4 flex-shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="flex flex-col items-center text-center p-4 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 rounded-xl space-y-2 border border-emerald-100 dark:border-emerald-900/30">
-              <CheckCircle2 className="w-8 h-8 text-emerald-500 animate-bounce" />
-              <span className="font-bold text-sm">Payment Successful!</span>
-              <span className="text-[10px] text-slate-400">Redirecting to your entry pass...</span>
+            <div className="flex flex-col items-center text-center p-5 bg-[#8AC926]/10 text-[#8AC926] rounded-xl space-y-2 border border-[#8AC926]/20">
+              <CheckCircle2 className="w-8 h-8 text-[#8AC926] animate-bounce" />
+              <span className="font-bold text-sm font-mono tracking-wider uppercase">Payment Successful!</span>
+              <span className="text-[11px] text-[#FAF7F2]/60 font-mono">Redirecting to your entry pass...</span>
             </div>
           )}
 
           {!success && (
             <div className="space-y-6">
-              {/* Order Breakup */}
-              <div className="bg-slate-50 dark:bg-dark-850 p-4 rounded-xl border border-slate-100 dark:border-dark-800 space-y-3">
-                <h4 className="font-extrabold text-sm text-slate-800 dark:text-dark-200 font-display">
+              {/* Order Detail Summary Breakdown */}
+              <div className="bg-white/5 p-5 rounded-xl border border-white/5 space-y-3.5">
+                <h4 className="font-bold text-sm text-[#FAF7F2]/90 uppercase tracking-wider">
                   Booking Summary
                 </h4>
+                
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500 dark:text-dark-400 font-medium">1x Entry Pass ({eventTitle})</span>
-                  <span className="font-bold text-slate-700 dark:text-dark-300">₹{eventPrice}</span>
+                  <span className="text-[#FAF7F2]/60 font-mono">1x Entry Pass ({eventTitle})</span>
+                  <span className="font-bold text-[#FAF7F2]/90">₹{eventPrice}</span>
                 </div>
+                
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500 dark:text-dark-400 font-medium">Platform Fee</span>
-                  <span className="font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/20 px-1.5 py-0.5 rounded">FREE</span>
+                  <span className="text-[#FAF7F2]/60 font-mono">Platform Fee</span>
+                  <span className="font-mono font-bold text-[10px] text-[#8AC926] bg-[#8AC926]/10 px-2 py-0.5 rounded-md uppercase tracking-wider">FREE</span>
                 </div>
-                <div className="pt-2 border-t border-slate-200 dark:border-dark-800 flex justify-between items-center">
-                  <span className="text-sm font-bold text-slate-800 dark:text-dark-100">Total Payable</span>
-                  <span className="text-lg font-extrabold text-primary-600 dark:text-primary-400 flex items-center font-display">
-                    <IndianRupee className="w-4 h-4 mr-0.5" />
-                    {eventPrice}
+                
+                <div className="pt-3.5 border-t border-white/5 flex justify-between items-center">
+                  <span className="text-xs font-bold text-[#FAF7F2] font-mono uppercase tracking-wider">Total Payable</span>
+                  <span className="text-xl font-extrabold text-[#FFB86C] flex items-center">
+                    <IndianRupee className="w-4 h-4 mr-0.5 text-[#FFB86C]" />
+                    <span className="bg-gradient-to-r from-[#FFB86C] to-[#E9C46A] bg-clip-text text-transparent">
+                      {eventPrice}
+                    </span>
                   </span>
                 </div>
               </div>
 
-              {/* Secure badge */}
-              <div className="flex items-center text-[10px] text-slate-400 justify-center space-x-1">
-                <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              {/* Secure Trust Badge */}
+              <div className="flex items-center text-[10px] text-[#FAF7F2]/50 justify-center space-x-1.5 font-mono">
+                <ShieldCheck className="w-4 h-4 text-[#8AC926]" />
                 <span>Encrypted 256-bit payment verified by Razorpay</span>
               </div>
 
-              {/* Action Buttons */}
+              {/* Checkout Controls Trigger */}
               {isSimulationMode ? (
-                <div className="space-y-3 pt-2">
-                  <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 rounded-lg text-amber-700 dark:text-amber-400 text-center text-[10px] font-semibold">
-                    🔒 Demo Sandbox Mode — Razorpay test key not configured. Use the demo checkout below.
+                <div className="space-y-3.5 pt-2">
+                  <div className="p-3 bg-[#FFB703]/10 border border-[#FFB703]/20 rounded-xl text-[#FFB703] text-center text-[10px] font-mono leading-relaxed">
+                    🔒 Demo Sandbox Mode — Razorpay test key not configured. Use the sandbox checkout below.
                   </div>
 
-                  {/* Payment method quick-select chips */}
+                  {/* Payment Methods Quick-Selector Grid */}
                   <div className="grid grid-cols-4 gap-2">
                     {[
                       { label: 'UPI', icon: '📱' },
                       { label: 'Card', icon: '💳' },
-                      { label: 'Net Banking', icon: '🏦' },
+                      { label: 'Net Bank', icon: '🏦' },
                       { label: 'Wallet', icon: '👛' },
                     ].map(m => (
                       <button
                         key={m.label}
                         onClick={() => setShowDemoModal(true)}
-                        className="flex flex-col items-center p-2 rounded-xl border-2 border-slate-200 dark:border-dark-700 hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 transition-all group"
+                        className="flex flex-col items-center p-2.5 rounded-xl border-2 border-white/10 hover:border-[#FFB86C]/40 hover:bg-[#FFB86C]/5 transition-all group bg-white/5"
                       >
                         <span className="text-xl">{m.icon}</span>
-                        <span className="text-[9px] font-semibold text-slate-500 dark:text-dark-400 group-hover:text-indigo-600 mt-0.5">{m.label}</span>
+                        <span className="text-[9px] font-mono font-semibold text-[#FAF7F2]/50 group-hover:text-[#FFB86C] mt-1 leading-none">{m.label}</span>
                       </button>
                     ))}
                   </div>
@@ -469,10 +477,10 @@ const Payment = () => {
                   <button
                     onClick={() => setShowDemoModal(true)}
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-lg shadow-indigo-500/25"
+                    className="w-full btn-primary py-3.5 text-sm flex items-center justify-center space-x-2"
                   >
                     {loading ? (
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-[#1A1612] border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <>
                         <Lock className="w-4 h-4" />
@@ -485,10 +493,10 @@ const Payment = () => {
                 <button
                   onClick={handleRazorpayPayment}
                   disabled={loading || !razorpayScriptLoaded}
-                  className="w-full btn-primary py-3.5 text-sm font-bold flex items-center justify-center space-x-2"
+                  className="w-full btn-primary py-3.5 text-sm flex items-center justify-center space-x-2"
                 >
                   {loading ? (
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-[#1A1612] border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
                       <CreditCard className="w-4 h-4" />
@@ -499,6 +507,7 @@ const Payment = () => {
               )}
             </div>
           )}
+
         </div>
       </div>
     </div>

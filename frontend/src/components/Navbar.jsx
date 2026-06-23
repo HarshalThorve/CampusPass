@@ -1,162 +1,381 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { LogOut, Menu, X, Ticket, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, Menu, X, Calendar, User, LayoutDashboard, BarChart3, ScanLine } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Toast from './Toast';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 80);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/';
+    return location.pathname.startsWith(path);
+  };
 
   const handleLogout = () => {
+    navigate('/');
     logout();
-    navigate('/login');
+    setToastMessage('Successfully logged out');
+    setIsMenuOpen(false);
   };
 
   const navLinks = user
     ? user.role === 'admin'
       ? [
-          { name: 'DASHBOARD', path: '/admin', icon: LayoutDashboard },
-          { name: 'ANALYTICS', path: '/analytics', icon: BarChart3 },
-          { name: 'SCANNER', path: '/scanner', icon: ScanLine },
-          { name: 'EVENTS', path: '/events', icon: Calendar }
+          { name: 'Dashboard', path: '/admin' },
+          { name: 'Analytics', path: '/analytics' },
+          { name: 'Scanner', path: '/scanner' },
+          { name: 'Events', path: '/events' },
         ]
       : [
-          { name: 'HOME', path: '/', icon: Calendar },
-          { name: 'EVENTS', path: '/events', icon: Calendar },
-          { name: 'MY TICKETS', path: '/dashboard', icon: User }
+          { name: 'Home', path: '/' },
+          { name: 'Events', path: '/events' },
+          { name: 'My Tickets', path: '/my-tickets' },
         ]
     : [
-        { name: 'HOME', path: '/', icon: Calendar },
-        { name: 'EVENTS', path: '/events', icon: Calendar }
+        { name: 'Home', path: '/' },
+        { name: 'Events', path: '/events' },
       ];
 
-  return (
-    <nav className="sticky top-0 z-40 bg-surface-950/90 backdrop-blur-xl border-b border-dark-500/15 transition-all duration-300 print:hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2 group">
-              <span className="w-2.5 h-2.5 rounded-full bg-lime-400 shadow-neon group-hover:shadow-neon-strong transition-shadow duration-300"></span>
-              <span className="font-mono font-bold text-sm tracking-[0.2em] text-dark-100 uppercase">
-                Campus<span className="text-dark-300">//</span>
-              </span>
-            </Link>
-          </div>
+  const initials = user?.name ? user.name.slice(0, 2).toUpperCase() : '';
 
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navLinks.map((link) => (
+  const navVariants = {
+    hero: {
+      width: "95%",
+      maxWidth: "1600px",
+      height: "84px",
+      borderRadius: "28px",
+      paddingLeft: "32px",
+      paddingRight: "32px",
+      background: "rgba(26, 18, 8, 0.85)",
+      backdropFilter: "blur(12px)",
+      WebkitBackdropFilter: "blur(12px)",
+      border: "1px solid rgba(245, 166, 35, 0.12)",
+      boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+      y: 16,
+    },
+    compact: {
+      width: isMobile ? "95%" : "72%",
+      maxWidth: "1000px",
+      height: "62px",
+      borderRadius: "999px",
+      paddingLeft: isMobile ? "16px" : "24px",
+      paddingRight: isMobile ? "16px" : "24px",
+      background: "rgba(26, 18, 8, 0.85)",
+      backdropFilter: "blur(12px)",
+      WebkitBackdropFilter: "blur(12px)",
+      border: "1px solid rgba(245, 166, 35, 0.18)",
+      boxShadow: "0 20px 50px rgba(0,0,0,0.45)",
+      y: 16,
+    }
+  };
+
+  const innerVariants = {
+    hero: { scale: 1 },
+    compact: { scale: 0.95 }
+  };
+
+  return (
+    <>
+      <motion.nav
+        className="fixed top-0 left-0 right-0 z-50 mx-auto"
+      style={{
+        isolation: 'isolate',
+        willChange: 'transform, width, height, opacity, backdrop-filter',
+      }}
+      variants={navVariants}
+      initial="hero"
+      animate={scrolled ? "compact" : "hero"}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <motion.div 
+        className="absolute inset-0 pointer-events-none"
+        variants={{
+          hero: { borderRadius: "28px", opacity: 0.7 },
+          compact: { borderRadius: "999px", opacity: 1 }
+        }}
+        initial="hero"
+        animate={scrolled ? "compact" : "hero"}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          background: 'radial-gradient(circle at center, rgba(255,184,108,0.06), transparent 75%)',
+          zIndex: -1,
+        }}
+      />
+      <motion.div
+        className="flex items-center justify-between w-full h-full"
+        variants={innerVariants}
+        initial="hero"
+        animate={scrolled ? "compact" : "hero"}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        style={{ transformOrigin: 'center center', willChange: 'transform' }}
+      >
+      {/* Logo (Left) */}
+      <Link to="/" className="flex items-center no-underline select-none group">
+        <motion.span 
+          whileHover={{ scale: 1.2, boxShadow: '0 0 15px rgba(245,166,35,0.8)' }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          className="w-2.5 h-2.5 rounded-full bg-[#f5a623] mr-2 logo-dot" 
+          style={{boxShadow: '0 0 10px rgba(245,166,35,0.5)'}} 
+        />
+        <motion.span 
+          whileHover={{ letterSpacing: '0.12em' }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="text-[#FAF7F2] font-[800] text-[14px] tracking-[0.1em] uppercase font-display"
+        >
+          CAMPUSPASS
+        </motion.span>
+        <span className="text-white/20 ml-1.5 font-sans font-medium group-hover:text-[#FFB86C]/40 transition-colors duration-300">//</span>
+      </Link>
+
+      {/* Nav Links (Center - Desktop) — capsule pill indicator */}
+      <div
+        className="hidden md:flex items-center"
+        style={{ gap: '4px' }}
+      >
+        {navLinks.map((link) => {
+          const active = isActive(link.path);
+          return (
               <Link
-                key={link.name}
-                to={link.path}
-                className="px-4 py-2 text-[11px] font-mono font-medium tracking-[0.15em] text-dark-300 hover:text-lime-400 transition-colors duration-300 uppercase"
+              key={link.name}
+              to={link.path}
+              style={{
+                position: 'relative',
+                display: 'inline-flex',
+                alignItems: 'center',
+                padding: '4px 16px',
+                borderRadius: '999px',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease',
+                color: active ? '#f5a623' : 'rgba(250, 247, 242, 0.55)',
+                fontWeight: active ? 600 : 500,
+                fontSize: '14px',
+              }}
+              onMouseEnter={(e) => {
+                if (!active) {
+                  e.currentTarget.style.color = '#f5a623';
+                  e.currentTarget.style.textShadow = '0 0 12px rgba(245,166,35,.3)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!active) {
+                  e.currentTarget.style.color = 'rgba(250, 247, 242, 0.55)';
+                  e.currentTarget.style.textShadow = 'none';
+                }
+              }}
+            >
+              {active && (
+                <motion.div
+                  layoutId="navPill"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'transparent',
+                    border: '1px solid #f5a623',
+                    borderRadius: '999px',
+                  }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                />
+              )}
+              {!active && (
+                <motion.div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'rgba(255,255,255,0)',
+                    borderRadius: '999px',
+                  }}
+                  whileHover={{ background: 'rgba(255,184,108,0.06)', boxShadow: '0 0 15px rgba(255,184,108,0.08)' }}
+                  transition={{ duration: 0.2 }}
+                />
+              )}
+              <motion.span 
+                style={{ position: 'relative', zIndex: 1 }}
+                whileHover={{ y: active ? 0 : -1 }}
+                transition={{ duration: 0.2 }}
               >
                 {link.name}
-              </Link>
-            ))}
-
-            {/* User Profile & Auth */}
-            {user ? (
-              <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-dark-500/20">
-                <div className="flex flex-col text-right">
-                  <span className="text-xs font-medium text-dark-200">{user.name}</span>
-                  <span className="text-[10px] font-mono text-dark-400 uppercase tracking-wider">{user.role}</span>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="p-2 rounded-lg text-dark-400 hover:text-rose-400 hover:bg-rose-500/10 transition-all duration-300"
-                  title="Logout"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-dark-500/20">
-                <Link
-                  to="/login"
-                  className="text-[11px] font-mono font-medium tracking-[0.15em] text-dark-300 hover:text-dark-100 transition-colors uppercase"
-                >
-                  SIGN IN
-                </Link>
-                <Link to="/register" className="btn-primary px-5 py-2 text-[11px]">
-                  HOST EVENT →
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="flex items-center md:hidden space-x-2">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-dark-300 hover:text-lime-400 hover:bg-surface-400/50 transition-all duration-300"
-            >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
+              </motion.span>
+            </Link>
+          );
+        })}
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden border-t border-dark-500/15 bg-surface-950/95 backdrop-blur-xl">
-          <div className="px-4 pt-3 pb-4 space-y-1">
+      {/* Right Side (User Info / Logout - Desktop & Mobile Action) */}
+      <div className="flex items-center gap-4">
+        {user ? (
+          <>
+            {/* Desktop User Panel */}
+            <div className="hidden md:flex items-center gap-4">
+              <div className="text-right leading-tight">
+                <div className="text-[#FAF7F2] text-[13px] font-[600] capitalize">
+                  {user.name}
+                </div>
+                <div className={`text-[10px] font-[600] uppercase tracking-[0.08em] mt-0.5 ${user.role === 'admin' ? 'text-[#f5a623]' : 'text-[#c8a96e]'}`}>
+                  {user.role}
+                </div>
+              </div>
+
+              {/* Avatar Circle */}
+              <motion.div 
+                whileHover={{ scale: 1.08, y: -2, boxShadow: '0 5px 25px rgba(255,184,108,0.5), inset 0 0 10px rgba(255,255,255,0.4)' }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                className="w-[42px] h-[42px] rounded-full bg-gradient-to-br from-[#FFB86C] to-[#E9C46A] text-[#1A1612] font-[800] text-[15px] flex items-center justify-center select-none cursor-pointer shadow-[0_0_15px_rgba(255,184,108,0.25)] border border-[#1A1612]"
+              >
+                {initials}
+              </motion.div>
+
+              {/* Logout Button */}
+              <motion.button
+                onClick={handleLogout}
+                title="Logout"
+                whileHover={{ y: -1, backgroundColor: 'rgba(245,166,35,0.08)', borderColor: 'rgba(245,166,35,0.4)' }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(245,166,35,0.15)',
+                  color: 'rgba(250, 247, 242, 0.75)'
+                }}
+                className="py-2 px-3 flex items-center justify-center rounded-full transition-colors"
+              >
+                <LogOut size={16} className="text-[#f5a623]" />
+              </motion.button>
+            </div>
+
+            {/* Mobile Actions */}
+            <div className="md:hidden flex items-center gap-3">
+              <div className="w-[30px] h-[30px] rounded-full bg-gradient-to-br from-[#FFB86C] to-[#E9C46A] text-[#1A1612] font-[700] text-[12px] flex items-center justify-center select-none">
+                {initials}
+              </div>
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-[rgba(250,247,242,0.75)] hover:text-[#FFB86C] p-1.5 focus:outline-none bg-transparent border-none"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
+          </>
+        ) : (
+          /* Guest Actions */
+          <div className="flex items-center gap-4">
+            <Link
+              to="/login"
+              className="text-[14px] font-[500] text-[rgba(250,247,242,0.55)] hover:text-[#FAF7F2] no-underline transition-colors"
+            >
+              Sign in
+            </Link>
+            <Link to="/register">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="btn-primary text-xs py-2 px-4 rounded-lg font-bold btn-shimmer"
+              >
+                Get started
+              </motion.button>
+            </Link>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden text-[rgba(250,247,242,0.75)] hover:text-[#FFB86C] p-1.5 focus:outline-none ml-1 bg-transparent border-none"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        )}
+      </div>
+
+      </motion.div>
+
+      {/* Mobile Menu Dropdown Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-[64px] left-0 right-0 bg-[rgba(26,22,18,0.97)] backdrop-blur-[20px] border-b border-white/[0.08] flex flex-col p-4 gap-3 md:hidden"
+          >
             {navLinks.map((link) => {
-              const Icon = link.icon;
+              const active = isActive(link.path);
               return (
                 <Link
                   key={link.name}
                   to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-mono font-medium text-dark-300 hover:text-lime-400 hover:bg-surface-400/30 transition-all duration-300 tracking-wider uppercase"
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-[14px] font-[500] no-underline transition-colors py-2 px-3 rounded-lg ${
+                    active
+                      ? 'text-[#FFB86C] bg-white/[0.06] font-[600]'
+                      : 'text-[rgba(250,247,242,0.65)] hover:text-[#FAF7F2]'
+                  }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{link.name}</span>
+                  {link.name}
                 </Link>
               );
             })}
-
-            {user ? (
-              <div className="pt-4 pb-2 border-t border-dark-500/15 mt-3 px-3 flex items-center justify-between">
+            {user && (
+              <div className="border-t border-white/[0.06] mt-2 pt-3 flex justify-between items-center px-3">
                 <div>
-                  <div className="text-sm font-medium text-dark-200">{user.name}</div>
-                  <div className="text-xs font-mono text-dark-400 capitalize tracking-wider">{user.role}</div>
+                  <div className="text-[#FAF7F2] text-[13px] font-[600] capitalize">
+                    {user.name}
+                  </div>
+                  <div className={`text-[10px] font-[600] uppercase tracking-[0.08em] mt-0.5 ${user.role === 'admin' ? 'text-[#f5a623]' : 'text-[#c8a96e]'}`}>
+                    {user.role}
+                  </div>
                 </div>
                 <button
                   onClick={() => {
-                    setIsOpen(false);
+                    setIsMenuOpen(false);
                     handleLogout();
                   }}
-                  className="flex items-center space-x-1 text-rose-400 hover:text-rose-300 font-mono text-xs uppercase tracking-wider transition-colors"
+                  className="flex items-center gap-1.5 text-[rgba(250,247,242,0.75)] hover:text-[#f5a623] font-bold text-xs p-2 bg-transparent border-none"
                 >
-                  <LogOut className="w-4 h-4" />
-                  <span>LOGOUT</span>
+                  <LogOut size={14} />
+                  <span>Logout</span>
                 </button>
               </div>
-            ) : (
-              <div className="pt-4 pb-2 border-t border-dark-500/15 mt-3 px-3 flex flex-col space-y-2">
-                <Link
-                  to="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="w-full text-center py-2.5 text-sm font-mono text-dark-200 hover:text-lime-400 transition-colors uppercase tracking-wider"
-                >
-                  SIGN IN
-                </Link>
-                <Link
-                  to="/register"
-                  onClick={() => setIsOpen(false)}
-                  className="w-full text-center btn-primary py-2.5 text-xs"
-                >
-                  REGISTER
-                </Link>
-              </div>
             )}
-          </div>
-        </div>
-      )}
-    </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      </motion.nav>
+
+      <Toast 
+        message={toastMessage} 
+        type="success" 
+        onClose={() => setToastMessage(null)} 
+      />
+    </>
   );
 };
 

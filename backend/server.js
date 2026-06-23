@@ -49,6 +49,7 @@ const registrationRoutes = require('./routes/registrations');
 const ticketRoutes = require('./routes/tickets');
 const attendanceRoutes = require('./routes/attendance');
 const analyticsRoutes = require('./routes/analytics');
+const certificateRoutes = require('./routes/certificates');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
@@ -56,6 +57,7 @@ app.use('/api/registrations', registrationRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/certificates', certificateRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

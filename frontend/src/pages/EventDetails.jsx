@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { eventService, registrationService } from '../services/api';
 import EventCard from '../components/EventCard';
-import { Calendar, MapPin, Users, IndianRupee, ArrowLeft, Hourglass, ShieldAlert, Sparkles } from 'lucide-react';
+import ConfirmDialog from '../components/ConfirmDialog';
+import Toast from '../components/Toast';
+import { Calendar, MapPin, IndianRupee, ArrowLeft, Hourglass, ShieldAlert, Sparkles } from 'lucide-react';
+
+const CATEGORY_STYLES = {
+  technical: { bg: 'rgba(233,196,106,0.15)', border: 'rgba(233,196,106,0.3)', color: '#E9C46A' },
+  cultural:  { bg: 'rgba(244,162,97,0.15)', border: 'rgba(244,162,97,0.3)', color: '#F4A261' },
+  sports:    { bg: 'rgba(138,201,38,0.15)', border: 'rgba(138,201,38,0.3)', color: '#8AC926' },
+  academic:  { bg: 'rgba(132,165,157,0.15)', border: 'rgba(132,165,157,0.3)', color: '#84A59D' },
+};
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -15,6 +24,8 @@ const EventDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
+  const [toast, setToast] = useState({ message: '', type: 'error' });
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -58,7 +69,7 @@ const EventDetails = () => {
       return;
     }
     if (user.role === 'admin') {
-      alert('Admins cannot register for events.');
+      setToast({ message: 'Admins cannot register for events.', type: 'error' });
       return;
     }
     setActionLoading(true);
@@ -80,25 +91,29 @@ const EventDetails = () => {
       }
     } catch (err) {
       console.error('Registration failed:', err);
-      alert(err || 'Failed to register. Please try again.');
+      setToast({ message: err.response?.data?.message || err || 'Failed to register. Please try again.', type: 'error' });
     } finally {
       setActionLoading(false);
     }
   };
 
-  const handleCancelClick = async () => {
+  const handleCancelClick = () => {
     if (!userRegistration) return;
-    if (!window.confirm('Are you sure you want to cancel your registration?')) return;
+    setShowCancelConfirm(true);
+  };
+
+  const confirmCancel = async () => {
+    setShowCancelConfirm(false);
     setActionLoading(true);
     try {
       const response = await registrationService.cancel(userRegistration.registration_id);
-      alert(response.message);
+      setToast({ message: response.message, type: 'success' });
       setUserRegistration(null);
       const updatedEvent = await eventService.getById(id);
       setEvent(updatedEvent);
     } catch (err) {
       console.error('Cancel registration error:', err);
-      alert(err || 'Failed to cancel registration.');
+      setToast({ message: err.response?.data?.message || err || 'Failed to cancel registration.', type: 'error' });
     } finally {
       setActionLoading(false);
     }
@@ -106,9 +121,9 @@ const EventDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-12">
-        <div className="w-10 h-10 border-2 border-lime-400 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-dark-500 font-mono text-sm uppercase tracking-wider">Loading...</p>
+      <div className="flex-1 flex flex-col items-center justify-center p-12 bg-transparent">
+        <div className="w-10 h-10 border-2 border-[#FFB86C] border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-4 text-[rgba(250,247,242,0.55)] font-mono text-sm uppercase tracking-wider">Loading details...</p>
       </div>
     );
   }
@@ -116,9 +131,11 @@ const EventDetails = () => {
   if (error || !event) {
     return (
       <div className="flex-1 max-w-2xl mx-auto px-4 py-16 text-center">
-        <ShieldAlert className="w-16 h-16 text-rose-400 mx-auto mb-4" />
-        <h2 className="text-2xl font-display font-bold text-dark-100">{error || 'Event Not Found'}</h2>
-        <Link to="/events" className="btn-primary mt-6 inline-block text-xs px-6 py-2.5">BACK TO EVENTS</Link>
+        <ShieldAlert className="w-16 h-16 text-[#E76F51] mx-auto mb-4" />
+        <h2 className="text-2xl font-sans font-bold text-[#FAF7F2]">{error || 'Event Not Found'}</h2>
+        <Link to="/events" className="btn-primary mt-6 inline-block text-xs px-6 py-2.5 no-underline">
+          BACK TO EVENTS
+        </Link>
       </div>
     );
   }
@@ -142,132 +159,143 @@ const EventDetails = () => {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
   });
 
-  const getCategoryBadgeClass = () => {
-    switch (category.toLowerCase()) {
-      case 'technical': return 'badge-tech';
-      case 'cultural': return 'badge-cultural';
-      case 'sports': return 'badge-sports';
-      case 'academic': return 'badge-academic';
-      default: return 'px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-full bg-dark-500/20 text-dark-300 border border-dark-500/20';
-    }
+  const catStyle = CATEGORY_STYLES[category.toLowerCase()] || {
+    bg: 'rgba(255,184,108,0.15)', border: 'rgba(255,184,108,0.3)', color: '#FFB86C'
   };
 
   const fillPercentage = capacity > 0 ? Math.round((registered_count / capacity) * 100) : 0;
 
   return (
-    <div className="flex-1 bg-surface-950">
-      {/* Back */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+    <div className="flex-1 bg-[#1A1612] px-4 md:px-20 py-6">
+      <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: '', type: 'error' })} />
+      <ConfirmDialog
+        isOpen={showCancelConfirm}
+        title="Cancel Registration"
+        message="Are you sure you want to cancel your registration? This cannot be undone."
+        confirmLabel="Cancel Ticket"
+        onConfirm={confirmCancel}
+        onCancel={() => setShowCancelConfirm(false)}
+        danger
+      />
+
+      {/* Back Button Link */}
+      <div className="max-w-7xl mx-auto mb-6">
         <Link
           to="/events"
-          className="inline-flex items-center text-xs font-mono text-dark-400 hover:text-lime-400 transition-colors tracking-wider uppercase"
+          className="inline-flex items-center text-xs font-mono text-[rgba(250,247,242,0.45)] hover:text-[#FFB86C] no-underline transition-colors uppercase tracking-wider"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to events
         </Link>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        {/* Main */}
+      {/* 2-Column layout */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        
+        {/* Left Side (Banner & Details) */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Banner */}
-          <div className="relative h-80 md:h-96 w-full rounded-2xl overflow-hidden border border-dark-500/15 bg-surface-400/30">
+          {/* Event Banner */}
+          <div className="relative h-80 md:h-[380px] w-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 select-none">
             <img
               src={image || 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80'}
               alt={title}
               className="w-full h-full object-cover opacity-80"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-surface-950 via-surface-950/30 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612] via-[#1A1612]/30 to-transparent"></div>
           </div>
 
-          {/* Info Card */}
-          <div className="bg-surface-300/40 border border-dark-500/15 p-6 rounded-2xl space-y-4">
-            <span className={getCategoryBadgeClass()}>{category}</span>
-            <h1 className="text-3xl font-display font-bold text-dark-100">{title}</h1>
-            <div className="bg-surface-400/30 p-4 rounded-xl">
-              <h4 className="text-sm font-mono font-bold text-dark-200 mb-2 uppercase tracking-wider">About</h4>
-              <p className="text-sm text-dark-400 leading-relaxed whitespace-pre-line">{description}</p>
+          {/* Description Card */}
+          <div className="custom-card space-y-4">
+            <span
+              className="badge-pill uppercase tracking-wider"
+              style={{ backgroundColor: catStyle.bg, color: catStyle.color, border: `1px solid ${catStyle.border}` }}
+            >
+              {category}
+            </span>
+            <h1 className="text-3xl font-extrabold text-[#FAF7F2] font-sans m-0">{title}</h1>
+            
+            <div className="bg-white/[0.04] p-5 rounded-xl border border-white/5">
+              <h4 className="text-xs font-mono font-bold text-[#FAF7F2] mb-3 uppercase tracking-wider">// ABOUT THE EVENT</h4>
+              <p className="text-sm text-[rgba(250,247,242,0.7)] leading-relaxed whitespace-pre-line m-0 font-sans">{description}</p>
             </div>
           </div>
         </div>
 
-        {/* Sidebar */}
-        <div className="lg:col-span-1 space-y-6">
-          <div className="bg-surface-300/40 border border-dark-500/15 p-6 rounded-2xl space-y-6 sticky top-24">
-
-            {/* Price */}
-            <div className="flex justify-between items-center pb-4 border-b border-dark-500/10">
-              <span className="text-xs font-mono text-dark-500 uppercase tracking-wider">Pass Price</span>
-              <span className="text-2xl font-display font-bold text-dark-100 flex items-center">
+        {/* Right Side (Checkout Panel) */}
+        <div className="lg:col-span-1 space-y-6 lg:sticky lg:top-20">
+          <div className="custom-card space-y-6">
+            {/* Price Detail */}
+            <div className="flex justify-between items-center pb-4 border-b border-white/[0.08]">
+              <span className="text-xs font-mono text-[rgba(250,247,242,0.45)] uppercase tracking-wider">Pass Price</span>
+              <span className="text-2xl font-bold text-[#FAF7F2] flex items-center">
                 {parseFloat(price) === 0 ? (
-                  <span className="text-lime-400">FREE</span>
+                  <span className="text-[#8AC926]">FREE</span>
                 ) : (
                   <>
-                    <IndianRupee className="w-5 h-5 mr-0.5 text-lime-400" />
-                    {price}
+                    <IndianRupee className="w-5 h-5 mr-0.5 text-[#FFB86C]" />
+                    <span>{price}</span>
                   </>
                 )}
               </span>
             </div>
 
-            {/* Info */}
-            <div className="space-y-4 text-sm">
+            {/* Quick Specs Grid */}
+            <div className="space-y-4 text-[13px] font-sans">
               <div className="flex items-start">
-                <Calendar className="w-5 h-5 text-lime-400/70 mr-3 mt-0.5 flex-shrink-0" />
+                <Calendar className="w-5 h-5 text-[#FFB86C] mr-3 mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="font-bold text-dark-200 text-xs font-mono uppercase tracking-wider">Date & Time</h4>
-                  <p className="text-xs text-dark-400 mt-0.5">{fullEventDate}</p>
+                  <h4 className="font-bold text-[#FAF7F2] text-xs font-mono uppercase tracking-wider m-0">Date & Time</h4>
+                  <p className="text-xs text-[rgba(250,247,242,0.55)] mt-1.5 m-0 leading-relaxed">{fullEventDate}</p>
                 </div>
               </div>
               <div className="flex items-start">
-                <MapPin className="w-5 h-5 text-lime-400/70 mr-3 mt-0.5 flex-shrink-0" />
+                <MapPin className="w-5 h-5 text-[#FFB86C] mr-3 mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="font-bold text-dark-200 text-xs font-mono uppercase tracking-wider">Venue</h4>
-                  <p className="text-xs text-dark-400 mt-0.5">{venue}</p>
+                  <h4 className="font-bold text-[#FAF7F2] text-xs font-mono uppercase tracking-wider m-0">Venue</h4>
+                  <p className="text-xs text-[rgba(250,247,242,0.55)] mt-1.5 m-0 leading-relaxed">{venue}</p>
                 </div>
               </div>
               <div className="flex items-start">
-                <Hourglass className="w-5 h-5 text-lime-400/70 mr-3 mt-0.5 flex-shrink-0" />
+                <Hourglass className="w-5 h-5 text-[#FFB86C] mr-3 mt-0.5 shrink-0" />
                 <div>
-                  <h4 className="font-bold text-dark-200 text-xs font-mono uppercase tracking-wider">Deadline</h4>
-                  <p className="text-xs text-dark-400 mt-0.5">{fullDeadlineDate}</p>
+                  <h4 className="font-bold text-[#FAF7F2] text-xs font-mono uppercase tracking-wider m-0">Deadline</h4>
+                  <p className="text-xs text-[rgba(250,247,242,0.55)] mt-1.5 m-0 leading-relaxed">{fullDeadlineDate}</p>
                 </div>
               </div>
 
-              {/* Capacity */}
+              {/* Progress seat stats */}
               <div className="pt-2">
-                <div className="flex justify-between items-center text-[10px] font-mono text-dark-500 mb-1.5 tracking-wider uppercase">
+                <div className="flex justify-between items-center text-[10px] font-mono text-[rgba(250,247,242,0.45)] mb-1.5 tracking-wider uppercase font-semibold">
                   <span>Capacity</span>
                   <span>{available_seats} of {capacity} left</span>
                 </div>
-                <div className="w-full bg-surface-400/50 rounded-full h-1.5 overflow-hidden">
-                  <div className="h-full bg-lime-400 rounded-full transition-all duration-500" style={{ width: `${fillPercentage}%` }}></div>
+                <div className="progress-track">
+                  <div className="progress-fill" style={{ width: `${fillPercentage}%` }} />
                 </div>
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="pt-4 border-t border-dark-500/10">
+            {/* Checkouts / Booking Actions */}
+            <div className="pt-4 border-t border-white/[0.08]">
               {user && user.role === 'admin' ? (
                 <div className="space-y-3">
-                  <div className="bg-dark-500/10 border border-dark-500/15 rounded-xl p-4 text-center">
-                    <p className="text-[10px] font-mono font-bold text-dark-400 uppercase tracking-wider">Admin View</p>
-                    <p className="text-[10px] text-dark-500 mt-1">Admins manage events via the Dashboard.</p>
+                  <div className="bg-white/[0.04] border border-white/10 rounded-xl p-4 text-center font-sans">
+                    <p className="text-[10px] font-mono font-bold text-[rgba(250,247,242,0.45)] uppercase tracking-wider m-0">Admin View</p>
+                    <p className="text-[11px] text-[rgba(250,247,242,0.45)] mt-1.5 m-0">Admins manage events via the Dashboard.</p>
                   </div>
-                  <Link to="/admin" className="w-full btn-primary flex items-center justify-center text-xs py-3">
+                  <Link to="/admin" className="w-full btn-primary text-xs py-3 no-underline font-bold uppercase">
                     ADMIN DASHBOARD
                   </Link>
                 </div>
               ) : userRegistration ? (
                 userRegistration.payment_status === 'completed' ? (
                   <div className="space-y-3">
-                    <div className="bg-lime-400/10 border border-lime-400/20 text-lime-400 p-3 rounded-xl text-xs font-mono text-center uppercase tracking-wider">
+                    <div className="bg-[#8AC926]/10 border border-[#8AC926]/20 text-[#8AC926] p-3 rounded-xl text-xs font-mono text-center uppercase tracking-wider font-semibold">
                       ✓ Registered
                     </div>
                     <Link
                       to={`/ticket/${userRegistration.ticket_id}`}
-                      className="w-full btn-primary flex items-center justify-center text-xs py-3"
+                      className="w-full btn-primary text-xs py-3 no-underline font-bold uppercase"
                     >
                       VIEW TICKET QR
                     </Link>
@@ -275,7 +303,7 @@ const EventDetails = () => {
                       <button
                         onClick={handleCancelClick}
                         disabled={actionLoading}
-                        className="w-full text-dark-500 hover:text-rose-400 text-[10px] font-mono py-1.5 text-center transition-colors uppercase tracking-wider"
+                        className="w-full text-[rgba(250,247,242,0.45)] hover:text-[#E76F51] text-[10px] font-mono py-2 text-center transition-colors uppercase tracking-wider bg-transparent border-none cursor-pointer"
                       >
                         Cancel Ticket
                       </button>
@@ -283,13 +311,13 @@ const EventDetails = () => {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    <div className="bg-amber-500/10 border border-amber-500/20 text-amber-400 p-3 rounded-xl text-xs font-mono text-center uppercase tracking-wider">
+                    <div className="bg-[#FFB703]/10 border border-[#FFB703]/20 text-[#FFB703] p-3 rounded-xl text-xs font-mono text-center uppercase tracking-wider font-semibold animate-pulse">
                       ⚠ Payment Pending
                     </div>
                     <button
                       onClick={handleRegisterClick}
                       disabled={actionLoading}
-                      className="w-full btn-primary text-xs py-3"
+                      className="w-full btn-primary text-xs py-3 font-bold uppercase"
                     >
                       {actionLoading ? 'PROCESSING...' : 'PAY NOW'}
                     </button>
@@ -299,33 +327,39 @@ const EventDetails = () => {
                 <button
                   onClick={handleRegisterClick}
                   disabled={isEventPast || isSoldOut || isDeadlinePassed || actionLoading}
-                  className={`w-full py-3.5 text-xs font-mono font-bold rounded-full text-center flex items-center justify-center uppercase tracking-wider transition-all ${
-                    isEventPast ? 'bg-dark-500/20 text-dark-500 cursor-not-allowed'
-                    : isSoldOut ? 'bg-rose-500/10 text-rose-400 cursor-not-allowed'
-                    : isDeadlinePassed ? 'bg-amber-500/10 text-amber-400 cursor-not-allowed'
+                  className={`w-full py-3 text-xs font-mono font-bold rounded-lg text-center flex items-center justify-center uppercase tracking-wider transition-all cursor-pointer border-none ${
+                    isEventPast ? 'bg-white/5 text-[rgba(250,247,242,0.4)] cursor-not-allowed border border-white/5'
+                    : isSoldOut ? 'bg-[#E76F51]/10 text-[#E76F51] cursor-not-allowed border border-[#E76F51]/10'
+                    : isDeadlinePassed ? 'bg-[#FFB703]/10 text-[#FFB703] cursor-not-allowed border border-[#FFB703]/10'
                     : 'btn-primary'
                   }`}
                 >
-                  {actionLoading ? 'PROCESSING...' : isEventPast ? 'EVENT ENDED' : isSoldOut ? 'SOLD OUT' : isDeadlinePassed ? 'REG CLOSED' : user ? 'CONFIRM & REGISTER' : 'SIGN IN TO BOOK'}
+                  {actionLoading ? 'PROCESSING...'
+                    : isEventPast ? 'EVENT ENDED'
+                    : isSoldOut ? 'SOLD OUT'
+                    : isDeadlinePassed ? 'REG CLOSED'
+                    : user ? 'CONFIRM & REGISTER'
+                    : 'SIGN IN TO BOOK'}
                 </button>
               )}
             </div>
           </div>
         </div>
+
       </div>
 
-      {/* Recommendations */}
+      {/* Recommendations Slider */}
       {recommendations.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-dark-500/10 mt-12">
-          <div className="flex items-center space-x-2 mb-8">
-            <div className="p-1.5 rounded-lg bg-lime-400/10 text-lime-400 border border-lime-400/20">
+        <section className="max-w-7xl mx-auto py-16 border-t border-white/[0.08] mt-12">
+          <div className="flex items-center space-x-2.5 mb-8">
+            <div className="p-2 rounded-lg bg-[#FFB86C]/10 text-[#FFB86C] border border-[#FFB86C]/20">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-2xl font-display font-bold text-dark-100">
-                Similar Events <span className="text-[10px] font-mono px-2 py-0.5 bg-lime-400 text-surface-950 rounded-full ml-1.5 uppercase tracking-wider">AI</span>
+              <h2 className="text-2xl font-sans font-bold text-[#FAF7F2] m-0">
+                Similar Events
               </h2>
-              <p className="text-[10px] font-mono text-dark-500 tracking-wider uppercase">Category & price matching</p>
+              <p className="text-[10px] font-mono text-[rgba(250,247,242,0.45)] tracking-wider uppercase m-0 mt-0.5">Category & price matching</p>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

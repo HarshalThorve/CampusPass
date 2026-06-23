@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { registrationService } from '../services/api';
+import Toast from '../components/Toast';
 import { X, Calendar, Clock, MapPin, Users, IndianRupee } from 'lucide-react';
 
 const EventModal = ({ isOpen, onClose, event }) => {
@@ -11,6 +12,7 @@ const EventModal = ({ isOpen, onClose, event }) => {
   const [userRegistration, setUserRegistration] = useState(null);
   const [loadingReg, setLoadingReg] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
+  const [toast, setToast] = useState({ message: '', type: 'error' });
 
   useEffect(() => {
     if (isOpen) {
@@ -68,7 +70,7 @@ const EventModal = ({ isOpen, onClose, event }) => {
       return;
     }
     if (user.role === 'admin') {
-      alert('Admins cannot register for events.');
+      setToast({ message: 'Admins cannot register for events.', type: 'error' });
       return;
     }
     setActionLoading(true);
@@ -92,7 +94,7 @@ const EventModal = ({ isOpen, onClose, event }) => {
       }
     } catch (err) {
       console.error('Registration failed:', err);
-      alert(err.response?.data?.message || 'Failed to register. Please try again.');
+      setToast({ message: err.response?.data?.message || 'Failed to register. Please try again.', type: 'error' });
     } finally {
       setActionLoading(false);
     }
@@ -106,19 +108,19 @@ const EventModal = ({ isOpen, onClose, event }) => {
   if (actionLoading || loadingReg) {
     buttonText = 'PROCESSING...';
     buttonDisabled = true;
-    buttonClass = 'bg-dark-500/30 text-dark-400 cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5';
+    buttonClass = 'bg-[#312620] text-[#8A7560] cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5';
   } else if (userRegistration) {
     if (userRegistration.payment_status === 'completed') {
       buttonText = 'VIEW TICKET';
-      buttonClass = 'bg-lime-400 hover:bg-lime-300 text-surface-950 rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 shadow-neon transition-all';
+      buttonClass = 'bg-[#F4A261] hover:bg-[#F4A261] text-[#0E0E0E] rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 shadow-neon transition-all';
     } else {
       buttonText = 'COMPLETE PAYMENT';
-      buttonClass = 'bg-amber-500 hover:bg-amber-400 text-surface-950 rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 transition-all';
+      buttonClass = 'bg-[#F4A261] hover:bg-[#FFD166] text-[#0E0E0E] rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 transition-all';
     }
   } else if (isEventPast) {
     buttonText = 'EVENT ENDED';
     buttonDisabled = true;
-    buttonClass = 'bg-dark-500/20 text-dark-500 cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5';
+    buttonClass = 'bg-white/5 text-[#8A7560] cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 border border-white/5';
   } else if (isSoldOut) {
     buttonText = 'SOLD OUT';
     buttonDisabled = true;
@@ -139,78 +141,77 @@ const EventModal = ({ isOpen, onClose, event }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+    <>
+      <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: '', type: 'error' })} />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-surface-950/80 backdrop-blur-lg transition-opacity"
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       ></div>
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-3xl bg-surface-300 border border-dark-500/15 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-slide-up z-10"
+        className="relative w-full max-w-3xl glass-strong rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-slide-up z-10"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Image */}
-        <div className="relative h-64 sm:h-72 w-full flex-shrink-0 bg-surface-500">
+        <div className="relative h-40 sm:h-52 md:h-60 w-full flex-shrink-0" style={{ background: '#0E0E0E' }}>
           <img
             src={image || 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80'}
             alt={title}
             className="w-full h-full object-cover opacity-70"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-300 via-surface-950/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0E] via-[#0E0E0E]/40 to-transparent"></div>
 
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-surface-950/50 text-dark-200 hover:text-lime-400 hover:bg-surface-950/70 backdrop-blur-sm transition-all"
+            className="absolute top-4 right-4 p-2 rounded-full bg-[#0E0E0E]/70 text-[#8A7560] hover:text-[#F4A261] hover:bg-[#0E0E0E]/90 backdrop-blur-sm transition-all"
           >
             <X className="w-5 h-5" />
           </button>
 
           {/* Title & Badge */}
-          <div className="absolute bottom-6 left-6 right-6">
-            <span className="inline-block px-3 py-1 bg-surface-950/60 backdrop-blur-md text-dark-200 text-[10px] font-mono font-bold uppercase tracking-[0.2em] rounded-full mb-3 border border-dark-500/20">
+          <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
+            <span className="inline-block px-3 py-1 bg-[#0E0E0E]/70 backdrop-blur-md text-[#F8F9FA]/80 text-[10px] font-mono font-bold uppercase tracking-[0.2em] rounded-full mb-2 border border-white/10">
               {category}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-display font-bold text-dark-100 leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-[#F8F9FA] leading-tight">
               {title}
             </h2>
           </div>
         </div>
 
         {/* Content Body */}
-        <div className="p-6 sm:p-8 overflow-y-auto flex-1 bg-surface-300">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-transparent">
 
           {/* Quick Info Grid */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-5">
             {[
               { icon: Calendar, label: 'DATE', value: formattedDate },
               { icon: Clock, label: 'TIME', value: formattedTime },
               { icon: MapPin, label: 'VENUE', value: venue },
               { icon: Users, label: 'ATTENDEES', value: `${registered_count} / ${capacity}` },
             ].map(({ icon: Icon, label, value }) => (
-              <div key={label} className="bg-surface-400/50 p-4 rounded-2xl border border-dark-500/10 flex flex-col">
-                <Icon className="w-5 h-5 text-lime-400/70 mb-2" />
-                <span className="text-[10px] font-mono font-semibold text-dark-500 uppercase tracking-[0.2em] mb-0.5">{label}</span>
-                <span className="text-sm font-bold text-dark-100 line-clamp-1">{value}</span>
+              <div key={label} className="bg-white/5 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-white/5 flex flex-col">
+                <Icon className="w-4 h-4 text-[#F4A261]/70 mb-1.5" />
+                <span className="text-[9px] font-mono font-semibold text-[#8A7560] uppercase tracking-[0.2em] mb-0.5">{label}</span>
+                <span className="text-xs sm:text-sm font-bold text-[#F8F9FA] line-clamp-1">{value}</span>
               </div>
             ))}
           </div>
 
           {/* Description */}
-          <div>
-            <h3 className="text-lg font-bold text-dark-100 mb-3 font-display">About this event</h3>
-            <p className="text-sm text-dark-400 leading-relaxed whitespace-pre-line">
-              {description}
-            </p>
-          </div>
+          <p className="text-xs text-[#8A7560] leading-relaxed line-clamp-3 mb-4">
+            {description}
+          </p>
 
-          <div className="mt-8 flex justify-center">
+          <div className="flex justify-center">
             <Link
               to={`/event/${id}`}
               onClick={onClose}
-              className="text-xs font-mono text-dark-400 hover:text-lime-400 transition-colors tracking-wider uppercase"
+              className="text-[10px] sm:text-xs font-mono text-[#8A7560] hover:text-[#F4A261] transition-colors tracking-wider uppercase"
             >
               View Full Details Page →
             </Link>
@@ -218,24 +219,24 @@ const EventModal = ({ isOpen, onClose, event }) => {
         </div>
 
         {/* Sticky Footer */}
-        <div className="p-4 sm:p-6 bg-surface-300 border-t border-dark-500/10 flex items-center justify-between flex-shrink-0">
+        <div className="p-4 sm:p-6 bg-transparent border-t border-white/5 flex items-center justify-between flex-shrink-0">
           <div>
             {parseFloat(price) === 0 ? (
-              <div className="text-xl font-mono font-bold text-lime-400">FREE</div>
+              <div className="text-xl font-mono font-bold text-[#F4A261]">FREE</div>
             ) : (
               <>
-                <div className="text-[10px] font-mono text-dark-500 uppercase tracking-[0.2em]">From</div>
-                <div className="text-xl font-display font-bold text-dark-100 flex items-center">
-                  <IndianRupee className="w-4 h-4 mr-0.5 text-lime-400" />
+                <div className="text-[10px] font-mono text-[#8A7560] uppercase tracking-[0.2em]">From</div>
+                <div className="text-xl font-display font-bold text-[#F8F9FA] flex items-center">
+                  <IndianRupee className="w-4 h-4 mr-0.5 text-[#F4A261]" />
                   {price}
-                  <span className="text-xs text-dark-500 font-mono ml-1.5">/ person</span>
+                  <span className="text-xs text-[#8A7560] font-mono ml-1.5">/ person</span>
                 </div>
               </>
             )}
           </div>
 
           {user && user.role === 'admin' ? (
-            <div className="bg-dark-500/10 text-dark-400 px-4 py-2 rounded-full text-[10px] font-mono font-bold border border-dark-500/15 uppercase tracking-wider">
+            <div className="bg-white/5 text-[#8A7560] px-4 py-2 rounded-full text-[10px] font-mono font-bold border border-white/10 uppercase tracking-wider">
               Admin View
             </div>
           ) : (
@@ -250,6 +251,7 @@ const EventModal = ({ isOpen, onClose, event }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

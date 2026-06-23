@@ -1,11 +1,12 @@
 /* App.css — minimal global overrides for PULSE dark theme */
+
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Ensure all page backgrounds are dark */
+/* Ensure all page backgrounds are transparent to show the animated layout background */
 main {
-  background-color: #010106;
+  background-color: transparent;
 }

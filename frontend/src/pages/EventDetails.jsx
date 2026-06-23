@@ -166,7 +166,7 @@ const EventDetails = () => {
   const fillPercentage = capacity > 0 ? Math.round((registered_count / capacity) * 100) : 0;
 
   return (
-    <div className="flex-1 bg-[#1A1612] px-4 md:px-20 py-6">
+    <div className="flex-1 bg-transparent px-4 md:px-20 py-6">
       <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: '', type: 'error' })} />
       <ConfirmDialog
         isOpen={showCancelConfirm}

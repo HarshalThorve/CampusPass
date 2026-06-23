@@ -144,7 +144,7 @@ const Analytics = () => {
   const totalEventsCount = kpis.total_events || 0;
 
   return (
-    <div className="min-h-screen flex-1 px-4 md:px-20 py-10 space-y-8 bg-[#1A1612] font-sans">
+    <div className="min-h-screen flex-1 px-4 md:px-20 py-10 space-y-8 bg-transparent font-sans">
       
       {/* Title Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">

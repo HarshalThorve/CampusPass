@@ -64,7 +64,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-center items-center py-16 px-4 bg-[#1A1612] relative select-none">
+    <div className="flex-1 flex flex-col justify-center items-center py-16 px-4 bg-transparent relative select-none">
       {/* Background ambient glows */}
       <div className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full blur-3xl -z-10" style={{ background: 'radial-gradient(circle, rgba(255,184,108,0.06), transparent)' }} />
       <div className="absolute bottom-1/4 right-1/3 w-80 h-80 rounded-full blur-3xl -z-10" style={{ background: 'radial-gradient(circle, rgba(233,196,106,0.04), transparent)' }} />

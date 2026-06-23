@@ -69,15 +69,18 @@ function App() {
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   return (
-    <div className="min-h-screen bg-[#1A1612] text-[#FAF7F2] relative select-none">
+    <div className="min-h-screen bg-[#0B0907] text-[#FAF7F2] relative select-none">
 
-      {/* Animated background blobs — actual DOM elements */}
+      {/* Animated background blobs & grids — fixed behind content */}
       <div style={{
         position: 'fixed',
         inset: 0,
         zIndex: 0,
         pointerEvents: 'none',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        background: '#0B0907',
+        backgroundImage: 'radial-gradient(rgba(255, 184, 108, 0.07) 1.5px, transparent 1.5px)',
+        backgroundSize: '32px 32px'
       }}>
         {/* Blob 1 — top left warm orange */}
         <div style={{
@@ -87,9 +90,9 @@ function App() {
           width: '55vw',
           height: '55vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,184,108,0.09) 0%, transparent 65%)',
-          filter: 'blur(60px)',
-          animation: 'blobFloat1 10s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(255,184,108,0.18) 0%, transparent 65%)',
+          filter: 'blur(80px)',
+          animation: 'blobFloat1 25s ease-in-out infinite',
         }} />
         
         {/* Blob 2 — bottom right golden sand */}
@@ -100,9 +103,9 @@ function App() {
           width: '50vw',
           height: '50vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(233,196,106,0.07) 0%, transparent 65%)',
-          filter: 'blur(80px)',
-          animation: 'blobFloat2 13s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(233,196,106,0.14) 0%, transparent 65%)',
+          filter: 'blur(90px)',
+          animation: 'blobFloat2 28s ease-in-out infinite',
         }} />
         
         {/* Blob 3 — center subtle glow */}
@@ -113,9 +116,41 @@ function App() {
           width: '40vw',
           height: '40vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(244,162,97,0.04) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-          animation: 'blobFloat3 16s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(244,162,97,0.10) 0%, transparent 70%)',
+          filter: 'blur(110px)',
+          animation: 'blobFloat3 32s ease-in-out infinite',
+        }} />
+
+        {/* Tech radar/circles overlays */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          right: '-15%',
+          width: '600px',
+          height: '600px',
+          borderRadius: '50%',
+          border: '1px dashed rgba(255, 184, 108, 0.06)',
+          animation: 'spin 180s linear infinite'
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          right: '-15%',
+          width: '400px',
+          height: '400px',
+          borderRadius: '50%',
+          border: '1px solid rgba(255, 184, 108, 0.03)',
+        }} />
+
+        <div style={{
+          position: 'absolute',
+          bottom: '5%',
+          left: '-20%',
+          width: '800px',
+          height: '800px',
+          borderRadius: '50%',
+          border: '1px dashed rgba(255, 184, 108, 0.04)',
+          animation: 'spin-reverse 240s linear infinite'
         }} />
       </div>
 

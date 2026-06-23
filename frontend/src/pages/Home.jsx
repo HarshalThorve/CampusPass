@@ -56,7 +56,7 @@ const CountUp = ({ end, duration = 2000, suffix = '' }) => {
 
 // Skeleton Loader
 const SkeletonLayout = () => (
-  <div className="min-h-screen flex-grow flex flex-col justify-center items-center py-20 px-4 md:px-20 bg-[#1A1612] space-y-12">
+  <div className="min-h-screen flex-grow flex flex-col justify-center items-center py-20 px-4 md:px-20 bg-transparent space-y-12">
     <div className="w-3/4 max-w-xl h-16 custom-skeleton" />
     <div className="w-1/2 max-w-md h-8 custom-skeleton" />
     <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
@@ -103,7 +103,7 @@ const Home = () => {
           key="skeleton" 
           exit={{ opacity: 0 }} 
           transition={{ duration: 0.3 }} 
-          className="fixed inset-0 z-50 bg-[#1A1612]"
+          className="fixed inset-0 z-50 bg-transparent"
         >
           <SkeletonLayout />
         </motion.div>

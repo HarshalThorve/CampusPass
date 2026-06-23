@@ -15,7 +15,7 @@ const CategoriesList = [
 
 // Skeleton Loader layout
 const SkeletonLayout = () => (
-  <div className="min-h-screen flex-grow flex flex-col justify-center items-center py-20 px-4 md:px-20 bg-[#1A1612] space-y-12">
+  <div className="min-h-screen flex-grow flex flex-col justify-center items-center py-20 px-4 md:px-20 bg-transparent space-y-12">
     <div className="w-1/2 h-12 custom-skeleton" />
     <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-6 pt-10">
       <div className="h-96 custom-skeleton animate-pulse" />
@@ -96,7 +96,7 @@ const Events = () => {
           key="skeleton" 
           exit={{ opacity: 0 }} 
           transition={{ duration: 0.3 }} 
-          className="fixed inset-0 z-50 bg-[#1A1612]"
+          className="fixed inset-0 z-50 bg-transparent"
         >
           <SkeletonLayout />
         </motion.div>

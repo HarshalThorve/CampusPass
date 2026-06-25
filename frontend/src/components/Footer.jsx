@@ -61,7 +61,7 @@ const Footer = () => {
       style={{
         background: 'rgba(11, 11, 13, 0.4)',
         backdropFilter: 'blur(20px)',
-        borderTop: '1px solid rgba(255, 184, 108, 0.08)',
+        borderTop: '1px solid rgba(16, 185, 129, 0.08)',
         boxShadow: '0 -10px 40px rgba(0,0,0,0.2)'
       }}
     >
@@ -71,7 +71,7 @@ const Footer = () => {
           {/* Column 1 — Brand */}
           <div className="flex flex-col items-start">
             <Link to="/" className="flex items-center no-underline select-none">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#FFB86C] mr-2" style={{boxShadow: '0 0 10px rgba(255,184,108,0.5)'}} />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] mr-2" style={{boxShadow: '0 0 10px rgba(16,185,129,0.5)'}} />
               <span className="text-[#FAF7F2] font-[800] text-[14px] tracking-[0.1em] uppercase font-display">
                 CAMPUSPASS
               </span>
@@ -91,7 +91,7 @@ const Footer = () => {
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 border border-white/[0.1] rounded-lg text-[rgba(250,247,242,0.4)] hover:border-[#FFB86C] hover:text-[#FFB86C] hover:bg-[rgba(255,184,108,0.06)] hover:shadow-[0_0_12px_rgba(255,184,108,0.15)] flex items-center justify-center transition-all duration-200"
+                  className="w-9 h-9 border border-white/[0.1] rounded-lg text-[rgba(250,247,242,0.4)] hover:border-[#10B981] hover:text-[#10B981] hover:bg-[rgba(16,185,129,0.06)] hover:shadow-[0_0_12px_rgba(16,185,129,0.15)] flex items-center justify-center transition-all duration-200"
                   whileHover={{ scale: 1.1, rotate: -5 }}
                   transition={{ type: 'spring', stiffness: 300 }}
                 >
@@ -111,7 +111,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.to}
-                    className="text-[rgba(250,247,242,0.55)] no-underline transition-all duration-200 hover:text-[#FAF7F2] hover:pl-1 inline-block"
+                    className="text-[rgba(250,247,242,0.55)] hover:text-[#10B981] no-underline transition-all duration-200 hover:pl-1 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -130,7 +130,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.to}
-                    className="text-[rgba(250,247,242,0.55)] no-underline transition-all duration-200 hover:text-[#FAF7F2] hover:pl-1 inline-block"
+                    className="text-[rgba(250,247,242,0.55)] hover:text-[#10B981] no-underline transition-all duration-200 hover:pl-1 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -163,13 +163,13 @@ const Footer = () => {
                 <input 
                   type="email" 
                   placeholder="Enter your email" 
-                  className="bg-white/[0.03] border border-white/10 text-white text-sm rounded-lg px-3 py-2 w-full focus:outline-none focus:border-[#FFB86C] transition-colors"
+                  className="bg-white/[0.03] border border-white/10 text-white text-sm rounded-lg px-3 py-2 w-full focus:outline-none focus:border-[#10B981] transition-colors"
                 />
                 <motion.button 
                   onClick={() => setSubscribed(true)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-[#FFB86C] text-[#1A1612] font-semibold px-3 py-2 rounded-lg text-sm"
+                  className="bg-[#10B981] hover:bg-[#34D399] text-black font-semibold px-3 py-2 rounded-lg text-sm"
                 >
                   Join
                 </motion.button>
@@ -185,7 +185,7 @@ const Footer = () => {
           </span>
           <span className="text-[rgba(250,247,242,0.25)] text-[12px] flex items-center gap-2">
             Made for the campus.
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FFB86C] shadow-[0_0_8px_rgba(255,184,108,1)]"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] shadow-[0_0_8px_rgba(16,185,129,1)] text-[#10B981]">●</span>
           </span>
         </div>
       </div>

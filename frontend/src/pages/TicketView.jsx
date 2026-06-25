@@ -57,10 +57,10 @@ const TicketView = () => {
 
   if (loading) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-12">
+      <div className="flex-grow flex flex-col items-center justify-center p-12">
         <div className="relative">
-          <div className="w-12 h-12 border-2 border-[#FFB86C] border-t-transparent rounded-full animate-spin" />
-          <div className="absolute inset-0 w-12 h-12 border-2 border-[#FFB86C]/20 rounded-full" />
+          <div className="w-12 h-12 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+          <div className="absolute inset-0 w-12 h-12 border-2 border-emerald-500/20 rounded-full" />
         </div>
         <p className="mt-5 font-mono text-xs uppercase tracking-widest text-[#FAF7F2]/50">
           Generating your pass...
@@ -71,7 +71,7 @@ const TicketView = () => {
 
   if (error || !ticket) {
     return (
-      <div className="flex-1 max-w-md mx-auto px-4 py-16 text-center">
+      <div className="flex-grow max-w-md mx-auto px-4 py-16 text-center">
         <div className="text-[#E76F51] text-5xl mb-4">⚠️</div>
         <h2 className="text-xl font-bold font-display text-[#FAF7F2]">
           {error || 'Ticket Not Found'}
@@ -117,7 +117,7 @@ const TicketView = () => {
       <div className="max-w-5xl mx-auto mb-6 print:hidden">
         <Link
           to="/my-tickets"
-          className="inline-flex items-center text-xs font-mono transition-colors uppercase tracking-wider text-[#FAF7F2]/50 hover:text-[#FFB86C]"
+          className="inline-flex items-center text-xs font-mono transition-colors uppercase tracking-wider text-[#FAF7F2]/50 hover:text-emerald-400"
         >
           <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
           Back to Dashboard
@@ -138,12 +138,12 @@ const TicketView = () => {
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
               whileHover={{ scale: 1.02, y: -4 }}
               transition={{ type: "spring", stiffness: 350, damping: 22 }}
-              className="p-[1px] bg-gradient-to-tr from-[#E9C46A] via-[#F4A261]/40 to-white/[0.08] rounded-[22px] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden cursor-pointer"
+              className="p-[1px] bg-gradient-to-tr from-[#10B981] via-[#34D399]/40 to-white/[0.08] rounded-[22px] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] relative overflow-hidden cursor-pointer"
             >
               {/* Ticket Card Container */}
               <div
                 id="ticket-pass"
-                className="relative overflow-hidden print:shadow-none print:animate-none print:bg-white print:border print:border-slate-200 rounded-[20px] bg-[#1A1612] border border-white/10 backdrop-blur-2xl"
+                className="relative overflow-hidden print:shadow-none print:animate-none print:bg-white print:border print:border-slate-200 rounded-[20px] bg-[#111111] border border-white/10 backdrop-blur-2xl"
               >
                 {/* Specular sheen flash animation */}
                 <motion.div 
@@ -162,22 +162,22 @@ const TicketView = () => {
                 />
 
                 {/* Top accent bar */}
-                <div className="h-1.5 bg-gradient-to-r from-[#FFB86C] via-[#F4A261] to-[#E9C46A] print:from-[#FFB86C] print:to-[#E9C46A]" />
+                <div className="h-1.5 bg-gradient-to-r from-[#10B981] via-[#34D399] to-[#059669] print:from-[#10B981] print:to-[#059669]" />
 
                 {/* Ticket Stamp Icon Badge */}
                 <div className="absolute top-4 right-4 print:hidden">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#FFB86C]/10 border border-[#FFB86C]/20">
-                    <Ticket className="w-5 h-5 rotate-12 text-[#FFB86C]/60" />
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-emerald-950/30 border border-emerald-500/20">
+                    <Ticket className="w-5 h-5 rotate-12 text-emerald-500/60" />
                   </div>
                 </div>
 
                 {/* Header Section */}
                 <div className="px-6 pt-5 pb-5 relative border-b border-dashed border-white/10">
                   {/* Punch Holes left & right */}
-                  <div className="absolute -left-3 bottom-[-10px] w-5 h-5 rounded-full z-10 bg-[#1A1612] border border-white/10 print:bg-white print:border-slate-200" />
-                  <div className="absolute -right-3 bottom-[-10px] w-5 h-5 rounded-full z-10 bg-[#1A1612] border border-white/10 print:bg-white print:border-slate-200" />
+                  <div className="absolute -left-3 bottom-[-10px] w-5 h-5 rounded-full z-10 bg-[#0A0A0A] border border-white/10 print:bg-white print:border-slate-200" />
+                  <div className="absolute -right-3 bottom-[-10px] w-5 h-5 rounded-full z-10 bg-[#0A0A0A] border border-white/10 print:bg-white print:border-slate-200" />
 
-                  <span className="block font-mono font-bold uppercase tracking-[0.15em] text-[#FFB86C] text-[10px]">
+                  <span className="block font-mono font-bold uppercase tracking-[0.15em] text-emerald-400 text-[10px]">
                     ◆ CampusPass Entry Ticket
                   </span>
                   <h1 className="font-bold line-clamp-2 mt-1.5 leading-tight text-[#FAF7F2] text-xl print:text-black font-display">
@@ -195,7 +195,7 @@ const TicketView = () => {
                         Attendee
                       </span>
                       <span className="flex items-center font-bold text-sm text-[#FAF7F2] print:text-black">
-                        <User className="w-3.5 h-3.5 mr-2 flex-shrink-0 text-[#FFB86C]" />
+                        <User className="w-3.5 h-3.5 mr-2 flex-shrink-0 text-emerald-500" />
                         {user_name}
                       </span>
                     </div>
@@ -204,7 +204,7 @@ const TicketView = () => {
                         Email
                       </span>
                       <span className="flex items-center text-xs font-semibold text-[#FAF7F2]/80 truncate print:text-black">
-                        <Mail className="w-3.5 h-3.5 mr-2 flex-shrink-0 text-[#FFB86C]" />
+                        <Mail className="w-3.5 h-3.5 mr-2 flex-shrink-0 text-emerald-500" />
                         {user_email}
                       </span>
                     </div>
@@ -213,7 +213,7 @@ const TicketView = () => {
                   {/* Date & Location Schedule Details */}
                   <div className="space-y-3 pt-3.5 border-t border-white/5">
                     <div className="flex items-start">
-                      <Calendar className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-[#FFB86C]" />
+                      <Calendar className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-emerald-500" />
                       <div>
                         <span className="block font-mono font-bold uppercase tracking-wider text-[#FAF7F2]/40 text-[9px] mb-0.5">
                           Schedule Date
@@ -225,7 +225,7 @@ const TicketView = () => {
                     </div>
                     
                     <div className="flex items-start">
-                      <MapPin className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-[#FFB86C]" />
+                      <MapPin className="w-4 h-4 mr-2.5 mt-0.5 flex-shrink-0 text-emerald-500" />
                       <div>
                         <span className="block font-mono font-bold uppercase tracking-wider text-[#FAF7F2]/40 text-[9px] mb-0.5">
                           Venue Location
@@ -243,7 +243,7 @@ const TicketView = () => {
                       <span className="block font-mono font-bold uppercase tracking-wider text-[#FAF7F2]/40 text-[9px] mb-0.5">
                         Ticket Number
                       </span>
-                      <code className="block tracking-wider font-mono font-bold text-[11px] text-[#FFB86C] print:text-black">
+                      <code className="block tracking-wider font-mono font-bold text-[11px] text-emerald-400 print:text-black">
                         {ticket_number}
                       </code>
                     </div>
@@ -251,14 +251,14 @@ const TicketView = () => {
                       <span className="block font-mono font-bold uppercase tracking-wider text-[#FAF7F2]/40 text-[9px] mb-0.5">
                         Pass Price
                       </span>
-                      <span className="flex items-center text-xs font-bold text-[#FAF7F2] print:text-black">
+                      <span className="flex items-center text-xs font-bold text-emerald-400 print:text-black">
                         {parseFloat(event_price) === 0 ? (
                           <span className="text-[#8AC926] font-mono font-bold uppercase text-[11px] tracking-wide">
                             FREE Entry
                           </span>
                         ) : (
                           <>
-                            <IndianRupee className="w-3.5 h-3.5 mr-0.5 text-[#FFB86C]" />
+                            <IndianRupee className="w-3.5 h-3.5 mr-0.5 text-emerald-400" />
                             {event_price}
                           </>
                         )}
@@ -269,13 +269,13 @@ const TicketView = () => {
                   {/* QR Code Graphic Section */}
                   <div className="flex flex-col items-center justify-center pt-5 mt-2 relative border-t border-dashed border-white/10">
                     {/* Punch Holes left & right (dashed level) */}
-                    <div className="absolute -left-9 -top-3 w-5 h-5 rounded-full bg-[#1A1612] border border-white/10 print:bg-white print:border-slate-200" />
-                    <div className="absolute -right-9 -top-3 w-5 h-5 rounded-full bg-[#1A1612] border border-white/10 print:bg-white print:border-slate-200" />
+                    <div className="absolute -left-9 -top-3 w-5 h-5 rounded-full bg-[#0A0A0A] border border-white/10 print:bg-white print:border-slate-200" />
+                    <div className="absolute -right-9 -top-3 w-5 h-5 rounded-full bg-[#0A0A0A] border border-white/10 print:bg-white print:border-slate-200" />
 
                     <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 relative overflow-hidden print:border print:border-slate-300 print:bg-white">
                       {/* Interactive glowing ring background */}
                       <motion.div 
-                        className="absolute inset-0 bg-[#FFB86C]/10 rounded-2xl pointer-events-none"
+                        className="absolute inset-0 bg-[#10B981]/15 rounded-2xl pointer-events-none"
                         animate={{ scale: [0.96, 1.08, 0.96], opacity: [0.3, 0.6, 0.3] }}
                         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                       />
@@ -288,7 +288,7 @@ const TicketView = () => {
                         />
                         {/* Scanning Laser Sweep Animation */}
                         <motion.div 
-                          className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFB86C] to-transparent shadow-[0_0_8px_#FFB86C]"
+                          className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent shadow-[0_0_8px_#10B981]"
                           animate={{ top: ['0%', '100%', '0%'] }}
                           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                         />
@@ -310,7 +310,7 @@ const TicketView = () => {
                         <span>Checked-in · {new Date(checkin_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                     ) : (
-                      <div className="inline-flex items-center space-x-2 bg-[#FFB86C]/10 text-[#FFB86C] px-4 py-1.5 rounded-full font-mono font-bold border border-[#FFB86C]/25 print:border-amber-700 print:text-amber-700 text-[11px]">
+                      <div className="inline-flex items-center space-x-2 bg-emerald-950/30 text-emerald-400 px-4 py-1.5 rounded-full font-mono font-bold border border-emerald-500/25 print:border-emerald-700 print:text-emerald-700 text-[11px]">
                         <ShieldCheck className="w-3.5 h-3.5" />
                         <span>Verified · Entry Allowed</span>
                       </div>
@@ -336,7 +336,7 @@ const TicketView = () => {
             <div className="space-y-3.5 print:hidden">
               <button
                 onClick={handlePrint}
-                className="w-full btn-primary py-3.5 text-xs flex items-center justify-center space-x-2 uppercase tracking-wider font-bold shadow-[0_4px_20px_rgba(255,184,108,0.3)]"
+                className="w-full bg-emerald-500 hover:bg-emerald-400 text-black py-3.5 text-xs flex items-center justify-center space-x-2 uppercase tracking-wider font-bold shadow-[0_4px_20px_rgba(16,185,129,0.3)] border-none rounded-lg cursor-pointer transition-colors"
               >
                 <Download className="w-4 h-4" />
                 <span>Download Ticket PDF</span>
@@ -350,8 +350,8 @@ const TicketView = () => {
             {/* Event Summary Detail Box */}
             <div className="custom-card relative overflow-hidden">
               <div className="flex items-center mb-4 border-b border-white/5 pb-3">
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center mr-3 bg-[#FFB86C]/10 border border-[#FFB86C]/20">
-                  <Info className="w-4.5 h-4.5 text-[#FFB86C]" />
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center mr-3 bg-emerald-950/30 border border-emerald-500/20">
+                  <Info className="w-4.5 h-4.5 text-emerald-500" />
                 </div>
                 <div>
                   <h2 className="font-bold text-base text-[#FAF7F2] font-display">
@@ -367,12 +367,12 @@ const TicketView = () => {
                 {/* Countdown Badge */}
                 <div className="flex items-center justify-between p-3.5 rounded-xl bg-white/5 border border-white/10">
                   <div className="flex items-center">
-                    <Clock className="w-4 h-4 mr-2.5 text-[#FFB86C]" />
+                    <Clock className="w-4 h-4 mr-2.5 text-emerald-500" />
                     <span className="text-xs font-mono uppercase tracking-wider text-[#FAF7F2]/60">
                       {isCheckedIn ? 'Attendance' : isPast ? 'Event Status' : 'Event In'}
                     </span>
                   </div>
-                  <span className="font-mono font-extrabold text-sm text-[#FFB86C]">
+                  <span className="font-mono font-extrabold text-sm text-emerald-400">
                     {isCheckedIn ? '✓ Attended' :
                      isPast ? 'Completed' :
                      daysUntil === 0 ? 'Today!' :
@@ -391,7 +391,7 @@ const TicketView = () => {
                   ].map(({ label, value, icon: Icon }) => (
                     <div key={label} className="p-3 bg-white/5 border border-white/5 rounded-xl">
                       <span className="flex items-center mb-1 text-[#FAF7F2]/40 text-[8px] uppercase tracking-wider font-mono font-bold">
-                        <Icon className="w-3 h-3 mr-1 text-[#FFB86C]/60" />
+                        <Icon className="w-3 h-3 mr-1 text-emerald-500/60" />
                         {label}
                       </span>
                       <p className="font-bold truncate text-xs text-[#FAF7F2]">{value}</p>
@@ -404,8 +404,8 @@ const TicketView = () => {
             {/* Dynamic Interactive Entry Guide Instructions */}
             <div className="custom-card relative overflow-hidden">
               <div className="flex items-center mb-4 border-b border-white/5 pb-3">
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center mr-3 bg-[#FFB86C]/10 border border-[#FFB86C]/20">
-                  <ClipboardCheck className="w-4.5 h-4.5 text-[#FFB86C]" />
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center mr-3 bg-emerald-950/30 border border-emerald-500/20">
+                  <ClipboardCheck className="w-4.5 h-4.5 text-emerald-500" />
                 </div>
                 <div>
                   <h2 className="font-bold text-base text-[#FAF7F2] font-display">
@@ -424,12 +424,12 @@ const TicketView = () => {
                   { step: '03', icon: BadgeCheck, title: 'Get checked in', desc: 'After scan, your attendance is logged and entry is confirmed.' },
                 ].map(({ step, icon: Icon, title, desc }) => (
                   <div key={step} className="flex items-start p-3 bg-white/5 border border-white/5 rounded-xl">
-                    <div className="w-8 h-8 rounded-xl flex items-center justify-center mr-3 flex-shrink-0 bg-[#FFB86C]/10 border border-[#FFB86C]/20">
-                      <Icon className="w-4 h-4 text-[#FFB86C]" />
+                    <div className="w-8 h-8 rounded-xl flex items-center justify-center mr-3 flex-shrink-0 bg-emerald-950/30 border border-emerald-500/20">
+                      <Icon className="w-4 h-4 text-emerald-500" />
                     </div>
                     <div>
                       <p className="font-mono font-bold text-xs text-[#FAF7F2] mb-0.5">
-                        <span className="text-[#FFB86C] mr-1">{step}.</span>{title}
+                        <span className="text-emerald-500 mr-1">{step}.</span>{title}
                       </p>
                       <p className="text-[11px] leading-relaxed text-[#FAF7F2]/60">{desc}</p>
                     </div>
@@ -439,7 +439,7 @@ const TicketView = () => {
             </div>
 
             {/* Essential Alert Warnings Notice Card */}
-            <div className="p-5 rounded-2xl bg-[#FFB86C]/5 border border-[#FFB86C]/20 backdrop-blur-xl">
+            <div className="p-5 rounded-2xl bg-emerald-950/10 border border-emerald-700/50 backdrop-blur-xl">
               <div className="flex items-start">
                 <AlertCircle className="w-4 h-4 mr-3 mt-0.5 flex-shrink-0 text-[#FFB703]" />
                 <div className="flex-1">

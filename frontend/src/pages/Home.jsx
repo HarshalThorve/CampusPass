@@ -11,7 +11,7 @@ const CITIES = ['DELHI', 'BANGALORE', 'CHENNAI', 'PUNE', 'KOLKATA', 'HYDERABAD',
 function QRPlaceholder() {
   const cells = Array.from({ length: 64 });
   return (
-    <div className="grid grid-cols-8 gap-[2px] w-[96px] h-[96px] shrink-0 p-1.5 bg-[#1A1612]/40 rounded-lg border border-[rgba(245,166,35,0.2)]">
+    <div className="grid grid-cols-8 gap-[2px] w-[96px] h-[96px] shrink-0 p-1.5 bg-emerald-950/30 rounded-lg border border-[rgba(16,185,129,0.25)]">
       {cells.map((_, i) => {
         const on = (i * 7 + (i % 3) * 11) % 4 !== 0;
         const corner =
@@ -23,7 +23,7 @@ function QRPlaceholder() {
             key={i}
             className="rounded-[2px] aspect-square transition-all duration-300"
             style={{
-              background: on || corner ? 'rgba(255,184,108,0.6)' : 'rgba(255,255,255,0.08)'
+              background: on || corner ? 'rgba(16,185,129,0.7)' : 'rgba(255,255,255,0.08)'
             }}
           />
         );
@@ -132,12 +132,12 @@ const Home = () => {
               <div className="lg:col-span-7 flex flex-col items-start space-y-6">
                 {/* Announcement Badge */}
                 <motion.div 
-                  className="inline-flex items-center gap-2 bg-[rgba(255,184,108,0.1)] border border-[rgba(255,184,108,0.25)] text-[#FFB86C] text-xs px-3.5 py-1.5 rounded-full font-sans select-none"
+                  className="inline-flex items-center gap-2 bg-[rgba(16,185,129,0.1)] border border-[rgba(16,185,129,0.25)] text-[#10B981] text-xs px-3.5 py-1.5 rounded-full font-sans select-none"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFB86C] animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
                   <span>New · Razorpay live · Door scanner v2</span>
                 </motion.div>
 
@@ -158,8 +158,8 @@ const Home = () => {
                     Campus events,
                   </motion.span>
                   <motion.span 
-                    className="font-serif italic bg-gradient-to-r from-[#FFB86C] via-[#E9C46A] to-[#F4A261] -webkit-background-clip-text -webkit-text-fill-color-transparent bg-clip-text pr-2"
-                    style={{ display: 'block', filter: 'drop-shadow(0 0 30px rgba(255,184,108,0.3))' }}
+                    className="font-serif italic bg-gradient-to-r from-[#10B981] via-[#34D399] to-[#059669] -webkit-background-clip-text -webkit-text-fill-color-transparent bg-clip-text pr-2"
+                    style={{ display: 'block', filter: 'drop-shadow(0 0 30px rgba(16,185,129,0.3))' }}
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -189,7 +189,7 @@ const Home = () => {
                     <motion.button 
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
-                      className="btn-primary py-3 px-6 text-sm font-bold btn-shimmer"
+                      className="bg-emerald-500 hover:bg-emerald-400 text-black py-3 px-6 text-sm font-bold rounded-lg transition-all shadow-[0_4px_15px_rgba(16,185,129,0.3)] btn-shimmer"
                     >
                       Browse events ↗
                     </motion.button>
@@ -209,10 +209,10 @@ const Home = () => {
               {/* Right Column (Floating insights card) */}
               <div className="lg:col-span-5 flex justify-center items-center relative select-none">
                 {/* Ambient glows behind */}
-                <div className="absolute -inset-10 bg-[#FFB86C]/5 rounded-[3.5rem] blur-3xl z-0 pointer-events-none" />
+                <div className="absolute -inset-10 bg-[#10B981]/5 rounded-[3.5rem] blur-3xl z-0 pointer-events-none" />
 
                 <motion.div 
-                  className="w-full max-w-[420px] bg-white/[0.06] border border-white/10 rounded-2xl p-6 backdrop-blur-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.4)] relative z-10"
+                  className="w-full max-w-[420px] bg-white/[0.06] border border-white/10 border-l-4 border-l-[#10B981] rounded-2xl p-6 backdrop-blur-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.4),_0_0_30px_rgba(16,185,129,0.05)] relative z-10"
                   initial={{ opacity: 0, x: 60, scale: 0.95 }}
                   animate={{ 
                     opacity: 1, 
@@ -227,7 +227,7 @@ const Home = () => {
                     y: { duration: 4, repeat: Infinity, repeatType: "loop", ease: "easeInOut", delay: 1.2 }
                   }}
                 >
-                  <div className="text-[#FFB86C] text-[10px] tracking-[0.12em] font-[700] mb-6 uppercase">
+                  <div className="text-[#10B981] text-[10px] tracking-[0.12em] font-[700] mb-6 uppercase">
                     LIVE PLATFORM INSIGHTS
                   </div>
                   <motion.div 
@@ -270,10 +270,10 @@ const Home = () => {
             transition={{ delay: 1 }}
           >
             <p className="text-[14px] text-[rgba(250,247,242,0.7)] max-w-2xl mx-auto italic font-serif">
-              "CampusPass completely changed how we handle college fests. We went from chaotic spreadsheets to scanning 2,000+ attendees seamlessly at the door."
+              <span className="text-[#10B981] font-bold">"</span>CampusPass completely changed how we handle college fests. We went from chaotic spreadsheets to scanning 2,000+ attendees seamlessly at the door.<span className="text-[#10B981] font-bold">"</span>
             </p>
             <div className="text-[11px] text-[rgba(250,247,242,0.4)] mt-3 font-sans tracking-widest uppercase">
-              — Cultural Council, NIT
+              — <span className="text-[#10B981]">Cultural Council, NIT</span>
             </div>
           </motion.div>
 
@@ -281,13 +281,13 @@ const Home = () => {
           <section 
             className="px-4 md:px-20 py-10 relative z-10 select-none overflow-hidden"
             style={{
-              background: 'rgba(255,255,255,0.03)',
-              borderTop: '1px solid rgba(255,255,255,0.06)',
-              borderBottom: '1px solid rgba(255,255,255,0.06)'
+              background: 'linear-gradient(180deg, #0A0A0A 0%, rgba(16, 185, 129, 0.03) 50%, #0A0A0A 100%)',
+              borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.06)'
             }}
           >
             {/* Top gradient border overlay */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-[linear-gradient(90deg,transparent,rgba(255,184,108,0.3),transparent)]" />
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-[linear-gradient(90deg,transparent,rgba(16,185,129,0.3),transparent)]" />
             
             <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
               {/* DEMO_STATS: Wire these from a context or API later */}
@@ -308,16 +308,10 @@ const Home = () => {
                   transition={{ delay: i * 0.1, duration: 0.5 }}
                 >
                   <div 
-                    className="font-sans"
+                    className="text-emerald-400 font-bold opacity-100 font-sans"
                     style={{
-                      background: 'linear-gradient(135deg, #FFB86C, #E9C46A)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
                       fontSize: '42px',
-                      fontWeight: '800',
                       lineHeight: '1',
-                      filter: 'drop-shadow(0 0 20px rgba(255,184,108,0.4))'
                     }}
                   >
                     <CountUp end={stat.end} suffix={stat.suffix} />
@@ -328,7 +322,7 @@ const Home = () => {
                   <div className="text-[rgba(250,247,242,0.4)] text-xs mt-1">
                     {stat.desc}
                   </div>
-                  <div className="text-[#c8a96e] text-[11px] mt-0.5">
+                  <div className="text-[#059669] text-[11px] mt-0.5">
                     across all campuses
                   </div>
                 </motion.div>
@@ -342,7 +336,7 @@ const Home = () => {
               {[...CITIES, ...CITIES, ...CITIES, ...CITIES].map((city, idx) => (
                 <span key={idx} className="inline-flex items-center">
                   <span className="ticker-item">{city}</span>
-                  <span className="ticker-dot">•</span>
+                  <span className="ticker-dot text-emerald-500">·</span>
                 </span>
               ))}
             </div>
@@ -360,7 +354,7 @@ const Home = () => {
               transition={{ duration: 0.6 }}
             >
               <div>
-                <div className="text-[#FFB86C] text-xs font-[600] tracking-[0.2em] uppercase font-sans mb-2">
+                <div className="text-emerald-500 text-xs font-[600] tracking-[0.2em] uppercase font-sans mb-2">
                   // ON SALE NOW
                 </div>
                 <h2 className="text-3xl sm:text-[48px] font-extrabold text-[#FAF7F2] font-display m-0 leading-tight">
@@ -369,7 +363,7 @@ const Home = () => {
               </div>
               <Link
                 to="/events"
-                className="text-[#FFB86C] hover:underline text-sm font-semibold no-underline flex items-center gap-1 select-none"
+                className="text-[#10B981] hover:underline text-sm font-semibold no-underline flex items-center gap-1 select-none"
               >
                 <span>View all</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -430,11 +424,11 @@ const Home = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
               >
-                <div className="text-[#FFB86C] text-[11px] tracking-[0.1em] font-semibold uppercase font-sans">
+                <div className="text-emerald-500 text-[11px] tracking-[0.1em] font-semibold uppercase font-sans">
                   // THE TICKET
                 </div>
-                <h2 className="text-4xl sm:text-[52px] font-extrabold text-[#FAF7F2] font-display m-0 leading-none">
-                  One tap. <span className="font-serif italic text-gradient-orange-sand pr-2">You're in.</span>
+                <h2 className="text-4xl sm:text-[52px] font-extrabold text-[#F9FAFB] font-display m-0 leading-none">
+                  One tap. <span className="font-serif italic text-emerald-400 pr-2">You're in.</span>
                 </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
@@ -452,11 +446,11 @@ const Home = () => {
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.1, duration: 0.4 }}
                     >
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 bg-[#FFB86C]/10 border border-[#FFB86C]/20">
-                        <Icon className="w-4 h-4 text-[#FFB86C]" />
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 bg-emerald-950/30 border border-emerald-500/20">
+                        <Icon className="w-4 h-4 text-emerald-500" />
                       </div>
                       <div>
-                        <h4 className="text-[14px] font-bold text-[#FAF7F2] m-0 font-sans">{title}</h4>
+                        <h4 className="text-[14px] font-bold text-[#F9FAFB] m-0 font-sans">{title}</h4>
                         <p className="text-[13px] text-[rgba(250,247,242,0.55)] mt-1.5 leading-relaxed m-0 font-sans">{desc}</p>
                       </div>
                     </motion.div>
@@ -473,7 +467,7 @@ const Home = () => {
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 <motion.div 
-                  className="w-full max-w-[360px] bg-gradient-to-br from-[#FFB86C]/10 to-[#E9C46A]/5 border border-[rgba(245,166,35,0.25)] rounded-2xl p-[28px] shadow-[0_20px_60px_rgba(0,0,0,0.5),_0_0_40px_rgba(244,162,97,0.08)] flex flex-col relative overflow-hidden"
+                  className="w-full max-w-[360px] bg-gradient-to-br from-[#10B981]/10 to-[#34D399]/5 border border-[rgba(16,185,129,0.3)] rounded-2xl p-[28px] shadow-[0_20px_60px_rgba(0,0,0,0.5),_0_0_40px_rgba(16,185,129,0.25)] flex flex-col relative overflow-hidden"
                   animate={{ rotate: [-1, 1, -1] }}
                   transition={{ 
                     duration: 6, 
@@ -483,11 +477,11 @@ const Home = () => {
                 >
                   {/* Pulsing Status */}
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-[#c8a96e] text-[11px] tracking-[0.1em] font-mono font-bold uppercase">
+                    <span className="text-[#059669] text-[11px] tracking-[0.1em] font-mono font-bold uppercase">
                       ADMIT ONE
                     </span>
-                    <span className="text-[#8AC926] text-[11px] font-bold flex items-center gap-1 font-mono">
-                      LIVE <span className="w-1.5 h-1.5 rounded-full bg-[#8AC926] animate-pulse" />
+                    <span className="text-[#10B981] text-[11px] font-bold flex items-center gap-1 font-mono">
+                      LIVE <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
                     </span>
                   </div>
 
@@ -506,7 +500,7 @@ const Home = () => {
                       { label: 'YEAR', val: '2026' }
                     ].map((c) => (
                       <div key={c.label}>
-                        <div className="text-[#c8a96e] text-[11px] font-bold tracking-[0.1em] uppercase font-mono">{c.label}</div>
+                        <div className="text-[#059669] text-[11px] font-bold tracking-[0.1em] uppercase font-mono">{c.label}</div>
                         <div className="text-[#FAF7F2] text-[15px] font-[600] mt-1 tabular-nums">{c.val}</div>
                       </div>
                     ))}
@@ -519,7 +513,7 @@ const Home = () => {
                     <QRPlaceholder />
                     <div className="flex-1 min-w-0">
                       <span className="text-[rgba(250,247,242,0.4)] text-[12px] font-mono block select-none truncate">
-                        CP-HACK-SAND-904
+                        CP-HACK-EMER-904
                       </span>
                       <span className="text-[11px] text-[rgba(250,247,242,0.4)] block mt-1 font-sans">
                         Refresh rate: 30s

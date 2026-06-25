@@ -20,7 +20,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       {/* Backdrop */}
       <div
         className="fixed inset-0 backdrop-blur-lg transition-opacity"
-        style={{ background: 'rgba(26,22,18,0.80)' }}
+        style={{ background: 'rgba(10,10,10,0.80)' }}
         onClick={onClose}
       ></div>
 
@@ -28,7 +28,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       <div
         className="relative w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh]"
         style={{
-          background: '#1A1612',
+          background: '#161616',
           border: '1px solid rgba(255,255,255,0.10)',
         }}
       >
@@ -42,7 +42,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           </h3>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[rgba(250,247,242,0.65)] hover:text-[#FFB86C] transition-colors"
+            className="p-1.5 rounded-lg text-[rgba(250,247,242,0.65)] hover:text-emerald-400 transition-colors"
             style={{ background: 'rgba(255,255,255,0.04)' }}
           >
             <X className="w-5 h-5" />

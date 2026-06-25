@@ -76,10 +76,10 @@ const Navbar = () => {
       borderRadius: "28px",
       paddingLeft: "32px",
       paddingRight: "32px",
-      background: "rgba(26, 18, 8, 0.85)",
+      background: "rgba(13, 20, 18, 0.85)",
       backdropFilter: "blur(12px)",
       WebkitBackdropFilter: "blur(12px)",
-      border: "1px solid rgba(245, 166, 35, 0.12)",
+      border: "1px solid rgba(16, 185, 129, 0.12)",
       boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
       y: 16,
     },
@@ -90,10 +90,10 @@ const Navbar = () => {
       borderRadius: "999px",
       paddingLeft: isMobile ? "16px" : "24px",
       paddingRight: isMobile ? "16px" : "24px",
-      background: "rgba(26, 18, 8, 0.85)",
+      background: "rgba(13, 20, 18, 0.85)",
       backdropFilter: "blur(12px)",
       WebkitBackdropFilter: "blur(12px)",
-      border: "1px solid rgba(245, 166, 35, 0.18)",
+      border: "1px solid rgba(16, 185, 129, 0.18)",
       boxShadow: "0 20px 50px rgba(0,0,0,0.45)",
       y: 16,
     }
@@ -127,7 +127,7 @@ const Navbar = () => {
         animate={scrolled ? "compact" : "hero"}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         style={{
-          background: 'radial-gradient(circle at center, rgba(255,184,108,0.06), transparent 75%)',
+          background: 'radial-gradient(circle at center, rgba(16,185,129,0.06), transparent 75%)',
           zIndex: -1,
         }}
       />
@@ -142,10 +142,10 @@ const Navbar = () => {
       {/* Logo (Left) */}
       <Link to="/" className="flex items-center no-underline select-none group">
         <motion.span 
-          whileHover={{ scale: 1.2, boxShadow: '0 0 15px rgba(245,166,35,0.8)' }}
+          whileHover={{ scale: 1.2, boxShadow: '0 0 15px rgba(16,185,129,0.8)' }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          className="w-2.5 h-2.5 rounded-full bg-[#f5a623] mr-2 logo-dot" 
-          style={{boxShadow: '0 0 10px rgba(245,166,35,0.5)'}} 
+          className="w-2.5 h-2.5 rounded-full bg-[#10B981] mr-2 logo-dot" 
+          style={{boxShadow: '0 0 10px rgba(16,185,129,0.5)'}} 
         />
         <motion.span 
           whileHover={{ letterSpacing: '0.12em' }}
@@ -154,7 +154,7 @@ const Navbar = () => {
         >
           CAMPUSPASS
         </motion.span>
-        <span className="text-white/20 ml-1.5 font-sans font-medium group-hover:text-[#FFB86C]/40 transition-colors duration-300">//</span>
+        <span className="text-white/20 ml-1.5 font-sans font-medium group-hover:text-[#10B981]/40 transition-colors duration-300">//</span>
       </Link>
 
       {/* Nav Links (Center - Desktop) — capsule pill indicator */}
@@ -176,14 +176,14 @@ const Navbar = () => {
                 borderRadius: '999px',
                 textDecoration: 'none',
                 transition: 'color 0.2s ease',
-                color: active ? '#f5a623' : 'rgba(250, 247, 242, 0.55)',
+                color: active ? '#10B981' : 'rgba(250, 247, 242, 0.55)',
                 fontWeight: active ? 600 : 500,
                 fontSize: '14px',
               }}
               onMouseEnter={(e) => {
                 if (!active) {
-                  e.currentTarget.style.color = '#f5a623';
-                  e.currentTarget.style.textShadow = '0 0 12px rgba(245,166,35,.3)';
+                  e.currentTarget.style.color = '#10B981';
+                  e.currentTarget.style.textShadow = '0 0 12px rgba(16,185,129,.3)';
                 }
               }}
               onMouseLeave={(e) => {
@@ -200,7 +200,7 @@ const Navbar = () => {
                     position: 'absolute',
                     inset: 0,
                     background: 'transparent',
-                    border: '1px solid #f5a623',
+                    border: '1px solid #10B981',
                     borderRadius: '999px',
                   }}
                   transition={{ type: 'spring', stiffness: 350, damping: 25 }}
@@ -214,7 +214,7 @@ const Navbar = () => {
                     background: 'rgba(255,255,255,0)',
                     borderRadius: '999px',
                   }}
-                  whileHover={{ background: 'rgba(255,184,108,0.06)', boxShadow: '0 0 15px rgba(255,184,108,0.08)' }}
+                  whileHover={{ background: 'rgba(16,185,129,0.06)', boxShadow: '0 0 15px rgba(16,185,129,0.08)' }}
                   transition={{ duration: 0.2 }}
                 />
               )}
@@ -240,16 +240,16 @@ const Navbar = () => {
                 <div className="text-[#FAF7F2] text-[13px] font-[600] capitalize">
                   {user.name}
                 </div>
-                <div className={`text-[10px] font-[600] uppercase tracking-[0.08em] mt-0.5 ${user.role === 'admin' ? 'text-[#f5a623]' : 'text-[#c8a96e]'}`}>
+                <div className={`text-[10px] font-[600] uppercase tracking-[0.08em] mt-0.5 ${user.role === 'admin' ? 'text-[#10B981]' : 'text-[#059669]'}`}>
                   {user.role}
                 </div>
               </div>
 
               {/* Avatar Circle */}
               <motion.div 
-                whileHover={{ scale: 1.08, y: -2, boxShadow: '0 5px 25px rgba(255,184,108,0.5), inset 0 0 10px rgba(255,255,255,0.4)' }}
+                whileHover={{ scale: 1.08, y: -2, boxShadow: '0 5px 25px rgba(16,185,129,0.5), inset 0 0 10px rgba(255,255,255,0.4)' }}
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="w-[42px] h-[42px] rounded-full bg-gradient-to-br from-[#FFB86C] to-[#E9C46A] text-[#1A1612] font-[800] text-[15px] flex items-center justify-center select-none cursor-pointer shadow-[0_0_15px_rgba(255,184,108,0.25)] border border-[#1A1612]"
+                className="w-[42px] h-[42px] rounded-full bg-gradient-to-br from-[#10B981] to-[#34D399] text-[#0A0A0A] font-[800] text-[15px] flex items-center justify-center select-none cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.25)] border border-[#0A0A0A] ring-2 ring-[#10B981]"
               >
                 {initials}
               </motion.div>
@@ -258,28 +258,28 @@ const Navbar = () => {
               <motion.button
                 onClick={handleLogout}
                 title="Logout"
-                whileHover={{ y: -1, backgroundColor: 'rgba(245,166,35,0.08)', borderColor: 'rgba(245,166,35,0.4)' }}
+                whileHover={{ y: -1, backgroundColor: 'rgba(16,185,129,0.08)', borderColor: 'rgba(16,185,129,0.4)' }}
                 whileTap={{ scale: 0.96 }}
                 transition={{ duration: 0.2 }}
                 style={{
                   background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(245,166,35,0.15)',
+                  border: '1px solid rgba(16,185,129,0.15)',
                   color: 'rgba(250, 247, 242, 0.75)'
                 }}
-                className="py-2 px-3 flex items-center justify-center rounded-full transition-colors"
+                className="py-2 px-3 flex items-center justify-center rounded-full transition-colors hover:text-[#10B981]"
               >
-                <LogOut size={16} className="text-[#f5a623]" />
+                <LogOut size={16} className="text-[#10B981]" />
               </motion.button>
             </div>
 
             {/* Mobile Actions */}
             <div className="md:hidden flex items-center gap-3">
-              <div className="w-[30px] h-[30px] rounded-full bg-gradient-to-br from-[#FFB86C] to-[#E9C46A] text-[#1A1612] font-[700] text-[12px] flex items-center justify-center select-none">
+              <div className="w-[30px] h-[30px] rounded-full bg-gradient-to-br from-[#10B981] to-[#34D399] text-[#0A0A0A] font-[700] text-[12px] flex items-center justify-center select-none">
                 {initials}
               </div>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-[rgba(250,247,242,0.75)] hover:text-[#FFB86C] p-1.5 focus:outline-none bg-transparent border-none"
+                className="text-[rgba(250,247,242,0.75)] hover:text-[#10B981] p-1.5 focus:outline-none bg-transparent border-none"
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -306,7 +306,7 @@ const Navbar = () => {
             </Link>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-[rgba(250,247,242,0.75)] hover:text-[#FFB86C] p-1.5 focus:outline-none ml-1 bg-transparent border-none"
+              className="md:hidden text-[rgba(250,247,242,0.75)] hover:text-[#10B981] p-1.5 focus:outline-none ml-1 bg-transparent border-none"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -324,7 +324,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-[64px] left-0 right-0 bg-[rgba(26,22,18,0.97)] backdrop-blur-[20px] border-b border-white/[0.08] flex flex-col p-4 gap-3 md:hidden"
+            className="absolute top-[64px] left-0 right-0 bg-[rgba(13,20,18,0.97)] backdrop-blur-[20px] border-b border-white/[0.08] flex flex-col p-4 gap-3 md:hidden"
           >
             {navLinks.map((link) => {
               const active = isActive(link.path);
@@ -335,7 +335,7 @@ const Navbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`text-[14px] font-[500] no-underline transition-colors py-2 px-3 rounded-lg ${
                     active
-                      ? 'text-[#FFB86C] bg-white/[0.06] font-[600]'
+                      ? 'text-[#10B981] bg-white/[0.06] font-[600]'
                       : 'text-[rgba(250,247,242,0.65)] hover:text-[#FAF7F2]'
                   }`}
                 >
@@ -349,7 +349,7 @@ const Navbar = () => {
                   <div className="text-[#FAF7F2] text-[13px] font-[600] capitalize">
                     {user.name}
                   </div>
-                  <div className={`text-[10px] font-[600] uppercase tracking-[0.08em] mt-0.5 ${user.role === 'admin' ? 'text-[#f5a623]' : 'text-[#c8a96e]'}`}>
+                  <div className={`text-[10px] font-[600] uppercase tracking-[0.08em] mt-0.5 ${user.role === 'admin' ? 'text-[#10B981]' : 'text-[#059669]'}`}>
                     {user.role}
                   </div>
                 </div>
@@ -358,7 +358,7 @@ const Navbar = () => {
                     setIsMenuOpen(false);
                     handleLogout();
                   }}
-                  className="flex items-center gap-1.5 text-[rgba(250,247,242,0.75)] hover:text-[#f5a623] font-bold text-xs p-2 bg-transparent border-none"
+                  className="flex items-center gap-1.5 text-[rgba(250,247,242,0.75)] hover:text-[#10B981] font-bold text-xs p-2 bg-transparent border-none"
                 >
                   <LogOut size={14} />
                   <span>Logout</span>

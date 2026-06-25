@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const MotionLink = motion(Link);
 
 const CATEGORY_STYLES = {
-  technical: { bg: 'rgba(233,196,106,0.2)', border: 'rgba(233,196,106,0.4)', color: '#E9C46A', label: 'Tech' },
+  technical: { bg: 'rgba(168,85,247,0.2)', border: 'rgba(168,85,247,0.4)', color: '#A855F7', label: 'Tech' },
   cultural:  { bg: 'rgba(244,162,97,0.2)', border: 'rgba(244,162,97,0.4)', color: '#F4A261', label: 'Cultural' },
   sports:    { bg: 'rgba(138,201,38,0.2)', border: 'rgba(138,201,38,0.4)', color: '#8AC926', label: 'Sports' },
   academic:  { bg: 'rgba(132,165,157,0.2)', border: 'rgba(132,165,157,0.4)', color: '#84A59D', label: 'Academic' },
@@ -38,7 +38,7 @@ const EventCard = ({ event, className = '' }) => {
 
   const catKey = (category || '').toLowerCase();
   const catStyle = CATEGORY_STYLES[catKey] || {
-    bg: 'rgba(255,184,108,0.2)', border: 'rgba(255,184,108,0.4)', color: '#FFB86C', label: category
+    bg: 'rgba(16,185,129,0.2)', border: 'rgba(16,185,129,0.4)', color: '#10B981', label: category
   };
 
   const fillPercentage = capacity > 0
@@ -46,7 +46,7 @@ const EventCard = ({ event, className = '' }) => {
     : 0;
 
   let statusText = '● OPEN';
-  let statusColor = 'text-[#8AC926]';
+  let statusColor = 'text-[#10B981]';
   if (isPast) {
     statusText = '● ENDED';
     statusColor = 'text-[#E76F51]';
@@ -63,7 +63,7 @@ const EventCard = ({ event, className = '' }) => {
   return (
     <MotionLink
       to={`/event/${id}`}
-      className={`group flex flex-col custom-card overflow-hidden no-underline w-full ${className}`}
+      className={`group flex flex-col custom-card !p-0 overflow-hidden no-underline w-full hover:border-[#065F46] ${className}`}
       whileHover={{ 
         y: -6, 
         scale: 1.015,
@@ -71,20 +71,29 @@ const EventCard = ({ event, className = '' }) => {
       }}
     >
       {/* Image Area (200px) */}
-      <div className="relative h-[200px] w-full overflow-hidden rounded-xl border border-white/[0.08] select-none">
-        <img
-          src={image || CATEGORY_IMAGES[catKey] || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80'}
-          alt={title}
-          className="h-full w-full object-cover opacity-85 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105"
-          loading="lazy"
-        />
-        {/* Soft Vignette Overlay to blend edges & pop badges */}
+      <div className="relative h-[200px] w-full overflow-hidden select-none">
+        {/* Image wrapped in a mask so it perfectly fades into the dynamic card background */}
+        <div className="absolute inset-0" style={{ WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)' }}>
+          <img
+            src={image || CATEGORY_IMAGES[catKey] || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80'}
+            alt={title}
+            className="h-full w-full object-cover opacity-85 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105"
+            loading="lazy"
+          />
+        </div>
+        
+        {/* Soft Vignette Overlay to darken bottom for badges */}
         <div 
           className="absolute inset-0 pointer-events-none"
           style={{ 
-            background: 'linear-gradient(to bottom, rgba(26, 22, 18, 0.45) 0%, transparent 40%, transparent 60%, rgba(26, 22, 18, 0.85) 100%)' 
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.6) 100%)' 
           }}
         />
+
+        {/* HUD: Status Readout */}
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 text-[8px] font-mono font-bold text-white/30 tracking-[0.2em] z-10 pointer-events-none">
+          DAT.STREAM.ACTIVE
+        </div>
 
         {/* Category Badge (bottom-left) */}
         <span
@@ -96,18 +105,18 @@ const EventCard = ({ event, className = '' }) => {
 
         {/* Price Badge (top-right) */}
         <div
-          className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold font-sans flex items-center select-none text-[#1A1612] z-10"
+          className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold font-sans flex items-center select-none text-black z-10"
           style={{
             background: isFree
-              ? 'linear-gradient(135deg, #8AC926, #E9C46A)'
-              : 'linear-gradient(135deg, #FFB86C, #E9C46A)',
-            boxShadow: '0 4px 12px rgba(255, 184, 108, 0.4)'
+              ? '#22C55E'
+              : 'linear-gradient(135deg, #10B981, #34D399)',
+            boxShadow: '0 4px 12px rgba(16, 185, 129, 0.4)'
           }}
         >
           {isFree ? (
             <span>FREE</span>
           ) : (
-            <span className="flex items-center">
+            <span className="flex items-center text-black">
               <IndianRupee className="w-3 h-3 mr-0.5" />
               {Math.round(price)}
             </span>
@@ -118,7 +127,7 @@ const EventCard = ({ event, className = '' }) => {
       {/* Card Body */}
       <div className="p-5 flex-1 flex flex-col">
         {/* Title */}
-        <h3 className="text-[#FAF7F2] font-sans font-bold text-[17px] mb-1.5 leading-tight group-hover:text-[#FFB86C] transition-colors duration-200">
+        <h3 className="text-[#FAF7F2] font-sans font-bold text-[17px] mb-1.5 leading-tight transition-colors duration-200">
           {title}
         </h3>
 
@@ -130,11 +139,11 @@ const EventCard = ({ event, className = '' }) => {
         {/* Info Rows */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center text-[13px] text-[rgba(250,247,242,0.6)]">
-            <Calendar className="w-3.5 h-3.5 mr-2 text-[#FFB86C]" />
-            <span>{formattedDate}</span>
+            <Calendar className="w-3.5 h-3.5 mr-2 text-[#10B981]" />
+            <span className="font-mono tracking-tight text-[12px]">{formattedDate}</span>
           </div>
           <div className="flex items-center text-[13px] text-[rgba(250,247,242,0.6)]">
-            <MapPin className="w-3.5 h-3.5 mr-2 text-[#FFB86C]" />
+            <MapPin className="w-3.5 h-3.5 mr-2 text-[#10B981]" />
             <span className="truncate">{venue}</span>
           </div>
         </div>
@@ -144,21 +153,21 @@ const EventCard = ({ event, className = '' }) => {
 
         {/* Progress Section */}
         <div className="mt-auto">
-          <div className="flex justify-between items-center text-[12px] text-[rgba(250,247,242,0.4)] mb-1.5 uppercase font-semibold tracking-wider">
+          <div className="flex justify-between items-center text-[11px] font-mono text-[#10B981] mb-1.5 uppercase font-bold tracking-widest">
             <span>{registered_count}/{capacity} FILLED</span>
-            <span>{available_seats} LEFT</span>
+            <span className="text-[rgba(250,247,242,0.4)]">{available_seats} LEFT</span>
           </div>
           <div className="progress-track">
-            <div className="progress-fill" style={{ width: `${fillPercentage}%` }} />
+            <div className="progress-fill bg-[#10B981]" style={{ width: `${fillPercentage}%` }} />
           </div>
         </div>
 
         {/* Bottom Row */}
         <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between">
-          <span className={`text-[12px] font-semibold tracking-wider uppercase ${statusColor}`}>
+          <span className={`text-[11px] font-mono font-bold tracking-widest uppercase ${statusColor}`}>
             {statusText}
           </span>
-          <span className="text-[12px] text-[rgba(250,247,242,0.4)] group-hover:text-[#FFB86C] transition-colors duration-200 uppercase font-semibold">
+          <span className="text-[12px] text-[rgba(250,247,242,0.4)] group-hover:text-[#34D399] transition-colors duration-200 uppercase font-semibold">
             View Details →
           </span>
         </div>

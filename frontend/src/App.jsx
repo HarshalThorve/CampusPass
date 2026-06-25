@@ -61,7 +61,7 @@ const PageWrapper = ({ children }) => (
 
 function App() {
   const location = useLocation();
-  const { } = useAuth();
+
   
   const hideNavRoutes = ['/login', '/register'];
   const hideFooterRoutes = ['/login', '/register'];
@@ -69,7 +69,7 @@ function App() {
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   return (
-    <div className="min-h-screen bg-[#0B0907] text-[#FAF7F2] relative select-none">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#FAF7F2] relative select-none">
 
       {/* Animated background blobs & grids — fixed behind content */}
       <div style={{
@@ -78,8 +78,8 @@ function App() {
         zIndex: 0,
         pointerEvents: 'none',
         overflow: 'hidden',
-        background: '#0B0907',
-        backgroundImage: 'radial-gradient(rgba(255, 184, 108, 0.07) 1.5px, transparent 1.5px)',
+        background: '#0A0A0A',
+        backgroundImage: 'radial-gradient(rgba(16, 185, 129, 0.07) 1.5px, transparent 1.5px)',
         backgroundSize: '32px 32px'
       }}>
         {/* Blob 1 — top left warm orange */}
@@ -90,7 +90,7 @@ function App() {
           width: '55vw',
           height: '55vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255,184,108,0.18) 0%, transparent 65%)',
+          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.04) 0%, transparent 65%)',
           filter: 'blur(80px)',
           animation: 'blobFloat1 25s ease-in-out infinite',
         }} />
@@ -103,7 +103,7 @@ function App() {
           width: '50vw',
           height: '50vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(233,196,106,0.14) 0%, transparent 65%)',
+          background: 'radial-gradient(circle, rgba(52, 211, 153, 0.03) 0%, transparent 65%)',
           filter: 'blur(90px)',
           animation: 'blobFloat2 28s ease-in-out infinite',
         }} />
@@ -116,7 +116,7 @@ function App() {
           width: '40vw',
           height: '40vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(244,162,97,0.10) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(5, 150, 105, 0.02) 0%, transparent 70%)',
           filter: 'blur(110px)',
           animation: 'blobFloat3 32s ease-in-out infinite',
         }} />
@@ -129,7 +129,7 @@ function App() {
           width: '600px',
           height: '600px',
           borderRadius: '50%',
-          border: '1px dashed rgba(255, 184, 108, 0.06)',
+          border: '1px dashed rgba(16, 185, 129, 0.06)',
           animation: 'spin 180s linear infinite'
         }} />
         <div style={{
@@ -139,7 +139,7 @@ function App() {
           width: '400px',
           height: '400px',
           borderRadius: '50%',
-          border: '1px solid rgba(255, 184, 108, 0.03)',
+          border: '1px solid rgba(16, 185, 129, 0.03)',
         }} />
 
         <div style={{
@@ -149,7 +149,7 @@ function App() {
           width: '800px',
           height: '800px',
           borderRadius: '50%',
-          border: '1px dashed rgba(255, 184, 108, 0.04)',
+          border: '1px dashed rgba(16, 185, 129, 0.04)',
           animation: 'spin-reverse 240s linear infinite'
         }} />
       </div>

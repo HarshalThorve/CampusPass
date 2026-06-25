@@ -2,33 +2,32 @@
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 const MetricCard = ({ title, value, icon: Icon, description, trend, trendValue, color = 'primary' }) => {
-
   const getColorClasses = () => {
     switch (color) {
       case 'emerald':
         return {
           iconBg: 'bg-emerald-500/10 text-emerald-400',
-          border: 'hover:border-emerald-500/20'
+          border: 'hover:border-emerald-500'
         };
       case 'rose':
         return {
           iconBg: 'bg-rose-500/10 text-rose-400',
-          border: 'hover:border-rose-500/20'
+          border: 'hover:border-rose-500'
         };
       case 'amber':
         return {
-          iconBg: 'bg-amber-500/10 text-amber-400',
-          border: 'hover:border-amber-500/20'
+          iconBg: 'bg-emerald-500/10 text-emerald-400',
+          border: 'hover:border-emerald-500'
         };
       case 'blue':
         return {
           iconBg: 'bg-blue-500/10 text-blue-400',
-          border: 'hover:border-blue-500/20'
+          border: 'hover:border-blue-500'
         };
       default:
         return {
-          iconBg: 'bg-amber-400/10 text-amber-400',
-          border: 'hover:border-amber-400/20'
+          iconBg: 'bg-emerald-500/10 text-emerald-400',
+          border: 'hover:border-emerald-500'
         };
     }
   };
@@ -36,7 +35,7 @@ const MetricCard = ({ title, value, icon: Icon, description, trend, trendValue, 
   const styles = getColorClasses();
 
   return (
-    <div className={`bg-[#161410] border border-[rgba(255,209,102,0.08)] p-6 rounded-xl transition-all duration-300 ${styles.border}`}>
+    <div className={`bg-[#111111] border border-[#1F2E29] p-6 rounded-xl transition-all duration-300 ${styles.border}`}>
       <div className="flex justify-between items-start">
         <div>
           <p className="text-[rgba(248,249,250,0.5)] text-xs tracking-widest uppercase font-mono">{title}</p>

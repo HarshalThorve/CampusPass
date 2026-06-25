@@ -30,29 +30,29 @@ const certificateThemes = {
     signatureLineColor: '#1C1814'
   },
   dark: {
-    background: 'linear-gradient(135deg, #1A1612 0%, #2A1F14 50%, #1A1612 100%)',
+    background: 'linear-gradient(135deg, #0A0A0A 0%, #161616 50%, #0A0A0A 100%)',
     textColor: '#FAF7F2',
-    primaryBorder: '#FFB86C',
-    secondaryBorder: '#E9C46A',
-    subTitleColor: '#E9C46A',
+    primaryBorder: '#10B981',
+    secondaryBorder: '#34D399',
+    subTitleColor: '#34D399',
     descriptionColor: 'rgba(250,247,242,0.85)',
-    flourishColor1: '#FFB86C',
-    flourishColor2: '#E9C46A',
-    watermarkColor: '#FFB86C',
+    flourishColor1: '#10B981',
+    flourishColor2: '#34D399',
+    watermarkColor: '#10B981',
     watermarkOpacity: 0.03,
     showCornerFlourishes: true,
     showWatermarkLines: true,
-    signatureLineColor: '#FFB86C'
+    signatureLineColor: '#10B981'
   },
   sage: {
-    background: 'linear-gradient(135deg, #2A2F2D 0%, #1A1E1D 50%, #2A2F2D 100%)',
+    background: 'linear-gradient(135deg, #1F2E29 0%, #0A0A0A 50%, #1F2E29 100%)',
     textColor: '#FAF7F2',
     primaryBorder: '#84A59D',
-    secondaryBorder: '#E9C46A',
-    subTitleColor: '#E9C46A',
+    secondaryBorder: '#34D399',
+    subTitleColor: '#34D399',
     descriptionColor: '#FAF7F2',
     flourishColor1: '#84A59D',
-    flourishColor2: '#E9C46A',
+    flourishColor2: '#34D399',
     watermarkColor: '#84A59D',
     watermarkOpacity: 0.03,
     showCornerFlourishes: true,
@@ -60,19 +60,19 @@ const certificateThemes = {
     signatureLineColor: '#84A59D'
   },
   emerald: {
-    background: 'linear-gradient(135deg, #1C2E1F 0%, #111D13 50%, #1C2E1F 100%)',
+    background: 'linear-gradient(135deg, #1F2E29 0%, #0A0A0A 50%, #1F2E29 100%)',
     textColor: '#FAF7F2',
-    primaryBorder: '#8AC926',
-    secondaryBorder: '#E9C46A',
-    subTitleColor: '#E9C46A',
+    primaryBorder: '#10B981',
+    secondaryBorder: '#34D399',
+    subTitleColor: '#34D399',
     descriptionColor: '#FAF7F2',
-    flourishColor1: '#8AC926',
-    flourishColor2: '#E9C46A',
-    watermarkColor: '#8AC926',
+    flourishColor1: '#10B981',
+    flourishColor2: '#34D399',
+    watermarkColor: '#10B981',
     watermarkOpacity: 0.02,
     showCornerFlourishes: true,
     showWatermarkLines: true,
-    signatureLineColor: '#8AC926'
+    signatureLineColor: '#10B981'
   },
   custom: {
     background: 'transparent',
@@ -153,20 +153,20 @@ const CertificateModal = ({ isOpen, onClose, certificateData }) => {
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      style={{ background: 'rgba(26,22,18,0.90)', backdropFilter: 'blur(8px)' }}
+      style={{ background: 'rgba(10,10,10,0.90)', backdropFilter: 'blur(8px)' }}
     >
-      <div className="relative flex flex-col max-w-5xl w-full max-h-[95vh] overflow-y-auto rounded-2xl bg-[#1A1612] border border-white/10 shadow-2xl">
+      <div className="relative flex flex-col max-w-5xl w-full max-h-[95vh] overflow-y-auto rounded-2xl bg-[#161616] border border-white/10 shadow-2xl">
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
           <div className="flex items-center space-x-2">
-            <Award className="w-5 h-5 text-[#FFB86C]" />
+            <Award className="w-5 h-5 text-emerald-500" />
             <h3 className="text-sm font-bold text-white font-mono tracking-wide">
-              CERTIFICATE PREVIEW — Auto-filled for <span className="text-[#FFB86C]">{studentName}</span>
+              CERTIFICATE PREVIEW — Auto-filled for <span className="text-emerald-400">{studentName}</span>
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-[#FFB86C] hover:bg-white/10 transition-colors"
+            className="p-1.5 rounded-lg text-gray-400 hover:text-emerald-400 hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -419,12 +419,12 @@ const CertificateModal = ({ isOpen, onClose, certificateData }) => {
                   </defs>
                   <polygon
                     points="34,2 38,14 50,8 46,20 60,22 50,30 58,42 46,40 44,54 34,46 24,54 22,40 10,42 18,30 8,22 22,20 18,8 30,14"
-                    fill={resolvedTheme === 'cream' ? 'url(#goldSealGrad)' : '#2A1F14'}
+                    fill={resolvedTheme === 'cream' ? 'url(#goldSealGrad)' : '#065F46'}
                     stroke={currentTheme.secondaryBorder}
                     strokeWidth="0.5"
                     style={{ filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.15))' }}
                   />
-                  <circle cx="34" cy="34" r="16" fill={resolvedTheme === 'cream' ? 'url(#darkGoldGrad)' : '#1A1612'} stroke={resolvedTheme === 'cream' ? '#FFF2D4' : currentTheme.secondaryBorder} strokeWidth="1.2"/>
+                  <circle cx="34" cy="34" r="16" fill={resolvedTheme === 'cream' ? 'url(#darkGoldGrad)' : '#0A0A0A'} stroke={resolvedTheme === 'cream' ? '#FFF2D4' : currentTheme.secondaryBorder} strokeWidth="1.2"/>
                   <circle cx="34" cy="34" r="13" fill="none" stroke={resolvedTheme === 'cream' ? '#FFF2D4' : currentTheme.secondaryBorder} strokeWidth="0.5" strokeDasharray="2,2"/>
                   <text x="34" y="31" textAnchor="middle" fill={resolvedTheme === 'cream' ? '#FFF2D4' : '#FAF7F2'}
                     style={{ fontFamily: 'Cinzel, serif', fontSize: '8px', fontWeight: '700', letterSpacing: '1px' }}>
@@ -519,29 +519,29 @@ const CertificateModal = ({ isOpen, onClose, certificateData }) => {
         </div>
       </div>
 
-        {/* Modal Actions */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-white/10 bg-[#1A1612]">
-          <p className="text-xs text-gray-400 font-mono">
-            Each participant gets a personalized certificate with their name auto-filled.
-          </p>
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={onClose}
-              className="px-5 py-2.5 rounded-full border border-white/20 text-gray-300 hover:border-[#FFB86C]/50 hover:text-[#FFB86C] font-mono text-xs uppercase tracking-wide transition-all duration-300"
-            >
-              Close
-            </button>
-            <button
-              onClick={downloadPDF}
-              className="btn-primary py-2.5 px-6"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download PDF</span>
-            </button>
-          </div>
+      {/* Modal Actions */}
+      <div className="flex items-center justify-between px-6 py-4 border-t border-white/10 bg-[#161616]">
+        <p className="text-xs text-gray-400 font-mono">
+          Each participant gets a personalized certificate with their name auto-filled.
+        </p>
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={onClose}
+            className="px-5 py-2.5 rounded-full border border-white/20 text-gray-300 hover:border-emerald-500/50 hover:text-emerald-400 font-mono text-xs uppercase tracking-wide transition-all duration-300"
+          >
+            Close
+          </button>
+          <button
+            onClick={downloadPDF}
+            className="bg-emerald-500 hover:bg-emerald-400 text-black font-semibold py-2.5 px-6 rounded-full flex items-center gap-2 font-mono text-xs uppercase tracking-wide transition-all duration-300"
+          >
+            <Download className="w-4 h-4" />
+            <span>Download PDF</span>
+          </button>
         </div>
       </div>
     </div>
+  </div>
   );
 };
 

@@ -18,13 +18,13 @@ const chartTheme = {
     contentStyle: {
       backgroundColor: "rgba(11, 11, 13, 0.75)",
       backdropFilter: "blur(12px)",
-      border: "1px solid rgba(255, 255, 255, 0.1)",
+      border: "1px solid #10B981",
       borderRadius: "12px",
       color: "#FAF7F2",
       fontSize: "13px",
       boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
     },
-    cursor: { stroke: "rgba(255,184,108,0.2)" }
+    cursor: { stroke: "rgba(16, 185, 129, 0.2)" }
   }
 };
 
@@ -82,7 +82,7 @@ const renderActiveShape = (props) => {
         startAngle={startAngle}
         endAngle={endAngle}
         fill={fill}
-        style={{ filter: 'drop-shadow(0 0 8px rgba(255, 184, 108, 0.5))' }}
+        style={{ filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.5))' }}
       />
     </g>
   );
@@ -111,7 +111,7 @@ const Analytics = () => {
   if (loading || !data) {
     return (
       <div className="min-h-screen flex-1 flex flex-col items-center justify-center p-12 bg-transparent">
-        <div className="w-10 h-10 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#FFB86C', borderTopColor: 'transparent' }} />
+        <div className="w-10 h-10 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#10B981', borderTopColor: 'transparent' }} />
         <p className="mt-4 text-[rgba(250,247,242,0.55)] font-mono text-sm uppercase tracking-wider">Generating analytics report...</p>
       </div>
     );
@@ -156,7 +156,7 @@ const Analytics = () => {
             Real-time metric evaluations, linear regression forecasts, and entry heatmaps.
           </p>
         </div>
-        <div className="inline-flex items-center gap-2 bg-[#8AC926]/10 border border-[#8AC926]/25 text-[#8AC926] text-xs font-semibold px-4 py-2 rounded-full select-none">
+        <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold px-4 py-2 rounded-full select-none">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Real-time Sync Active</span>
         </div>
@@ -165,10 +165,10 @@ const Analytics = () => {
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {[
-          { title: 'Total Events', val: kpis.total_events, sub: 'Managed schedules', icon: Calendar, color: 'bg-[#E9C46A]/15 text-[#E9C46A]', glow: '0 0 16px rgba(233,196,106,0.2)', countUp: true },
+          { title: 'Total Events', val: kpis.total_events, sub: 'Managed schedules', icon: Calendar, color: 'bg-emerald-500/12 text-emerald-400', glow: '0 0 16px rgba(16,185,129,0.15)', countUp: true },
           { title: 'Total Registrations', val: kpis.total_registrations, sub: 'Active entry tickets', icon: Users, color: 'bg-[#8AC926]/12 text-[#8AC926]', glow: '0 0 16px rgba(138,201,38,0.2)', countUp: true },
-          { title: 'Total Revenue', val: kpis.total_revenue, sub: 'Gross earnings', icon: DollarSign, color: 'bg-[#FFB86C]/12 text-[#FFB86C]', glow: '0 0 16px rgba(255,184,108,0.2)', countUp: true, isCurrency: true },
-          { title: 'Gate Attendees', val: kpis.total_attendees, sub: 'Checked-in status', icon: Users, color: 'bg-[#F4A261]/12 text-[#F4A261]', glow: '0 0 16px rgba(244,162,97,0.2)', countUp: true },
+          { title: 'Total Revenue', val: kpis.total_revenue, sub: 'Gross earnings', icon: DollarSign, color: 'bg-emerald-500/12 text-emerald-400', glow: '0 0 16px rgba(16,185,129,0.15)', countUp: true, isCurrency: true },
+          { title: 'Gate Attendees', val: kpis.total_attendees, sub: 'Checked-in status', icon: Users, color: 'bg-emerald-500/12 text-emerald-400', glow: '0 0 16px rgba(16,185,129,0.15)', countUp: true },
           { title: 'Attendance Rate', val: kpis.attendance_rate, sub: 'Show-up consistency', icon: Percent, color: 'bg-[#E76F51]/12 text-[#E76F51]', glow: '0 0 16px rgba(231,111,81,0.2)', countUp: true, suffix: '%' }
         ].map((card, index) => (
           <motion.div 
@@ -223,7 +223,7 @@ const Analytics = () => {
               </h3>
               <p className="text-xs text-[rgba(250,247,242,0.45)] mt-1 font-sans">Linear regression projection for upcoming time periods.</p>
             </div>
-            <span className="badge-pill bg-[#FFB86C]/10 border border-[#FFB86C]/25 text-[#FFB86C] absolute top-6 right-6">
+            <span className="badge-pill bg-emerald-900 text-emerald-400 absolute top-6 right-6">
               PREDICTIVE
             </span>
           </div>
@@ -233,12 +233,12 @@ const Analytics = () => {
               <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorHistory" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#FFB86C" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#FFB86C" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.15}/>
+                    <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#E9C46A" stopOpacity={0.15}/>
-                    <stop offset="95%" stopColor="#E9C46A" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#6EE7B7" stopOpacity={0.15}/>
+                    <stop offset="95%" stopColor="#6EE7B7" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray={chartTheme.cartesianGrid.strokeDasharray} vertical={false} stroke={chartTheme.cartesianGrid.stroke} />
@@ -250,7 +250,7 @@ const Analytics = () => {
                   type="monotone"
                   name="Historical Revenue"
                   dataKey="historical"
-                  stroke="#FFB86C"
+                  stroke="#10B981"
                   strokeWidth={2.5}
                   fillOpacity={1}
                   fill="url(#colorHistory)"
@@ -260,7 +260,7 @@ const Analytics = () => {
                   type="monotone"
                   name="Projected Forecast"
                   dataKey="projected"
-                  stroke="#E9C46A"
+                  stroke="#6EE7B7"
                   strokeDasharray="6 4"
                   strokeWidth={2}
                   fillOpacity={0.7}
@@ -350,7 +350,7 @@ const Analytics = () => {
         >
           <div className="mb-4">
             <h3 className="text-[#FAF7F2] text-base font-bold m-0 font-display flex items-center">
-              <Clock className="w-4 h-4 mr-2 text-[#FFB86C]" />
+              <Clock className="w-4 h-4 mr-2 text-emerald-500" />
               Attendance Heatmap
             </h3>
             <p className="text-xs text-[rgba(250,247,242,0.45)] mt-1 font-sans">Peak gate entry volumes by day and hours.</p>
@@ -381,18 +381,18 @@ const Analytics = () => {
 
                     if (val > 0) {
                       if (val === 1) {
-                        cellBg = 'rgba(255, 184, 108, 0.2)';
-                        textCol = '#FFB86C';
+                        cellBg = '#065F46';
+                        textCol = '#FAF7F2';
                         fontW = 'font-[600]';
                       } else if (val === 2) {
-                        cellBg = 'rgba(255, 184, 108, 0.5)';
-                        textCol = '#1A1612';
+                        cellBg = '#059669';
+                        textCol = '#FAF7F2';
                         fontW = 'font-[700]';
                       } else {
-                        cellBg = '#FFB86C';
-                        textCol = '#1A1612';
+                        cellBg = '#10B981';
+                        textCol = '#0A0A0A';
                         fontW = 'font-[700]';
-                        cellStyle = { boxShadow: '0 0 8px rgba(255, 184, 108, 0.4)' };
+                        cellStyle = { boxShadow: '0 0 8px rgba(16, 185, 129, 0.4)' };
                       }
                     }
 
@@ -423,7 +423,7 @@ const Analytics = () => {
         >
           <div className="mb-4">
             <h3 className="text-[#FAF7F2] text-base font-bold m-0 font-display flex items-center">
-              <TrendingUp className="w-4 h-4 mr-2 text-[#FFB86C]" />
+              <TrendingUp className="w-4 h-4 mr-2 text-emerald-500" />
               Registration Velocity
             </h3>
             <p className="text-xs text-[rgba(250,247,242,0.45)] mt-1 font-sans">Tickets booked day-wise to verify scaling patterns.</p>
@@ -440,10 +440,10 @@ const Analytics = () => {
                   type="monotone"
                   name="Registrations"
                   dataKey="registrations"
-                  stroke="#E9C46A"
+                  stroke="#10B981"
                   strokeWidth={2}
-                  dot={{ r: 4, fill: '#E9C46A', stroke: '#1A1612', strokeWidth: 2 }}
-                  activeDot={{ r: 6, fill: '#E9C46A' }}
+                  dot={{ r: 4, fill: '#10B981', stroke: '#0A0A0A', strokeWidth: 2 }}
+                  activeDot={{ r: 6, fill: '#34D399' }}
                 />
               </LineChart>
             </ResponsiveContainer>

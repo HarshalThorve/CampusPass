@@ -30,13 +30,12 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
     { id: 'pnb', name: 'Punjab National Bank', logo: '🏦' },
   ];
 
-  // Emojis and colors customized to match the Desert Cyberpunk color scheme
-  // Orange-Sand, Sand-Sage, Amber Glow, and Muted Sage. No blue, indigo, or purple.
+  // Brand-aligned colors for UPI apps
   const wallets = [
-    { id: 'gpay', name: 'Google Pay', emoji: '🟢', color: 'from-[#8AC926]/90 to-[#8AC926]' },
-    { id: 'phonepe', name: 'PhonePe', emoji: '🟠', color: 'from-[#FFB86C] to-[#E9C46A]' },
-    { id: 'paytm', name: 'Paytm', emoji: '🟡', color: 'from-[#E9C46A] to-[#FFB703]' },
-    { id: 'amazonpay', name: 'Amazon Pay', emoji: '🔸', color: 'from-[#FFB703] to-[#FFB86C]' },
+    { id: 'gpay', name: 'Google Pay', emoji: '🟢', color: 'from-[#22C55E]/10 to-[#22C55E]/20 text-[#22C55E] border border-[#22C55E]/30' },
+    { id: 'phonepe', name: 'PhonePe', emoji: '🟣', color: 'from-[#7C3AED]/10 to-[#7C3AED]/20 text-[#A78BFA] border border-[#7C3AED]/30' },
+    { id: 'paytm', name: 'Paytm', emoji: '🔵', color: 'from-[#3B82F6]/10 to-[#3B82F6]/20 text-[#60A5FA] border border-[#3B82F6]/30' },
+    { id: 'amazonpay', name: 'Amazon Pay', emoji: '🟠', color: 'from-[#F59E0B]/10 to-[#F59E0B]/20 text-[#FBBF24] border border-[#F59E0B]/30' },
   ];
 
   const handlePay = () => {
@@ -60,29 +59,29 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1612]/80 backdrop-blur-md p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0A0A0A]/80 backdrop-blur-md p-4" onClick={onClose}>
       <div
-        className="w-full max-w-md bg-[#1A1612] border border-white/12 rounded-2xl shadow-2xl overflow-hidden"
+        className="w-full max-w-md bg-[#161616] border border-emerald-950 rounded-2xl shadow-2xl overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
-        {/* Modal Header (Orange Sand Gradient) */}
-        <div className="bg-gradient-to-r from-[#FFB86C] to-[#E9C46A] p-5 flex justify-between items-center gap-3">
+        {/* Modal Header (Emerald Gradient) */}
+        <div className="bg-gradient-to-r from-[#10B981] to-[#34D399] p-5 flex justify-between items-center gap-3">
           <div>
-            <div className="text-[#1A1612] font-extrabold text-sm tracking-wider uppercase">CampusPass checkout</div>
-            <div className="text-[#1A1612]/80 text-[11px] font-medium mt-0.5">{eventTitle}</div>
+            <div className="text-black font-extrabold text-sm tracking-wider uppercase">CampusPass checkout</div>
+            <div className="text-black/80 text-[11px] font-medium mt-0.5">{eventTitle}</div>
           </div>
           <div className="text-right">
-            <div className="text-[#1A1612]/70 text-[10px] font-bold uppercase tracking-wider">Amount to Pay</div>
-            <div className="text-[#1A1612] font-black text-xl">₹{amount}</div>
+            <div className="text-black/70 text-[10px] font-bold uppercase tracking-wider">Amount to Pay</div>
+            <div className="text-black font-black text-xl">₹{amount}</div>
           </div>
-          <button onClick={onClose} className="ml-2 p-1 rounded-lg hover:bg-[#1A1612]/10 text-[#1A1612]/70 hover:text-[#1A1612] transition-colors">
+          <button onClick={onClose} className="ml-2 p-1 rounded-lg hover:bg-black/10 text-black/70 hover:text-black transition-colors border-none bg-transparent cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Sandbox Indicator (Warning gold background with low opacity) */}
-        <div className="bg-[#FFB703]/10 border-b border-[#FFB703]/20 px-5 py-2.5 flex items-center space-x-2">
-          <span className="text-[#FFB703] text-[10px] font-mono font-bold tracking-wider">🔒 DEMO SANDBOX</span>
+        <div className="bg-amber-950/20 border-b border-amber-900/30 px-5 py-2.5 flex items-center space-x-2">
+          <span className="text-amber-500 text-[10px] font-mono font-bold tracking-wider">🔒 DEMO SANDBOX</span>
           <span className="text-[#FAF7F2]/60 text-[10px] font-mono">No real transaction will occur.</span>
         </div>
 
@@ -92,9 +91,9 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex flex-col items-center py-3 text-[10px] font-mono font-bold gap-1 transition-all border-b-2 ${
+              className={`flex-1 flex flex-col items-center py-3 text-[10px] font-mono font-bold gap-1 transition-all border-b-2 border-t-0 border-x-0 cursor-pointer bg-transparent ${
                 activeTab === tab.id
-                  ? 'border-[#FFB86C] text-[#FFB86C] bg-white/5'
+                  ? 'border-[#10B981] text-emerald-400 bg-white/5'
                   : 'border-transparent text-[#FAF7F2]/50 hover:text-[#FAF7F2]'
               }`}
             >
@@ -130,10 +129,10 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
                   <button
                     key={w.id}
                     onClick={() => { setUpiId(`demo@${w.id}`); setUpiError(''); }}
-                    className={`flex flex-col items-center p-2.5 rounded-xl border-2 transition-all ${
+                    className={`flex flex-col items-center p-2.5 rounded-xl border-2 transition-all cursor-pointer ${
                       upiId === `demo@${w.id}`
-                        ? 'border-[#FFB86C] bg-[#FFB86C]/10'
-                        : 'border-white/10 hover:border-[#FFB86C]/30 bg-white/5'
+                        ? 'border-emerald-500 bg-emerald-950/30'
+                        : 'border-white/10 hover:border-emerald-500/30 bg-white/5'
                     }`}
                   >
                     <span className="text-xl">{w.emoji}</span>
@@ -204,10 +203,10 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
                   <button
                     key={bank.id}
                     onClick={() => setNetBankSelected(bank.id)}
-                    className={`flex items-center space-x-2.5 p-3 rounded-xl border-2 text-left transition-all ${
+                    className={`flex items-center space-x-2.5 p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
                       netBankSelected === bank.id
-                        ? 'border-[#FFB86C] bg-[#FFB86C]/10'
-                        : 'border-white/10 hover:border-[#FFB86C]/30 bg-white/5'
+                        ? 'border-emerald-500 bg-emerald-950/30'
+                        : 'border-white/10 hover:border-emerald-500/30 bg-white/5'
                     }`}
                   >
                     <span className="text-lg">{bank.logo}</span>
@@ -227,7 +226,7 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
                   <button
                     key={w.id}
                     onClick={() => handlePay()}
-                    className={`w-full flex items-center justify-between p-3.5 rounded-xl bg-gradient-to-r ${w.color} text-[#1A1612] font-black text-sm hover:brightness-110 transition-all shadow-md`}
+                    className={`w-full flex items-center justify-between p-3.5 rounded-xl bg-gradient-to-r ${w.color} text-[#111111] font-black text-sm hover:brightness-110 transition-all shadow-md border-none cursor-pointer`}
                   >
                     <div className="flex items-center space-x-3">
                       <span className="text-xl">{w.emoji}</span>
@@ -247,11 +246,11 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
             <button
               onClick={handlePay}
               disabled={processing}
-              className="w-full btn-primary py-3 flex items-center justify-center space-x-2 shadow-[0_4px_20px_rgba(255,184,108,0.3)] disabled:opacity-50"
+              className="w-full bg-emerald-500 hover:bg-emerald-400 text-black py-3 rounded-lg font-bold flex items-center justify-center space-x-2 shadow-[0_4px_20px_rgba(16,185,129,0.3)] border-none cursor-pointer transition-colors disabled:opacity-50"
             >
               {processing ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-[#1A1612] border-t-transparent rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                   <span>Processing Payment...</span>
                 </>
               ) : (
@@ -263,7 +262,7 @@ const DemoCheckoutModal = ({ amount, eventTitle, onSuccess, onClose }) => {
             </button>
           )}
           <div className="flex items-center justify-center space-x-1.5 text-[10px] text-[#FAF7F2]/40 font-mono">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#8AC926]" />
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
             <span>Secured by Razorpay · SSL Encrypted</span>
           </div>
         </div>
@@ -335,7 +334,7 @@ const Payment = () => {
         }
       },
       prefill: { name: '', email: '' },
-      theme: { color: '#FFB86C' },
+      theme: { color: '#10B981' },
       modal: { ondismiss: () => setLoading(false) },
     };
 
@@ -366,7 +365,12 @@ const Payment = () => {
   const triggerSuccess = (ticketId) => {
     setSuccess(true);
     setLoading(false);
-    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+    confetti({ 
+      particleCount: 150, 
+      spread: 80, 
+      origin: { y: 0.6 },
+      colors: ['#10B981', '#34D399', '#059669', '#6EE7B7', '#065F46']
+    });
     setTimeout(() => navigate(`/ticket/${ticketId}`), 2000);
   };
 
@@ -406,8 +410,8 @@ const Payment = () => {
           )}
 
           {success && (
-            <div className="flex flex-col items-center text-center p-5 bg-[#8AC926]/10 text-[#8AC926] rounded-xl space-y-2 border border-[#8AC926]/20">
-              <CheckCircle2 className="w-8 h-8 text-[#8AC926] animate-bounce" />
+            <div className="flex flex-col items-center text-center p-5 bg-emerald-950/20 text-[#10B981] rounded-xl space-y-2 border border-emerald-500/20">
+              <CheckCircle2 className="w-8 h-8 text-[#10B981] animate-bounce" />
               <span className="font-bold text-sm font-mono tracking-wider uppercase">Payment Successful!</span>
               <span className="text-[11px] text-[#FAF7F2]/60 font-mono">Redirecting to your entry pass...</span>
             </div>
@@ -428,30 +432,28 @@ const Payment = () => {
                 
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-[#FAF7F2]/60 font-mono">Platform Fee</span>
-                  <span className="font-mono font-bold text-[10px] text-[#8AC926] bg-[#8AC926]/10 px-2 py-0.5 rounded-md uppercase tracking-wider">FREE</span>
+                  <span className="font-mono font-bold text-[10px] text-emerald-400 bg-emerald-950/20 px-2 py-0.5 rounded-md uppercase tracking-wider border border-emerald-500/20">FREE</span>
                 </div>
                 
                 <div className="pt-3.5 border-t border-white/5 flex justify-between items-center">
                   <span className="text-xs font-bold text-[#FAF7F2] font-mono uppercase tracking-wider">Total Payable</span>
-                  <span className="text-xl font-extrabold text-[#FFB86C] flex items-center">
-                    <IndianRupee className="w-4 h-4 mr-0.5 text-[#FFB86C]" />
-                    <span className="bg-gradient-to-r from-[#FFB86C] to-[#E9C46A] bg-clip-text text-transparent">
-                      {eventPrice}
-                    </span>
+                  <span className="text-xl font-extrabold text-emerald-400 flex items-center">
+                    <IndianRupee className="w-4 h-4 mr-0.5 text-emerald-400" />
+                    <span>{eventPrice}</span>
                   </span>
                 </div>
               </div>
 
               {/* Secure Trust Badge */}
               <div className="flex items-center text-[10px] text-[#FAF7F2]/50 justify-center space-x-1.5 font-mono">
-                <ShieldCheck className="w-4 h-4 text-[#8AC926]" />
+                <ShieldCheck className="w-4 h-4 text-emerald-500" />
                 <span>Encrypted 256-bit payment verified by Razorpay</span>
               </div>
 
               {/* Checkout Controls Trigger */}
               {isSimulationMode ? (
                 <div className="space-y-3.5 pt-2">
-                  <div className="p-3 bg-[#FFB703]/10 border border-[#FFB703]/20 rounded-xl text-[#FFB703] text-center text-[10px] font-mono leading-relaxed">
+                  <div className="p-3 bg-amber-950/20 border border-amber-900/30 rounded-xl text-amber-500 text-center text-[10px] font-mono leading-relaxed">
                     🔒 Demo Sandbox Mode — Razorpay test key not configured. Use the sandbox checkout below.
                   </div>
 
@@ -466,10 +468,10 @@ const Payment = () => {
                       <button
                         key={m.label}
                         onClick={() => setShowDemoModal(true)}
-                        className="flex flex-col items-center p-2.5 rounded-xl border-2 border-white/10 hover:border-[#FFB86C]/40 hover:bg-[#FFB86C]/5 transition-all group bg-white/5"
+                        className="flex flex-col items-center p-2.5 rounded-xl border-2 border-white/10 hover:border-emerald-500/40 hover:bg-emerald-500/5 transition-all group bg-white/5 cursor-pointer"
                       >
                         <span className="text-xl">{m.icon}</span>
-                        <span className="text-[9px] font-mono font-semibold text-[#FAF7F2]/50 group-hover:text-[#FFB86C] mt-1 leading-none">{m.label}</span>
+                        <span className="text-[9px] font-mono font-semibold text-[#FAF7F2]/50 group-hover:text-emerald-400 mt-1 leading-none">{m.label}</span>
                       </button>
                     ))}
                   </div>
@@ -477,10 +479,10 @@ const Payment = () => {
                   <button
                     onClick={() => setShowDemoModal(true)}
                     disabled={loading}
-                    className="w-full btn-primary py-3.5 text-sm flex items-center justify-center space-x-2"
+                    className="w-full bg-emerald-500 hover:bg-emerald-400 text-black py-3.5 text-sm flex items-center justify-center space-x-2 border-none rounded-lg cursor-pointer transition-colors"
                   >
                     {loading ? (
-                      <div className="w-4 h-4 border-2 border-[#1A1612] border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <>
                         <Lock className="w-4 h-4" />
@@ -493,10 +495,10 @@ const Payment = () => {
                 <button
                   onClick={handleRazorpayPayment}
                   disabled={loading || !razorpayScriptLoaded}
-                  className="w-full btn-primary py-3.5 text-sm flex items-center justify-center space-x-2"
+                  className="w-full bg-emerald-500 hover:bg-emerald-400 text-black py-3.5 text-sm flex items-center justify-center space-x-2 border-none rounded-lg cursor-pointer transition-colors"
                 >
                   {loading ? (
-                    <div className="w-4 h-4 border-2 border-[#1A1612] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
                       <CreditCard className="w-4 h-4" />

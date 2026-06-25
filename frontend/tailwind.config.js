@@ -10,10 +10,10 @@ export default {
       colors: {
         bg: '#0B0B0D',
         surface: 'rgba(255,255,255,0.03)',
-        accent: '#FFB86C',
-        accent2: '#E9C46A',
+        accent: '#10B981',
+        accent2: '#34D399',
         accent3: '#84A59D',
-        glow: '#F4A261',
+        glow: '#059669',
         t1: '#FAF7F2',
         t2: 'rgba(250,247,242,0.75)',
         success: '#8AC926',
@@ -24,6 +24,7 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Geist', 'Satoshi', 'Inter', 'sans-serif'],
         serif: ['Playfair Display', 'serif'],
+        mono: ['Space Mono', 'monospace'],
       },
       animation: {
         ticker: 'ticker 25s linear infinite',

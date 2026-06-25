@@ -109,7 +109,7 @@ const Events = () => {
           className="min-h-screen flex-1 max-w-7xl mx-auto px-4 md:px-20 py-10 font-sans"
         >
           <div className="mb-8">
-            <p className="text-[12px] font-mono text-[#FFB86C] tracking-[0.15em] font-semibold uppercase mb-2">
+            <p className="text-[12px] font-mono text-emerald-400 tracking-[0.15em] font-semibold uppercase mb-2">
               // BROWSE
             </p>
             <h1 className="text-4xl md:text-[52px] font-extrabold text-[#FAF7F2] leading-none m-0 font-display">
@@ -125,7 +125,7 @@ const Events = () => {
               className="md:hidden flex items-center justify-between w-full bg-white/[0.06] border border-white/10 p-4 rounded-xl text-sm font-semibold text-[#FAF7F2]/90 cursor-pointer"
             >
               <span className="flex items-center tracking-wider uppercase font-mono">
-                <Filter className="w-4 h-4 mr-2 text-[#FFB86C]/60" />
+                <Filter className="w-4 h-4 mr-2 text-emerald-500/60" />
                 Filters
               </span>
               {filtersOpen ? <ChevronUp className="w-4 h-4 text-[rgba(250,247,242,0.45)]" /> : <ChevronDown className="w-4 h-4 text-[rgba(250,247,242,0.45)]" />}
@@ -143,7 +143,7 @@ const Events = () => {
                 maxHeight: 'calc(100vh - 100px)',
                 overflowY: 'auto',
                 scrollbarWidth: 'thin',
-                scrollbarColor: 'rgba(255,184,108,0.2) transparent',
+                scrollbarColor: 'rgba(16,185,129,0.2) transparent',
               }}
             >
             <motion.div
@@ -155,12 +155,12 @@ const Events = () => {
               {/* Filters Title & Reset */}
               <div className="flex items-center justify-between pb-4 border-b border-white/[0.08]">
                 <h3 className="text-xs font-mono font-bold text-[#FAF7F2] flex items-center tracking-wider uppercase m-0">
-                  <Filter className="w-4 h-4 mr-2 text-[#FFB86C]/70" />
+                  <Filter className="w-4 h-4 mr-2 text-emerald-500/70" />
                   FILTERS
                 </h3>
                 <button
                   onClick={clearFilters}
-                  className="text-xs font-semibold text-[#FFB86C] hover:underline bg-transparent border-none p-0 cursor-pointer transition-colors"
+                  className="text-xs font-semibold text-emerald-400 hover:underline bg-transparent border-none p-0 cursor-pointer transition-colors"
                 >
                   RESET
                 </button>
@@ -176,7 +176,7 @@ const Events = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    className="input-field pl-10 text-sm py-2.5 w-full"
+                    className="input-field pl-10 text-sm py-2.5 w-full focus:border-emerald-500"
                   />
                   <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-[rgba(250,247,242,0.45)]" />
                 </div>
@@ -194,8 +194,8 @@ const Events = () => {
                         onClick={() => setCategory(cat.value)}
                         className={`px-3 py-1.5 text-[11px] font-semibold rounded-full border transition-all duration-200 tracking-wider uppercase cursor-pointer ${
                           active
-                            ? 'bg-gradient-to-r from-[#FFB86C] to-[#E9C46A] text-[#1A1612] border-transparent'
-                            : 'bg-white/[0.06] border-white/[0.12] text-[rgba(250,247,242,0.6)] hover:border-[#FFB86C] hover:text-[#FFB86C]'
+                            ? 'bg-emerald-500 text-black border-transparent'
+                            : 'bg-white/[0.06] border-white/[0.12] text-[rgba(250,247,242,0.6)] hover:border-emerald-500 hover:text-emerald-400'
                         }`}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -212,7 +212,7 @@ const Events = () => {
               <div className="flex flex-col">
                 <div className="flex justify-between items-center mb-2">
                   <label className="label-field mb-0">MAX PRICE</label>
-                  <span className="text-xs font-bold text-[#FFB86C] bg-white/[0.06] px-2 py-0.5 rounded border border-white/10">
+                  <span className="text-xs font-bold text-emerald-400 bg-white/[0.06] px-2 py-0.5 rounded border border-white/10">
                     {parseInt(maxPrice) === 1000 ? 'ANY' : parseInt(maxPrice) === 0 ? 'Free only' : `Up to ₹${maxPrice}`}
                   </span>
                 </div>
@@ -225,7 +225,7 @@ const Events = () => {
                   onChange={(e) => setMaxPrice(e.target.value)}
                   className="w-full h-1 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    accentColor: '#FFB86C',
+                    accentColor: '#10B981',
                     background: 'rgba(255, 255, 255, 0.1)'
                   }}
                 />
@@ -242,7 +242,7 @@ const Events = () => {
                   type="checkbox"
                   checked={upcomingOnly}
                   onChange={(e) => setUpcomingOnly(e.target.checked)}
-                  className="h-4 w-4 rounded text-[#FFB86C] focus:ring-[#FFB86C]/30 cursor-pointer bg-white/[0.06] border-[#FFB86C] accent-[#FFB86C]"
+                  className="h-4 w-4 rounded text-emerald-500 focus:ring-emerald-500/30 cursor-pointer bg-white/[0.06] border-emerald-500 accent-emerald-500"
                 />
                 <label htmlFor="upcomingOnly" className="ml-2.5 text-xs text-[rgba(250,247,242,0.75)] cursor-pointer select-none font-semibold uppercase tracking-wider flex items-center font-sans">
                   <CalendarDays className="w-3.5 h-3.5 mr-1.5 text-[rgba(250,247,242,0.45)]" />
@@ -255,7 +255,7 @@ const Events = () => {
                 onClick={applyFilters}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="btn-primary w-full py-2.5 text-xs font-bold uppercase tracking-wider btn-shimmer"
+                className="bg-emerald-500 hover:bg-emerald-400 text-black w-full py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors font-sans btn-shimmer"
               >
                 <SlidersHorizontal className="w-4 h-4 mr-1.5 inline" />
                 <span>APPLY FILTERS</span>
@@ -288,7 +288,7 @@ const Events = () => {
                 </div>
               ) : (
                 <>
-                  <div className="text-[11px] uppercase tracking-widest text-[#c8a96e] mb-4 font-semibold">
+                  <div className="text-[11px] uppercase tracking-widest text-emerald-400 mb-4 font-semibold">
                     Showing {events.length} event{events.length !== 1 ? 's' : ''}
                   </div>
                   <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 items-start">

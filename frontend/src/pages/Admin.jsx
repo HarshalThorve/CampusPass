@@ -337,7 +337,7 @@ const Admin = () => {
             <span className="block text-[rgba(250,247,242,0.35)] text-[11px] font-semibold uppercase tracking-wider">Active Events</span>
             <span className="block text-[#FAF7F2] text-2xl font-display font-bold mt-1">{events.length}</span>
           </div>
-          <div className="w-10 h-10 rounded-full bg-[#FFB86C]/10 text-[#FFB86C] flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
             <Calendar className="w-5 h-5" />
           </div>
         </div>
@@ -348,7 +348,7 @@ const Admin = () => {
               {events.reduce((sum, e) => sum + e.capacity, 0)}
             </span>
           </div>
-          <div className="w-10 h-10 rounded-full bg-[#E9C46A]/10 text-[#E9C46A] flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
             <Users className="w-5 h-5" />
           </div>
         </div>
@@ -359,7 +359,7 @@ const Admin = () => {
               {events.reduce((sum, e) => sum + (e.registered_count || 0), 0)}
             </span>
           </div>
-          <div className="w-10 h-10 rounded-full bg-[#8AC926]/10 text-[#8AC926] flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
             <Ticket className="w-5 h-5" />
           </div>
         </div>
@@ -378,12 +378,12 @@ const Admin = () => {
       >
         {loading ? (
           <div className="p-12 text-center">
-            <div className="w-10 h-10 border-2 border-t-transparent rounded-full animate-spin mx-auto mb-4" style={{ borderColor: '#FFB86C', borderTopColor: 'transparent' }}></div>
+            <div className="w-10 h-10 border-2 border-t-transparent rounded-full animate-spin mx-auto mb-4" style={{ borderColor: '#10B981', borderTopColor: 'transparent' }}></div>
             <p className="text-sm text-[rgba(250,247,242,0.5)] font-mono">Loading events schedule...</p>
           </div>
         ) : events.length === 0 ? (
           <div className="p-16 text-center">
-            <Info className="w-12 h-12 text-[#c8a96e] mx-auto mb-3 opacity-80" />
+            <Info className="w-12 h-12 text-emerald-500 mx-auto mb-3 opacity-80" />
             <p className="text-[rgba(250,247,242,0.5)] font-sans m-0">No events registered yet.</p>
             <motion.button 
               whileHover={{ scale: 1.03 }}
@@ -409,13 +409,13 @@ const Admin = () => {
                   <div>
                     <span className="font-bold text-[#FAF7F2] block">{event.title}</span>
                     <span className="text-xs text-[rgba(250,247,242,0.5)] font-sans flex items-center mt-1">
-                      <MapPin className="w-3.5 h-3.5 mr-1 text-[#FFB86C]" />
+                      <MapPin className="w-3.5 h-3.5 mr-1 text-emerald-500" />
                       {event.venue} · {new Date(event.date).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-2 text-xs font-mono">
                     <span className="capitalize px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[rgba(250,247,242,0.7)]">{event.category}</span>
-                    <span className="font-bold text-[#FFB86C]">
+                    <span className="font-bold text-emerald-400">
                       {parseFloat(event.price) === 0 ? 'FREE' : `₹${Math.round(event.price)}`}
                     </span>
                     <span className="text-[rgba(250,247,242,0.5)]">{event.registered_count}/{event.capacity} filled</span>
@@ -434,7 +434,7 @@ const Admin = () => {
                       whileTap={{ scale: 0.9 }}
                       transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                       onClick={() => openEditModal(event)} 
-                      className="p-2 border border-white/10 rounded-lg text-[rgba(250,247,242,0.5)] hover:text-[#FFB86C] hover:bg-white/[0.06] flex items-center justify-center" 
+                      className="p-2 border border-white/10 rounded-lg text-[rgba(250,247,242,0.5)] hover:text-emerald-400 hover:bg-white/[0.06] flex items-center justify-center" 
                       title="Edit"
                     >
                       <Edit className="w-4 h-4" />
@@ -477,7 +477,7 @@ const Admin = () => {
                       transition={{ delay: index * 0.04, duration: 0.3 }}
                       className="transition-colors duration-150"
                       style={{ cursor: 'default' }}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,184,108,0.04)'}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(16,185,129,0.04)'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
                       {/* Title & Venue */}
@@ -485,7 +485,7 @@ const Admin = () => {
                         <div>
                           <span className="font-bold text-[#FAF7F2] block font-display">{event.title}</span>
                           <span className="text-xs text-[rgba(250,247,242,0.4)] font-sans flex items-center mt-1">
-                            <MapPin className="w-3.5 h-3.5 mr-1 text-[#FFB86C]" />
+                            <MapPin className="w-3.5 h-3.5 mr-1 text-emerald-500" />
                             {event.venue} | {new Date(event.date).toLocaleDateString()}
                           </span>
                         </div>
@@ -537,7 +537,7 @@ const Admin = () => {
                             whileTap={{ scale: 0.93 }}
                             transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                             onClick={() => openRosterModal(event)}
-                            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB86C] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                             style={{
                               width: '34px',
                               height: '34px',
@@ -553,9 +553,9 @@ const Admin = () => {
                               flexShrink: 0,
                             }}
                             onMouseEnter={(e) => {
-                              e.currentTarget.style.background = 'rgba(255,184,108,0.12)';
-                              e.currentTarget.style.borderColor = 'rgba(255,184,108,0.3)';
-                              e.currentTarget.style.color = '#FFB86C';
+                              e.currentTarget.style.background = 'rgba(16,185,129,0.12)';
+                              e.currentTarget.style.borderColor = 'rgba(16,185,129,0.3)';
+                              e.currentTarget.style.color = '#10B981';
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
@@ -572,7 +572,7 @@ const Admin = () => {
                             whileTap={{ scale: 0.93 }}
                             transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                             onClick={() => openEditModal(event)}
-                            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E9C46A] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                             style={{
                               width: '34px',
                               height: '34px',
@@ -588,9 +588,9 @@ const Admin = () => {
                               flexShrink: 0,
                             }}
                             onMouseEnter={(e) => {
-                              e.currentTarget.style.background = 'rgba(233,196,106,0.12)';
-                              e.currentTarget.style.borderColor = 'rgba(233,196,106,0.3)';
-                              e.currentTarget.style.color = '#E9C46A';
+                              e.currentTarget.style.background = 'rgba(16,185,129,0.12)';
+                              e.currentTarget.style.borderColor = 'rgba(16,185,129,0.3)';
+                              e.currentTarget.style.color = '#34D399';
                             }}
                             onMouseLeave={(e) => {
                               e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
@@ -721,7 +721,7 @@ const Admin = () => {
                   ...prev,
                   issues_certificate: e.target.checked
                 }))}
-                className="w-4 h-4 rounded bg-white/[0.06] border-white/10 text-[#FFB86C] focus:ring-[#FFB86C]/40 accent-[#FFB86C]"
+                className="w-4 h-4 rounded bg-white/[0.06] border-white/10 text-emerald-500 focus:ring-emerald-500/40 accent-emerald-500"
               />
               <label htmlFor="issues_certificate" className="text-xs font-mono font-semibold text-[#FAF7F2] cursor-pointer select-none">
                 {(formData.issues_certificate ?? CERT_ELIGIBLE.includes((formData.category || '').toLowerCase()))
@@ -930,7 +930,7 @@ const Admin = () => {
               type="submit"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="btn-primary text-xs btn-shimmer"
+              className="bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs py-2.5 px-4 rounded-xl transition-colors btn-shimmer"
             >
               {formMode === 'create' ? 'Publish Event' : 'Save Updates'}
             </motion.button>
@@ -954,7 +954,7 @@ const Admin = () => {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={exportRosterToCSV}
-                className="btn-primary py-1.5 px-3 rounded-lg text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider btn-shimmer"
+                className="border border-emerald-500 hover:bg-emerald-500/10 text-emerald-400 py-1.5 px-3 rounded-lg text-xs flex items-center gap-1.5 font-bold uppercase tracking-wider transition-colors"
               >
                 <Download className="w-4 h-4" />
                 <span>Export CSV</span>
@@ -964,7 +964,7 @@ const Admin = () => {
 
           {rosterLoading ? (
             <div className="py-12 text-center">
-              <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin mx-auto mb-2" style={{ borderColor: '#FFB86C', borderTopColor: 'transparent' }}></div>
+              <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin mx-auto mb-2" style={{ borderColor: '#10B981', borderTopColor: 'transparent' }}></div>
               <p className="text-xs text-[rgba(250,247,242,0.45)] font-mono">Fetching participant list...</p>
             </div>
           ) : roster.length === 0 ? (
@@ -989,7 +989,7 @@ const Admin = () => {
                         <div className="font-bold text-[#FAF7F2]">{row.user_name}</div>
                         <div className="text-[10px] text-[rgba(250,247,242,0.45)] mt-0.5">{row.user_email}</div>
                       </td>
-                      <td className="px-4 py-3 font-mono text-[10px] font-bold text-[#FFB86C]">
+                      <td className="px-4 py-3 font-mono text-[10px] font-bold text-emerald-400">
                         {row.ticket_number || 'N/A'}
                       </td>
                       <td className="px-4 py-3">

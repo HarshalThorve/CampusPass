@@ -154,7 +154,7 @@ const Scanner = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-extrabold text-[#FAF7F2] font-display flex items-center">
-          <ScanLine className="w-7 h-7 sm:w-8 sm:h-8 mr-2.5 text-[#FFB86C] animate-pulse" />
+          <ScanLine className="w-7 h-7 sm:w-8 sm:h-8 mr-2.5 text-emerald-500 animate-pulse" />
           Event Gate Attendance Scanner
         </h1>
         <p className="text-sm text-[rgba(250,247,242,0.5)] mt-1 font-sans">
@@ -170,7 +170,7 @@ const Scanner = () => {
           
           {/* Camera Card */}
           <div className="amber-glow-card">
-            <h3 className="text-[#FFB86C] text-[15px] font-[600] mb-4 font-sans select-none uppercase tracking-wider">
+            <h3 className="text-emerald-500 text-[15px] font-[600] mb-4 font-sans select-none uppercase tracking-wider">
               Real-time Camera Reader
             </h3>
 
@@ -179,45 +179,45 @@ const Scanner = () => {
                 className="flex flex-col items-center justify-center text-center p-8 gap-3"
                 style={{
                   background: 'rgba(11,11,13,0.4)',
-                  border: '1px solid rgba(255,184,108,0.1)',
+                  border: '1px solid rgba(16,185,129,0.15)',
                   borderRadius: '16px',
                   minHeight: '320px',
                   position: 'relative'
                 }}
               >
                 {/* Corner Brackets */}
-                <div className="absolute top-6 left-6 w-8 h-8 border-t-2 border-l-2 border-[#FFB86C]/80 rounded-tl-lg" />
-                <div className="absolute top-6 right-6 w-8 h-8 border-t-2 border-r-2 border-[#FFB86C]/80 rounded-tr-lg" />
-                <div className="absolute bottom-6 left-6 w-8 h-8 border-b-2 border-l-2 border-[#FFB86C]/80 rounded-bl-lg" />
-                <div className="absolute bottom-6 right-6 w-8 h-8 border-b-2 border-r-2 border-[#FFB86C]/80 rounded-br-lg" />
+                <div className="absolute top-6 left-6 w-8 h-8 border-t-2 border-l-2 border-emerald-500/80 rounded-tl-lg" />
+                <div className="absolute top-6 right-6 w-8 h-8 border-t-2 border-r-2 border-emerald-500/80 rounded-tr-lg" />
+                <div className="absolute bottom-6 left-6 w-8 h-8 border-b-2 border-l-2 border-emerald-500/80 rounded-bl-lg" />
+                <div className="absolute bottom-6 right-6 w-8 h-8 border-b-2 border-r-2 border-emerald-500/80 rounded-br-lg" />
 
                 <div className="relative mb-4">
-                  <div className="absolute -inset-4 bg-[#FFB86C]/20 blur-xl rounded-full" />
-                  <div className="w-16 h-16 rounded-full border border-[#FFB86C]/40 flex items-center justify-center relative z-10 bg-[#1A1612]">
-                    <CameraOff className="w-6 h-6 text-[#FFB86C]" />
+                  <div className="absolute -inset-4 bg-emerald-500/20 blur-xl rounded-full" />
+                  <div className="w-16 h-16 rounded-full border border-emerald-500/40 flex items-center justify-center relative z-10 bg-[#111111]">
+                    <CameraOff className="w-6 h-6 text-emerald-500" />
                   </div>
                 </div>
                 <p className="text-[rgba(250,247,242,0.55)] text-sm font-sans m-0 mt-2">Request Camera Permissions</p>
                 <span
                   onClick={() => setCameraError(false)}
-                  className="text-[#FFB86C] text-sm underline cursor-pointer hover:text-[#E9C46A] transition-colors"
+                  className="text-emerald-500 text-sm underline cursor-pointer hover:text-emerald-400 transition-colors"
                 >
                   Scan an Image File
                 </span>
               </div>
             ) : (
-              <div className="relative p-2 rounded-[20px] bg-gradient-to-br from-[#FFB86C]/20 to-transparent">
-                <div className="absolute inset-0 bg-[#FFB86C]/5 blur-xl rounded-[20px]" />
-                <div id="qr-reader" className="camera-box overflow-hidden rounded-xl border-2 border-[#FFB86C]/40 min-h-[280px] relative z-10 bg-[#1A1612]" />
+              <div className="relative p-2 rounded-[20px] bg-gradient-to-br from-emerald-500/20 to-transparent">
+                <div className="absolute inset-0 bg-emerald-500/5 blur-xl rounded-[20px]" />
+                <div id="qr-reader" className="camera-box overflow-hidden rounded-xl border-2 border-emerald-500/40 min-h-[280px] relative z-10 bg-[#111111]" />
                 <motion.div 
-                  className="absolute top-6 right-6 text-[#FFB86C] pointer-events-none z-20"
+                  className="absolute top-6 right-6 text-emerald-500 pointer-events-none z-20"
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  <ScanLine className="w-6 h-6 drop-shadow-[0_0_8px_rgba(255,184,108,0.8)]" />
+                  <ScanLine className="w-6 h-6 drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                 </motion.div>
                 <div className="absolute left-2 right-2 top-2 bottom-2 rounded-xl overflow-hidden pointer-events-none z-20">
-                  <div className="w-full h-0.5 bg-[#FFB86C]/80 shadow-[0_0_15px_rgba(255,184,108,0.8)] animate-[scan_3s_ease-in-out_infinite]" />
+                  <div className="w-full h-0.5 bg-emerald-500/80 shadow-[0_0_15px_rgba(16,185,129,0.8)] animate-[scan_3s_ease-in-out_infinite]" />
                 </div>
               </div>
             )}
@@ -225,7 +225,7 @@ const Scanner = () => {
 
           {/* Manual Entry Fallback Card */}
           <div className="amber-glow-card mt-6">
-            <h3 className="text-[#FFB86C] text-[15px] font-[600] mb-1 font-sans uppercase tracking-wider">
+            <h3 className="text-emerald-500 text-[15px] font-[600] mb-1 font-sans uppercase tracking-wider">
               Manual Ticket Entry Fallback
             </h3>
             <p className="text-xs text-[rgba(250,247,242,0.45)] font-sans mb-4">
@@ -246,7 +246,7 @@ const Scanner = () => {
                 disabled={loading}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="btn-primary min-w-[100px] py-3.5 btn-shimmer"
+                className="bg-emerald-500 hover:bg-emerald-400 text-black min-w-[100px] py-3.5 rounded-lg font-bold border-none transition-colors cursor-pointer font-sans btn-shimmer"
               >
                 <Send className="w-4 h-4" />
                 <span>Verify</span>
@@ -259,13 +259,13 @@ const Scanner = () => {
         {/* Right Column (Verification & Logs) */}
         <div className="space-y-6">
           <div className="amber-glow-card flex flex-col gap-6">
-            <h3 className="text-[#FFB86C] text-[15px] font-[600] font-sans pb-3 border-b border-white/10 uppercase tracking-wider">
+            <h3 className="text-emerald-500 text-[15px] font-[600] font-sans pb-3 border-b border-white/10 uppercase tracking-wider">
               Check-in Verification
             </h3>
 
             {loading && (
               <div className="flex flex-col items-center py-12">
-                <div className="w-10 h-10 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#FFB86C', borderTopColor: 'transparent' }}></div>
+                <div className="w-10 h-10 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
                 <p className="text-xs text-[rgba(250,247,242,0.45)] mt-3 font-semibold">Verifying ticket data...</p>
               </div>
             )}
@@ -273,12 +273,12 @@ const Scanner = () => {
             {!loading && !scanResult && (
               <div className="text-center py-12 flex flex-col items-center justify-center gap-3 min-h-[280px]">
                 <div className="relative mb-2">
-                  <div className="absolute -inset-4 bg-[#FFB86C]/10 blur-xl rounded-full" />
-                  <div className="w-16 h-16 rounded-full border border-[#FFB86C]/40 flex items-center justify-center relative z-10 bg-[#1A1612] shadow-[0_0_20px_rgba(255,184,108,0.1)]">
-                    <ScanLine className="w-7 h-7 text-[#FFB86C]" />
+                  <div className="absolute -inset-4 bg-emerald-500/10 blur-xl rounded-full" />
+                  <div className="w-16 h-16 rounded-full border border-emerald-500/40 flex items-center justify-center relative z-10 bg-[#111111] shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                    <ScanLine className="w-7 h-7 text-emerald-500" />
                   </div>
                 </div>
-                <p className="text-[#FFB86C] text-[13px] font-[600] tracking-wider uppercase">Awaiting Entry Ticket</p>
+                <p className="text-emerald-500 text-[13px] font-[600] tracking-wider uppercase">Awaiting Entry Ticket</p>
                 <p className="text-[rgba(250,247,242,0.35)] text-[13px] m-0 font-sans">Position ticket QR in scanner or type manual code.</p>
               </div>
             )}
@@ -300,15 +300,15 @@ const Scanner = () => {
 
                     <div className="text-left space-y-2.5 pt-3 border-t border-white/10 text-xs font-sans">
                       <div className="flex items-center text-[#FAF7F2]">
-                        <User className="w-4 h-4 mr-2 text-[#FFB86C]/70" />
+                        <User className="w-4 h-4 mr-2 text-emerald-500/70" />
                         <strong>{scanResult.ticketInfo.userName}</strong>
                       </div>
                       <div className="flex items-center text-[#FAF7F2]">
-                        <Calendar className="w-4 h-4 mr-2 text-[#FFB86C]/70" />
+                        <Calendar className="w-4 h-4 mr-2 text-emerald-500/70" />
                         <span className="truncate">{scanResult.ticketInfo.eventTitle}</span>
                       </div>
                       <div className="flex items-center text-[#FAF7F2]">
-                        <Clock className="w-4 h-4 mr-2 text-[#FFB86C]/70" />
+                        <Clock className="w-4 h-4 mr-2 text-emerald-500/70" />
                         <span>Checked in: {new Date(scanResult.ticketInfo.checkinTime).toLocaleTimeString()}</span>
                       </div>
                     </div>
@@ -345,7 +345,7 @@ const Scanner = () => {
             {/* Recent Scans Session List / Placeholders */}
             <div className="pt-4 border-t border-white/10 space-y-3">
               <p className="text-[11px] font-bold text-[rgba(250,247,242,0.3)] uppercase tracking-wider flex items-center">
-                <Sparkles className="w-3.5 h-3.5 mr-1 text-[#FFB86C]" />
+                <Sparkles className="w-3.5 h-3.5 mr-1 text-emerald-500" />
                 Recent Scans
               </p>
               <div className="space-y-2">
@@ -371,7 +371,7 @@ const Scanner = () => {
                         <motion.span 
                           animate={{ 
                             boxShadow: ch.valid 
-                              ? ['0 0 0px rgba(138,201,38,0)', '0 0 8px rgba(138,201,38,0.4)', '0 0 0px rgba(138,201,38,0)']
+                              ? ['0 0 0px rgba(34,197,94,0)', '0 0 8px rgba(34,197,94,0.4)', '0 0 0px rgba(34,197,94,0)']
                               : undefined
                           }}
                           transition={{ duration: 2, repeat: Infinity }}
@@ -403,7 +403,7 @@ const Scanner = () => {
                         <span className="text-[rgba(250,247,242,0.5)] text-[12px]">HackSummit 2026</span>
                         <motion.span 
                           animate={{ 
-                            boxShadow: ['0 0 0px rgba(138,201,38,0)', '0 0 8px rgba(138,201,38,0.4)', '0 0 0px rgba(138,201,38,0)']
+                            boxShadow: ['0 0 0px rgba(34,197,94,0)', '0 0 8px rgba(34,197,94,0.4)', '0 0 0px rgba(34,197,94,0)']
                           }}
                           transition={{ duration: 2, repeat: Infinity }}
                           className="text-[11px] font-[600] px-2 py-0.5 rounded-full bg-[#8AC926]/12 border border-[#8AC926]/30 text-[#8AC926] uppercase"
@@ -428,7 +428,7 @@ const Scanner = () => {
                         <span className="text-[rgba(250,247,242,0.5)] text-[12px]">Rhythm Cultural Fest</span>
                         <motion.span 
                           animate={{ 
-                            boxShadow: ['0 0 0px rgba(138,201,38,0)', '0 0 8px rgba(138,201,38,0.4)', '0 0 0px rgba(138,201,38,0)']
+                            boxShadow: ['0 0 0px rgba(34,197,94,0)', '0 0 8px rgba(34,197,94,0.4)', '0 0 0px rgba(34,197,94,0)']
                           }}
                           transition={{ duration: 2, repeat: Infinity }}
                           className="text-[11px] font-[600] px-2 py-0.5 rounded-full bg-[#8AC926]/12 border border-[#8AC926]/30 text-[#8AC926] uppercase"

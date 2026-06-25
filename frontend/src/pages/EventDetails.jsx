@@ -8,7 +8,7 @@ import Toast from '../components/Toast';
 import { Calendar, MapPin, IndianRupee, ArrowLeft, Hourglass, ShieldAlert, Sparkles } from 'lucide-react';
 
 const CATEGORY_STYLES = {
-  technical: { bg: 'rgba(233,196,106,0.15)', border: 'rgba(233,196,106,0.3)', color: '#E9C46A' },
+  technical: { bg: 'rgba(168,85,247,0.15)', border: 'rgba(168,85,247,0.3)', color: '#A855F7' },
   cultural:  { bg: 'rgba(244,162,97,0.15)', border: 'rgba(244,162,97,0.3)', color: '#F4A261' },
   sports:    { bg: 'rgba(138,201,38,0.15)', border: 'rgba(138,201,38,0.3)', color: '#8AC926' },
   academic:  { bg: 'rgba(132,165,157,0.15)', border: 'rgba(132,165,157,0.3)', color: '#84A59D' },
@@ -122,7 +122,7 @@ const EventDetails = () => {
   if (loading) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-12 bg-transparent">
-        <div className="w-10 h-10 border-2 border-[#FFB86C] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-10 h-10 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
         <p className="mt-4 text-[rgba(250,247,242,0.55)] font-mono text-sm uppercase tracking-wider">Loading details...</p>
       </div>
     );
@@ -182,7 +182,7 @@ const EventDetails = () => {
       <div className="max-w-7xl mx-auto mb-6">
         <Link
           to="/events"
-          className="inline-flex items-center text-xs font-mono text-[rgba(250,247,242,0.45)] hover:text-[#FFB86C] no-underline transition-colors uppercase tracking-wider"
+          className="inline-flex items-center text-xs font-mono text-[rgba(250,247,242,0.45)] hover:text-emerald-400 no-underline transition-colors uppercase tracking-wider"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to events
@@ -201,7 +201,7 @@ const EventDetails = () => {
               alt={title}
               className="w-full h-full object-cover opacity-80"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612] via-[#1A1612]/30 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent"></div>
           </div>
 
           {/* Description Card */}
@@ -223,16 +223,16 @@ const EventDetails = () => {
 
         {/* Right Side (Checkout Panel) */}
         <div className="lg:col-span-1 space-y-6 lg:sticky lg:top-20">
-          <div className="custom-card space-y-6">
+          <div className="custom-card border-t-4 border-t-[#10B981] space-y-6">
             {/* Price Detail */}
             <div className="flex justify-between items-center pb-4 border-b border-white/[0.08]">
               <span className="text-xs font-mono text-[rgba(250,247,242,0.45)] uppercase tracking-wider">Pass Price</span>
-              <span className="text-2xl font-bold text-[#FAF7F2] flex items-center">
+              <span className="text-2xl font-bold flex items-center text-emerald-400">
                 {parseFloat(price) === 0 ? (
                   <span className="text-[#8AC926]">FREE</span>
                 ) : (
                   <>
-                    <IndianRupee className="w-5 h-5 mr-0.5 text-[#FFB86C]" />
+                    <IndianRupee className="w-5 h-5 mr-0.5 text-emerald-400" />
                     <span>{price}</span>
                   </>
                 )}
@@ -242,21 +242,21 @@ const EventDetails = () => {
             {/* Quick Specs Grid */}
             <div className="space-y-4 text-[13px] font-sans">
               <div className="flex items-start">
-                <Calendar className="w-5 h-5 text-[#FFB86C] mr-3 mt-0.5 shrink-0" />
+                <Calendar className="w-5 h-5 text-emerald-500 mr-3 mt-0.5 shrink-0" />
                 <div>
                   <h4 className="font-bold text-[#FAF7F2] text-xs font-mono uppercase tracking-wider m-0">Date & Time</h4>
                   <p className="text-xs text-[rgba(250,247,242,0.55)] mt-1.5 m-0 leading-relaxed">{fullEventDate}</p>
                 </div>
               </div>
               <div className="flex items-start">
-                <MapPin className="w-5 h-5 text-[#FFB86C] mr-3 mt-0.5 shrink-0" />
+                <MapPin className="w-5 h-5 text-emerald-500 mr-3 mt-0.5 shrink-0" />
                 <div>
                   <h4 className="font-bold text-[#FAF7F2] text-xs font-mono uppercase tracking-wider m-0">Venue</h4>
                   <p className="text-xs text-[rgba(250,247,242,0.55)] mt-1.5 m-0 leading-relaxed">{venue}</p>
                 </div>
               </div>
               <div className="flex items-start">
-                <Hourglass className="w-5 h-5 text-[#FFB86C] mr-3 mt-0.5 shrink-0" />
+                <Hourglass className="w-5 h-5 text-emerald-500 mr-3 mt-0.5 shrink-0" />
                 <div>
                   <h4 className="font-bold text-[#FAF7F2] text-xs font-mono uppercase tracking-wider m-0">Deadline</h4>
                   <p className="text-xs text-[rgba(250,247,242,0.55)] mt-1.5 m-0 leading-relaxed">{fullDeadlineDate}</p>
@@ -270,7 +270,7 @@ const EventDetails = () => {
                   <span>{available_seats} of {capacity} left</span>
                 </div>
                 <div className="progress-track">
-                  <div className="progress-fill" style={{ width: `${fillPercentage}%` }} />
+                  <div className="progress-fill bg-[#10B981]" style={{ width: `${fillPercentage}%` }} />
                 </div>
               </div>
             </div>
@@ -295,7 +295,7 @@ const EventDetails = () => {
                     </div>
                     <Link
                       to={`/ticket/${userRegistration.ticket_id}`}
-                      className="w-full btn-primary text-xs py-3 no-underline font-bold uppercase"
+                      className="w-full border border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-black text-xs py-3 no-underline font-bold uppercase rounded-lg text-center block transition-all font-sans"
                     >
                       VIEW TICKET QR
                     </Link>
@@ -317,7 +317,7 @@ const EventDetails = () => {
                     <button
                       onClick={handleRegisterClick}
                       disabled={actionLoading}
-                      className="w-full btn-primary text-xs py-3 font-bold uppercase"
+                      className="w-full bg-emerald-500 hover:bg-emerald-400 text-black text-xs py-3 font-bold uppercase rounded-lg transition-colors border-none cursor-pointer"
                     >
                       {actionLoading ? 'PROCESSING...' : 'PAY NOW'}
                     </button>
@@ -331,7 +331,7 @@ const EventDetails = () => {
                     isEventPast ? 'bg-white/5 text-[rgba(250,247,242,0.4)] cursor-not-allowed border border-white/5'
                     : isSoldOut ? 'bg-[#E76F51]/10 text-[#E76F51] cursor-not-allowed border border-[#E76F51]/10'
                     : isDeadlinePassed ? 'bg-[#FFB703]/10 text-[#FFB703] cursor-not-allowed border border-[#FFB703]/10'
-                    : 'btn-primary'
+                    : 'bg-emerald-500 hover:bg-emerald-400 text-black'
                   }`}
                 >
                   {actionLoading ? 'PROCESSING...'
@@ -352,7 +352,7 @@ const EventDetails = () => {
       {recommendations.length > 0 && (
         <section className="max-w-7xl mx-auto py-16 border-t border-white/[0.08] mt-12">
           <div className="flex items-center space-x-2.5 mb-8">
-            <div className="p-2 rounded-lg bg-[#FFB86C]/10 text-[#FFB86C] border border-[#FFB86C]/20">
+            <div className="p-2 rounded-lg bg-emerald-950/30 text-emerald-400 border border-emerald-500/20">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>

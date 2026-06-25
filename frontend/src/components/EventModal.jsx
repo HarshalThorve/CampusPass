@@ -108,19 +108,19 @@ const EventModal = ({ isOpen, onClose, event }) => {
   if (actionLoading || loadingReg) {
     buttonText = 'PROCESSING...';
     buttonDisabled = true;
-    buttonClass = 'bg-[#312620] text-[#8A7560] cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5';
+    buttonClass = 'bg-[#1A1A1A] text-gray-500 cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5';
   } else if (userRegistration) {
     if (userRegistration.payment_status === 'completed') {
       buttonText = 'VIEW TICKET';
-      buttonClass = 'bg-[#F4A261] hover:bg-[#F4A261] text-[#0E0E0E] rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 shadow-neon transition-all';
+      buttonClass = 'bg-emerald-500 hover:bg-emerald-400 text-black rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 transition-all';
     } else {
       buttonText = 'COMPLETE PAYMENT';
-      buttonClass = 'bg-[#F4A261] hover:bg-[#FFD166] text-[#0E0E0E] rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 transition-all';
+      buttonClass = 'bg-emerald-500 hover:bg-emerald-400 text-black rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 transition-all';
     }
   } else if (isEventPast) {
     buttonText = 'EVENT ENDED';
     buttonDisabled = true;
-    buttonClass = 'bg-white/5 text-[#8A7560] cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 border border-white/5';
+    buttonClass = 'bg-white/5 text-gray-500 cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5 border border-white/5';
   } else if (isSoldOut) {
     buttonText = 'SOLD OUT';
     buttonDisabled = true;
@@ -128,7 +128,7 @@ const EventModal = ({ isOpen, onClose, event }) => {
   } else if (isDeadlinePassed) {
     buttonText = 'REG CLOSED';
     buttonDisabled = true;
-    buttonClass = 'bg-amber-500/10 text-amber-400 cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5';
+    buttonClass = 'bg-emerald-500/10 text-emerald-400 cursor-not-allowed rounded-full font-mono font-bold text-xs tracking-wider uppercase px-8 py-3.5';
   }
 
   const handleAction = () => {
@@ -156,18 +156,18 @@ const EventModal = ({ isOpen, onClose, event }) => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Image */}
-        <div className="relative h-40 sm:h-52 md:h-60 w-full flex-shrink-0" style={{ background: '#0E0E0E' }}>
+        <div className="relative h-40 sm:h-52 md:h-60 w-full flex-shrink-0" style={{ background: '#0A0A0A' }}>
           <img
             src={image || 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80'}
             alt={title}
             className="w-full h-full object-cover opacity-70"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0E] via-[#0E0E0E]/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent"></div>
 
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-[#0E0E0E]/70 text-[#8A7560] hover:text-[#F4A261] hover:bg-[#0E0E0E]/90 backdrop-blur-sm transition-all"
+            className="absolute top-4 right-4 p-2 rounded-full bg-[#0A0A0A]/70 text-gray-400 hover:text-emerald-400 hover:bg-[#0A0A0A]/90 backdrop-blur-sm transition-all"
           >
             <X className="w-5 h-5" />
           </button>
@@ -195,15 +195,15 @@ const EventModal = ({ isOpen, onClose, event }) => {
               { icon: Users, label: 'ATTENDEES', value: `${registered_count} / ${capacity}` },
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} className="bg-white/5 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-white/5 flex flex-col">
-                <Icon className="w-4 h-4 text-[#F4A261]/70 mb-1.5" />
-                <span className="text-[9px] font-mono font-semibold text-[#8A7560] uppercase tracking-[0.2em] mb-0.5">{label}</span>
+                <Icon className="w-4 h-4 text-emerald-500/70 mb-1.5" />
+                <span className="text-[9px] font-mono font-semibold text-gray-400 uppercase tracking-[0.2em] mb-0.5">{label}</span>
                 <span className="text-xs sm:text-sm font-bold text-[#F8F9FA] line-clamp-1">{value}</span>
               </div>
             ))}
           </div>
 
           {/* Description */}
-          <p className="text-xs text-[#8A7560] leading-relaxed line-clamp-3 mb-4">
+          <p className="text-xs text-gray-400 leading-relaxed line-clamp-3 mb-4">
             {description}
           </p>
 
@@ -211,7 +211,7 @@ const EventModal = ({ isOpen, onClose, event }) => {
             <Link
               to={`/event/${id}`}
               onClick={onClose}
-              className="text-[10px] sm:text-xs font-mono text-[#8A7560] hover:text-[#F4A261] transition-colors tracking-wider uppercase"
+              className="text-[10px] sm:text-xs font-mono text-gray-400 hover:text-emerald-400 transition-colors tracking-wider uppercase"
             >
               View Full Details Page →
             </Link>
@@ -222,21 +222,21 @@ const EventModal = ({ isOpen, onClose, event }) => {
         <div className="p-4 sm:p-6 bg-transparent border-t border-white/5 flex items-center justify-between flex-shrink-0">
           <div>
             {parseFloat(price) === 0 ? (
-              <div className="text-xl font-mono font-bold text-[#F4A261]">FREE</div>
+              <div className="text-xl font-mono font-bold text-emerald-400">FREE</div>
             ) : (
               <>
-                <div className="text-[10px] font-mono text-[#8A7560] uppercase tracking-[0.2em]">From</div>
+                <div className="text-[10px] font-mono text-gray-400 uppercase tracking-[0.2em]">From</div>
                 <div className="text-xl font-display font-bold text-[#F8F9FA] flex items-center">
-                  <IndianRupee className="w-4 h-4 mr-0.5 text-[#F4A261]" />
+                  <IndianRupee className="w-4 h-4 mr-0.5 text-emerald-500" />
                   {price}
-                  <span className="text-xs text-[#8A7560] font-mono ml-1.5">/ person</span>
+                  <span className="text-xs text-gray-400 font-mono ml-1.5">/ person</span>
                 </div>
               </>
             )}
           </div>
 
           {user && user.role === 'admin' ? (
-            <div className="bg-white/5 text-[#8A7560] px-4 py-2 rounded-full text-[10px] font-mono font-bold border border-white/10 uppercase tracking-wider">
+            <div className="bg-white/5 text-gray-400 px-4 py-2 rounded-full text-[10px] font-mono font-bold border border-white/10 uppercase tracking-wider">
               Admin View
             </div>
           ) : (

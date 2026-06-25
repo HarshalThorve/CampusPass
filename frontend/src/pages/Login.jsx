@@ -66,14 +66,14 @@ const Login = () => {
   return (
     <div className="flex-1 flex flex-col justify-center items-center py-16 px-4 bg-transparent relative select-none">
       {/* Background ambient glows */}
-      <div className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full blur-3xl -z-10" style={{ background: 'radial-gradient(circle, rgba(255,184,108,0.06), transparent)' }} />
-      <div className="absolute bottom-1/4 right-1/3 w-80 h-80 rounded-full blur-3xl -z-10" style={{ background: 'radial-gradient(circle, rgba(233,196,106,0.04), transparent)' }} />
+      <div className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full blur-3xl -z-10" style={{ background: 'radial-gradient(circle, rgba(16, 185, 129, 0.04), transparent)' }} />
+      <div className="absolute bottom-1/4 right-1/3 w-80 h-80 rounded-full blur-3xl -z-10" style={{ background: 'radial-gradient(circle, rgba(52, 211, 153, 0.03), transparent)' }} />
 
       <div className="w-full max-w-md space-y-8 relative z-10">
         {/* Logo/Header */}
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-6">
-            <span className="w-2 h-2 rounded-full bg-[#FFB86C]" />
+            <span className="w-2 h-2 rounded-full bg-[#10B981]" />
             <span className="font-sans font-bold text-xs uppercase tracking-widest text-[#FAF7F2]">
               CAMPUSPASS
             </span>
@@ -130,10 +130,10 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary py-3 text-xs uppercase"
+              className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold rounded-lg py-3 text-xs uppercase transition-colors border-none cursor-pointer flex justify-center items-center"
             >
               {loading ? (
-                <div className="w-4 h-4 border-2 border-[#1A1612] border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <span>SIGN IN</span>
               )}
@@ -142,7 +142,7 @@ const Login = () => {
 
           <div className="relative flex items-center justify-center my-6">
             <div className="border-t border-[#FAF7F2]/10 w-full"></div>
-            <span className="absolute bg-[#1F1B16] px-3 text-[10px] uppercase tracking-widest text-[#FAF7F2]/45 font-mono">
+            <span className="absolute bg-[#111111] px-3 text-[10px] uppercase tracking-widest text-[#FAF7F2]/45 font-mono">
               or
             </span>
           </div>
@@ -151,7 +151,7 @@ const Login = () => {
             type="button"
             disabled={loading}
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center space-x-3 bg-white/[0.02] hover:bg-white/[0.06] active:bg-white/[0.1] border border-[#FAF7F2]/10 hover:border-[#FFB86C]/30 rounded-xl py-3 px-4 transition-all duration-300 group hover:shadow-[0_0_15px_rgba(255,184,108,0.08)] disabled:opacity-50"
+            className="w-full flex items-center justify-center space-x-3 bg-white/[0.02] hover:bg-white/[0.06] active:bg-white/[0.1] border border-[#FAF7F2]/10 hover:border-emerald-500/30 rounded-xl py-3 px-4 transition-all duration-300 group hover:shadow-[0_0_15px_rgba(16,185,129,0.08)] disabled:opacity-50"
           >
             <svg className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24">
               <path
@@ -180,7 +180,7 @@ const Login = () => {
             Don't have an account?{' '}
             <Link
               to="/register"
-              className="font-bold text-[#FFB86C] hover:text-[#E9C46A] transition-colors no-underline"
+              className="font-bold text-emerald-400 hover:text-emerald-300 transition-colors no-underline"
             >
               Register →
             </Link>

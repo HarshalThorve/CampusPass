@@ -113,7 +113,7 @@ const CustomDropdown = ({ value, onChange, options, placeholder = 'Select option
         onClick={toggleDropdown}
         onKeyDown={handleKeyDown}
         className={`${className} flex items-center justify-between text-left transition-all duration-300 outline-none ${
-          isOpen ? 'border-[#FFB86C] ring-2 ring-[#FFB86C]/15' : ''
+          isOpen ? 'border-emerald-500 ring-2 ring-emerald-500/15' : ''
         } ${selectedOption ? 'text-[#FAF7F2]' : 'text-[rgba(250,247,242,0.45)]'}`}
       >
         <span className="truncate">
@@ -121,7 +121,7 @@ const CustomDropdown = ({ value, onChange, options, placeholder = 'Select option
         </span>
         <ChevronDown
           className={`w-4 h-4 text-[rgba(250,247,242,0.45)] transition-transform duration-200 ${
-            isOpen ? 'rotate-180 text-[#FFB86C]' : ''
+            isOpen ? 'rotate-180 text-emerald-500' : ''
           }`}
         />
       </button>
@@ -131,7 +131,7 @@ const CustomDropdown = ({ value, onChange, options, placeholder = 'Select option
           <div
             ref={dropdownRef}
             role="listbox"
-            className="fixed rounded-xl bg-[#1A1612] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden max-h-[220px] overflow-y-auto dropdown-scrollbar p-1"
+            className="fixed rounded-xl bg-[#161616] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden max-h-[220px] overflow-y-auto dropdown-scrollbar p-1"
             style={{
               top: `${coords.top + 6}px`,
               left: `${coords.left}px`,
@@ -156,10 +156,10 @@ const CustomDropdown = ({ value, onChange, options, placeholder = 'Select option
                     onMouseEnter={() => setFocusedIndex(index)}
                     className={`${optionTextSize} cursor-pointer transition-all duration-150 rounded-lg border-l-[3px] ease-in-out outline-none ${
                       isSelected
-                        ? 'border-[#FFB86C] text-[#FFB86C] bg-[#FFB86C]/10 font-bold'
+                        ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10 font-bold'
                         : isFocused
-                        ? 'border-[#FFB86C]/50 bg-[#FFB86C]/5 text-white'
-                        : 'border-transparent text-[rgba(250,247,242,0.65)] bg-transparent hover:border-[#FFB86C]/50 hover:bg-[#FFB86C]/5 hover:text-white'
+                        ? 'border-emerald-500/50 bg-emerald-500/5 text-white'
+                        : 'border-transparent text-[rgba(250,247,242,0.65)] bg-transparent hover:border-emerald-500/50 hover:bg-emerald-500/5 hover:text-white'
                     }`}
                   >
                     {opt.label}

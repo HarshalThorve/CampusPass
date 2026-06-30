@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
     timestamp: new Date()
   });
 });
-
+ 
 // Routes configuration
 const authRoutes = require('./routes/auth');
 const eventRoutes = require('./routes/events');

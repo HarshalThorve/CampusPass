@@ -1,8 +1,5 @@
-import { Link } from 'react-router-dom';
 import { Calendar, MapPin, IndianRupee } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-const MotionLink = motion(Link);
 
 const CATEGORY_STYLES = {
   technical: { bg: 'rgba(168,85,247,0.2)', border: 'rgba(168,85,247,0.4)', color: '#A855F7', label: 'Tech' },
@@ -18,7 +15,7 @@ const CATEGORY_IMAGES = {
   academic: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80'
 };
 
-const EventCard = ({ event, className = '' }) => {
+const EventCard = ({ event, className = '', onQuickView }) => {
   const {
     id, title, description, date, venue, category, price,
     capacity, image, registered_count, available_seats, registration_deadline
@@ -60,10 +57,14 @@ const EventCard = ({ event, className = '' }) => {
 
   const isFree = parseFloat(price) === 0;
 
+  const handleClick = () => {
+    if (onQuickView) onQuickView(event);
+  };
+
   return (
-    <MotionLink
-      to={`/event/${id}`}
-      className={`group flex flex-col custom-card !p-0 overflow-hidden no-underline w-full hover:border-[#065F46] ${className}`}
+    <motion.div
+      onClick={handleClick}
+      className={`group flex flex-col custom-card !p-0 overflow-hidden w-full hover:border-[#065F46] cursor-pointer ${className}`}
       whileHover={{ 
         y: -6, 
         scale: 1.015,
@@ -81,7 +82,7 @@ const EventCard = ({ event, className = '' }) => {
             loading="lazy"
           />
         </div>
-        
+
         {/* Soft Vignette Overlay to darken bottom for badges */}
         <div 
           className="absolute inset-0 pointer-events-none"
@@ -168,11 +169,11 @@ const EventCard = ({ event, className = '' }) => {
             {statusText}
           </span>
           <span className="text-[12px] text-[rgba(250,247,242,0.4)] group-hover:text-[#34D399] transition-colors duration-200 uppercase font-semibold">
-            View Details →
+            Quick View →
           </span>
         </div>
       </div>
-    </MotionLink>
+    </motion.div>
   );
 };
 

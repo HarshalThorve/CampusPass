@@ -41,11 +41,11 @@ const Navbar = () => {
     return location.pathname.startsWith(path);
   };
 
-  const handleLogout = () => {
-    navigate('/');
-    logout();
-    setToastMessage('Successfully logged out');
+  const handleLogout = async () => {
     setIsMenuOpen(false);
+    await logout();
+    navigate('/', { replace: true });
+    setToastMessage('Successfully logged out');
   };
 
   const navLinks = user

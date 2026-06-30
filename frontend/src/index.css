@@ -217,6 +217,25 @@ html, body, #root {
     color: var(--text-muted);
   }
 
+  /* Override browser autofill white background */
+  .input-field:-webkit-autofill,
+  .input-field:-webkit-autofill:hover,
+  .input-field:-webkit-autofill:focus,
+  .input-field:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #0d0d0d inset, inset 0 2px 4px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 0 0 1000px #0d0d0d inset, inset 0 2px 4px rgba(0,0,0,0.3) !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    caret-color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    transition: background-color 99999s ease-in-out 0s;
+  }
+
+  .input-field:-webkit-autofill:focus {
+    border-color: var(--border-accent) !important;
+    -webkit-box-shadow: 0 0 0 1000px #0d0d0d inset, inset 0 2px 4px rgba(0,0,0,0.3), 0 0 0 4px var(--accent-glow-md), 0 0 20px var(--accent-glow) !important;
+    box-shadow: 0 0 0 1000px #0d0d0d inset, inset 0 2px 4px rgba(0,0,0,0.3), 0 0 0 4px var(--accent-glow-md), 0 0 20px var(--accent-glow) !important;
+  }
+
   /* PROGRESS BAR */
   .progress-track {
     background: rgba(255, 255, 255, 0.06);

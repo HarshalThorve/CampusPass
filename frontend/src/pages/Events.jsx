@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { eventService } from '../services/api';
 import EventCard from '../components/EventCard';
+import EventModal from '../components/EventModal';
 import { Search, Filter, SlidersHorizontal, CalendarDays, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -40,6 +41,7 @@ const Events = () => {
   const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '1000');
   const [upcomingOnly, setUpcomingOnly] = useState(searchParams.get('upcomingOnly') !== 'false');
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const applyFilters = () => {
     const params = {};
@@ -303,7 +305,7 @@ const Events = () => {
                         transition={{ duration: 0.25, delay: index * 0.05 }}
                         className="w-full flex"
                       >
-                        <EventCard event={event} />
+                        <EventCard event={event} onQuickView={setSelectedEvent} />
                       </motion.div>
                     ))}
                   </AnimatePresence>
@@ -314,6 +316,13 @@ const Events = () => {
           </div>
         </motion.div>
       )}
+
+      {/* Quick View Modal */}
+      <EventModal
+        isOpen={!!selectedEvent}
+        onClose={() => setSelectedEvent(null)}
+        event={selectedEvent}
+      />
     </AnimatePresence>
   );
 };

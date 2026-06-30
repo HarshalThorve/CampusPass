@@ -152,7 +152,8 @@ const EventModal = ({ isOpen, onClose, event }) => {
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-3xl glass-strong rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-slide-up z-10"
+        className="relative w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-slide-up z-10 border border-white/10"
+        style={{ background: 'rgba(10,10,10,0.97)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Image */}
@@ -184,7 +185,7 @@ const EventModal = ({ isOpen, onClose, event }) => {
         </div>
 
         {/* Content Body */}
-        <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-transparent">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1" style={{ background: 'rgba(14,14,14,0.98)' }}>
 
           {/* Quick Info Grid */}
           <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-5">
@@ -219,7 +220,7 @@ const EventModal = ({ isOpen, onClose, event }) => {
         </div>
 
         {/* Sticky Footer */}
-        <div className="p-4 sm:p-6 bg-transparent border-t border-white/5 flex items-center justify-between flex-shrink-0">
+        <div className="p-4 sm:p-6 border-t border-white/10 flex items-center justify-between flex-shrink-0" style={{ background: 'rgba(12,12,12,0.98)' }}>
           <div>
             {parseFloat(price) === 0 ? (
               <div className="text-xl font-mono font-bold text-emerald-400">FREE</div>
